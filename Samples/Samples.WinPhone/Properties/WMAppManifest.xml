@@ -1,18 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
-<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
-  <DefaultLanguage xmlns="" code="en-US"/>
-  <App xmlns="" ProductID="{b6e7d1bc-26ae-4a8d-9549-ff8e388ef26f}" Title="Samples.WinPhone" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal"  Author="Samples.WinPhone author" Description="Sample description" Publisher="Samples.WinPhone" PublisherID="{a3e51dbf-0648-4af7-88f3-cc2a93a6c85c}">
+<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2014/deployment" AppPlatformVersion="8.1">
+  <DefaultLanguage xmlns="" code="en-US" />
+  <App xmlns="" ProductID="{b6e7d1bc-26ae-4a8d-9549-ff8e388ef26f}" Title="Samples.WinPhone" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Samples.WinPhone author" Description="Sample description" Publisher="Samples.WinPhone" PublisherID="{a3e51dbf-0648-4af7-88f3-cc2a93a6c85c}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
-      <Capability Name="ID_CAP_NETWORKING"/>
-      <Capability Name="ID_CAP_MEDIALIB_AUDIO"/>
-      <Capability Name="ID_CAP_MEDIALIB_PLAYBACK"/>
-      <Capability Name="ID_CAP_SENSORS"/>
-      <Capability Name="ID_CAP_WEBBROWSERCOMPONENT"/>
+      <Capability Name="ID_CAP_NETWORKING" />
+      <Capability Name="ID_CAP_MEDIALIB_AUDIO" />
+      <Capability Name="ID_CAP_MEDIALIB_PLAYBACK" />
+      <Capability Name="ID_CAP_SENSORS" />
+      <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
     </Capabilities>
     <Tasks>
-      <DefaultTask  Name ="_default" NavigationPage="MainPage.xaml"/>
+      <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
     </Tasks>
     <Tokens>
       <PrimaryToken TokenID="PhoneApp1Token" TaskName="_default">
@@ -30,9 +29,9 @@
       </PrimaryToken>
     </Tokens>
     <ScreenResolutions>
-      <ScreenResolution Name="ID_RESOLUTION_WVGA"/>
-      <ScreenResolution Name="ID_RESOLUTION_WXGA"/>
-      <ScreenResolution Name="ID_RESOLUTION_HD720P"/>
+      <ScreenResolution Name="ID_RESOLUTION_WVGA" />
+      <ScreenResolution Name="ID_RESOLUTION_WXGA" />
+      <ScreenResolution Name="ID_RESOLUTION_HD720P" />
     </ScreenResolutions>
   </App>
 </Deployment>

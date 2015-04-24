@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
+
+  <Identity Name="a2007b74-9c6b-451b-ac82-66512273bfe0"
+            Publisher="CN=Allan"
+            Version="1.0.0.0" />
+
+  <mp:PhoneIdentity PhoneProductId="b6e7d1bc-26ae-4a8d-9549-ff8e388ef26f" PhonePublisherId="a3e51dbf-0648-4af7-88f3-cc2a93a6c85c"/>
+
+  <Properties>
+    <DisplayName>Samples.WinPhone</DisplayName>
+    <PublisherDisplayName>Allan</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Prerequisites>
+    <OSMinVersion>6.3.1</OSMinVersion>
+    <OSMaxVersionTested>6.3.1</OSMaxVersionTested>
+  </Prerequisites>
+
+  <Resources>
+    <Resource Language="x-generate"/>
+  </Resources>
+
+  <Applications>
+    <Application Id="xb6e7d1bcy26aey4a8dy9549yff8e388ef26fx"
+        Executable="AGHost.exe"
+        EntryPoint="MainPage.xaml">
+      <m3:VisualElements
+          DisplayName="Samples.WinPhone"
+          Square150x150Logo="Assets\SquareTile150x150.png"
+          Square44x44Logo="Assets\Logo.png"
+          Description="Samples.WinPhone"
+          ForegroundText="light"
+          BackgroundColor="#464646">
+        <m3:DefaultTile Square71x71Logo="Assets\SquareTile71x71.png"/>
+        <m3:SplashScreen Image="SplashScreenImage.jpg" />
+      </m3:VisualElements>
+      <Extensions>
+        <Extension Category="windows.backgroundTasks" EntryPoint="AgHost.BackgroundTask">
+          <BackgroundTasks>
+          <Task Type="systemEvent" />
+          </BackgroundTasks>
+        </Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+  <Capabilities>
+  </Capabilities>
+  <Extensions>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>AgHostSvcs.dll</Path>
+        <ActivatableClass ActivatableClassId="AgHost.BackgroundTask" ThreadingModel="both" />
+      </InProcessServer>
+    </Extension>
+  </Extensions>
+</Package>

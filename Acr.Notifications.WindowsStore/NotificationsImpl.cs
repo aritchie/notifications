@@ -6,22 +6,39 @@ using Windows.UI.Notifications;
 namespace Acr.Notifications {
 
     public class NotificationsImpl : INotifications {
+        private const string TOAST_TEMPLATE = @"
+<toast>
+{0}
+  <visual>
+    <binding template=""ToastText02"">
+      <text id=""1"">{1}</text>
+      <text id=""2"">{2}</text>
+    </binding>
+  </visual>
+</toast>";
+
         private readonly BadgeUpdater badgeUpdater;
         private readonly ToastNotifier toastNotifier;
+        private readonly XmlDocument badgeXml;
+        private readonly XmlElement badgeEl;
 
 
         public NotificationsImpl() {
             this.badgeUpdater = BadgeUpdateManager.CreateBadgeUpdaterForApplication();
             this.toastNotifier = ToastNotificationManager.CreateToastNotifier();
-//badgeXml = Notifications.BadgeUpdateManager.getTemplateContent(Notifications.BadgeTemplateType.badgeNumber);
-//    badgeAttributes = badgeXml.getElementsByTagName("badge");
-//    badgeAttributes[0].setAttribute("value", "7");
+
+            this.badgeXml = BadgeUpdateManager.GetTemplateContent(BadgeTemplateType.BadgeNumber);
+            this.badgeEl = (XmlElement)this.badgeXml.SelectSingleNode("/badge");
+
         }
 
 
         public void Send(string title, string message, string sound = null, TimeSpan? when = null) {
-            var xmlData = String.Format("CONST", title, message);
+            var soundXml = sound == null
+                ? String.Empty
+                : String.Format("<audio src=\"ms-appx:///Assets/{0}.wav\"/>", sound);
 
+            var xmlData = String.Format(TOAST_TEMPLATE, soundXml, title, message);
             var xml = new XmlDocument();
             xml.LoadXml(xmlData);
 
@@ -41,47 +58,19 @@ namespace Acr.Notifications {
             set {
                 if (value == 0)
                     this.badgeUpdater.Clear();
-                //else
-                    //this.badgeUpdater.Update(new BadgeNotification());
+                else {
+                    this.badgeEl.SetAttribute("value", value.ToString());
+                    this.badgeUpdater.Update(new BadgeNotification(this.badgeXml));
+                }
             }
         }
 
 
         public void CancelAll() {
-            
+            this.Badge = 0;
         }
     }
 }
 /*
-<badge value="1"/>
 
-
-<toast>
-  <audio src="ms-appx:///Assets/sound.wav"/>
-
-  <visual>
-    <binding template="ToastText02">
-      <text id="1">headlineText</text>
-      <text id="2">bodyText</text>
-    </binding>  
-  </visual>
-</toast>
-
-
-function sendBadgeNotification() {
-    var Notifications = Windows.UI.Notifications;
-    var badgeXml;
-    var badgeAttributes;
-
-    // Get an XML DOM version of a specific template by using getTemplateContent.
-    badgeXml = Notifications.BadgeUpdateManager.getTemplateContent(Notifications.BadgeTemplateType.badgeNumber);
-    badgeAttributes = badgeXml.getElementsByTagName("badge");
-    badgeAttributes[0].setAttribute("value", "7");
-
-    // Create a badge notification from the XML content.
-    var badgeNotification = new Notifications.BadgeNotification(badgeXml);
-
-    // Send the badge notification to the app's tile.
-    Notifications.BadgeUpdateManager.createBadgeUpdaterForApplication().update(badgeNotification);
-}
 */

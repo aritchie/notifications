@@ -18,16 +18,16 @@ Initial Release
     </metadata>
     <files>
         <!-- PCL -->
-        <file src="..\src\Acr.Notifications\bin\Release\Acr.Notifications.dll" target="lib\portable-net45+netcore45+wp8+MonoAndroid10+Xamarin.iOS10\Acr.iBeacons.dll" />
+        <file src="..\Acr.Notifications\bin\Release\Acr.Notifications.dll" target="lib\portable-net45+netcore45+wp81+MonoAndroid10+Xamarin.iOS10\Acr.Notifications.dll" />
 
         <!-- android -->
-        <file src="..\src\Acr.Notifications.Android\bin\Release\Acr.Notifications.dll" target="lib\MonoAndroid10\Acr.Notifications.dll" />
+        <file src="..\Acr.Notifications.Android\bin\Release\Acr.Notifications.dll" target="lib\MonoAndroid10\Acr.Notifications.dll" />
 
         <!-- ios -->
-        <file src="..\src\Acr.Notifications.iOS\bin\iPhone\Release\Acr.Notifications.dll" target="lib\Xamarin.iOS10\Acr.Notifications.dll" />
+        <file src="..\Acr.Notifications.iOS\bin\iPhone\Release\Acr.Notifications.dll" target="lib\Xamarin.iOS10\Acr.Notifications.dll" />
 
         <!-- wp8 -->
-        <!--<file src="..\src\Acr.Notifications.WindowsPhone\bin\Release\Acr.Notifications.dll" target="lib\wp8\Acr.Notifications.dll" />-->
+        <!--<file src="..\src\Acr.Notifications.WindowsPhone\bin\Release\Acr.Notifications.dll" target="lib\wp81\Acr.Notifications.dll" />-->
 
         <!-- ios -->
         <!--<file src="..\src\Acr.Notifications.WindowsStore\bin\Release\Acr.Notifications.dll" target="lib\netcore45\Acr.Notifications.dll" />-->
