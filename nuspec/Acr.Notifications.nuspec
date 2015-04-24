@@ -3,7 +3,7 @@
     <metadata>
         <id>Acr.Notifications</id>
         <version>1.0.0-beta1</version>
-        <title>Notifications Plugin for Xamarin and Windows</title>
+        <title>ACR Notifications Plugin for Xamarin and Windows</title>
         <description>Local Notifications for Xamarin and Windows</description>
         <authors>Allan Ritchie</authors>
         <owners>Allan Ritchie</owners>
