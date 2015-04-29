@@ -27,9 +27,9 @@ Initial Release
         <file src="..\Acr.Notifications.iOS\bin\iPhone\Release\Acr.Notifications.dll" target="lib\Xamarin.iOS10\Acr.Notifications.dll" />
 
         <!-- wp8 -->
-        <file src="..\src\Acr.Notifications.WindowsPhone\bin\Release\Acr.Notifications.dll" target="lib\wp81\Acr.Notifications.dll" />
+        <file src="..\Acr.Notifications.WindowsPhone\bin\Release\Acr.Notifications.dll" target="lib\wp81\Acr.Notifications.dll" />
 
         <!-- winstore -->
-        <file src="..\src\Acr.Notifications.WindowsStore\bin\Release\Acr.Notifications.dll" target="lib\netcore45\Acr.Notifications.dll" />
+        <file src="..\Acr.Notifications.WindowsStore\bin\Release\Acr.Notifications.dll" target="lib\netcore45\Acr.Notifications.dll" />
     </files>
 </package>
