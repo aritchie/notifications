@@ -147,10 +147,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Acr.Notifications.WindowsStore\Acr.Notifications.WindowsStore.csproj">
-      <Project>{1feb7e7a-893e-4204-b097-dcfe1803341b}</Project>
-      <Name>Acr.Notifications.WindowsStore</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Samples\Samples\Samples.csproj">
       <Project>{64b46f28-cc97-4923-8915-be5030e9045f}</Project>
       <Name>Samples</Name>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
 
@@ -47,8 +48,9 @@ namespace Acr.Notifications {
                 this.toastNotifier.Show(toast);
             }
             else {
-                //new ScheduledToastNotification(xml, DateTimeOffset.Now.Add(when))
-                //this.toastNotifier.AddToSchedule();
+                var date = DateTimeOffset.Now.Add(when.Value);
+                var schedule = new ScheduledToastNotification(xml, date);
+                this.toastNotifier.AddToSchedule(schedule);
             }
         }
 
@@ -68,9 +70,12 @@ namespace Acr.Notifications {
 
         public void CancelAll() {
             this.Badge = 0;
+            var list = this.toastNotifier
+                .GetScheduledToastNotifications()
+                .ToList();
+
+            foreach (var item in list)
+                this.toastNotifier.RemoveFromSchedule(item);
         }
     }
 }
-/*
-
-*/

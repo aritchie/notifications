@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using Acr.Notifications;
 using Foundation;
 using UIKit;
 using Xamarin.Forms;
@@ -13,7 +12,6 @@ namespace Samples.iOS {
     public partial class AppDelegate : FormsApplicationDelegate {
 
         public override bool FinishedLaunching(UIApplication app, NSDictionary options) {
-            Notifications.Init();
             Forms.Init();
             this.LoadApplication(new App());
 

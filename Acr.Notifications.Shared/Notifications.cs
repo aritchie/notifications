@@ -4,20 +4,19 @@
 namespace Acr.Notifications {
 
     public static class Notifications {
-        public static INotifications Instance { get; set; }
-
+        private static readonly Lazy<INotifications> instanceInit = new Lazy<INotifications>(() => {
 #if __PLATFORM__
-
-        public static void Init() {
-            if (Instance == null)
-                Instance = new NotificationsImpl();
-        }
+            return new NotificationsImpl();
 #else
-
-        [Obsolete("ERROR: You are calling the PCL version of Init")]
-        public static void Init() {
-            throw new ArgumentException("You are calling the PCL version of Init");
-        }
+            throw new ArgumentException("Platform implementation not found.  Did you reference the nuget package in your main project as well?");
 #endif
+        }, false);
+
+
+        private static INotifications customInstance;
+        public static INotifications Instance {
+            get { return customInstance ?? instanceInit.Value; }
+            set { customInstance = value; }
+        }
     }
 }

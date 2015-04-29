@@ -52,6 +52,7 @@
     <ProjectReference Include="..\..\Acr.Notifications\Acr.Notifications.csproj">
       <Project>{2e1a77ba-4c48-42f8-8b5a-3b0fa90705aa}</Project>
       <Name>Acr.Notifications</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
