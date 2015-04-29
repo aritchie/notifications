@@ -26,9 +26,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{70BDA3FF-41F7-491C-A23D-2FD65CE1CDA0}"
 	ProjectSection(SolutionItems) = preProject
 		nuspec\Acr.Notifications.nuspec = nuspec\Acr.Notifications.nuspec
+		license.txt = license.txt
 		nuspec\nuget.exe = nuspec\nuget.exe
 		nuspec\pack.cmd = nuspec\pack.cmd
 		nuspec\push.cmd = nuspec\push.cmd
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.WindowsStore", "Samples.WindowsStore\Samples.WindowsStore.csproj", "{1693DE96-3B5B-47B2-8E1E-66F90F925833}"
