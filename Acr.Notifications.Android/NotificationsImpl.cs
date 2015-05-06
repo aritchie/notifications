@@ -1,6 +1,7 @@
 using System;
 using Android.App;
 using Android.Content;
+using Android.OS;
 
 
 namespace Acr.Notifications {
@@ -37,10 +38,10 @@ namespace Acr.Notifications {
     //Intent alarmIntent = new Intent(Forms.Context, typeof(AlarmReceiver));
     //alarmIntent.PutExtra ("message", message);
     //alarmIntent.PutExtra ("title", title);
- 
+
     //PendingIntent pendingIntent = PendingIntent.GetBroadcast(Forms.Context, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
     //
- 
+
     ////TODO: For demo set after 5 seconds.
     //alarmManager.Set(AlarmType.ElapsedRealtime, SystemClock.ElapsedRealtime () + 5 * 1000, pendingIntent);
         }
@@ -52,5 +53,15 @@ namespace Acr.Notifications {
 
 
         public int Badge { get; set; }
+
+
+        public void Vibrate(int ms) {
+            using (var vibrate = (Vibrator)Application.Context.GetSystemService(Context.VibratorService)) {
+                if (!vibrate.HasVibrator)
+                    return;
+
+                vibrate.Vibrate(ms);
+            }
+        }
     }
 }

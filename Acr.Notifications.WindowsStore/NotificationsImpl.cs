@@ -77,5 +77,14 @@ namespace Acr.Notifications {
             foreach (var item in list)
                 this.toastNotifier.RemoveFromSchedule(item);
         }
+
+
+
+        public void Vibrate(int ms) {
+#if !WINDOWS_APP
+            var ts = TimeSpan.FromMilliseconds(ms);
+            Microsoft.Devices.VibrateController.Default.Start(ts);
+#endif
+        }
     }
 }

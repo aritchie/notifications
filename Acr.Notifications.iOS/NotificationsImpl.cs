@@ -1,4 +1,5 @@
 ﻿using System;
+using AudioToolbox;
 using Foundation;
 using UIKit;
 
@@ -34,6 +35,11 @@ namespace Acr.Notifications {
         public void CancelAll() {
             this.Badge = 0;
             UIApplication.SharedApplication.CancelAllLocalNotifications();
+        }
+
+
+        public void Vibrate(int ms) {
+            SystemSound.Vibrate.PlaySystemSound();
         }
     }
 }
