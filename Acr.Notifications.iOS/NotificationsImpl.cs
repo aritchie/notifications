@@ -8,6 +8,13 @@ namespace Acr.Notifications {
 
     public class NotificationsImpl : INotifications {
 
+        public NotificationsImpl() {
+            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0)) {
+                var settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, null);
+                UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+            }
+        }
+
 
         public int Badge {
             get { return (int)UIApplication.SharedApplication.ApplicationIconBadgeNumber; }
