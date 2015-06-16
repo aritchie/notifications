@@ -175,6 +175,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Acr.Notifications.Interface\Acr.Notifications.Interface.csproj">
+      <Project>{ca226892-76a6-4101-a82c-babbd9773953}</Project>
+      <Name>Acr.Notifications.Interface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samples\Samples.csproj">
       <Name>Samples</Name>
     </ProjectReference>

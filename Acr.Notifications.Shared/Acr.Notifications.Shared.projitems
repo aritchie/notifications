@@ -9,7 +9,7 @@
     <Import_RootNamespace>Acr.Notifications</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)INotifications.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Notifications.cs" />
   </ItemGroup>
 </Project>

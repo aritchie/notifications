@@ -99,6 +99,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Acr.Notifications.Interface\Acr.Notifications.Interface.csproj">
+      <Project>{ca226892-76a6-4101-a82c-babbd9773953}</Project>
+      <Name>Acr.Notifications.Interface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Acr.Notifications.iOS\Acr.Notifications.iOS.csproj">
       <Project>{ed6d63d8-78ac-4ce6-b511-5635b4224ea0}</Project>
       <Name>Acr.Notifications.iOS</Name>

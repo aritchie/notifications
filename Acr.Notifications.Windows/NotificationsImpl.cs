@@ -81,10 +81,8 @@ namespace Acr.Notifications {
 
 
         public void Vibrate(int ms) {
-#if !WINDOWS_APP
             var ts = TimeSpan.FromMilliseconds(ms);
-            Microsoft.Devices.VibrateController.Default.Start(ts);
-#endif
+            //Microsoft.Devices.VibrateController.Default.Start(ts);
         }
     }
 }

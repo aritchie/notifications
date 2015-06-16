@@ -1,4 +1,4 @@
 ﻿using System.Reflection;
 
-[assembly: AssemblyTitle("Acr.Notifications.iOS")]
+[assembly: AssemblyTitle("Acr.Notifications.Interface")]
 [assembly: AssemblyDescription("")]

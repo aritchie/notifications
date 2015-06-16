@@ -92,6 +92,10 @@
       <Project>{54d7e939-80c8-4b17-95be-00a246b4877e}</Project>
       <Name>Acr.Notifications.Android</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Acr.Notifications.Interface\Acr.Notifications.Interface.csproj">
+      <Project>{ca226892-76a6-4101-a82c-babbd9773953}</Project>
+      <Name>Acr.Notifications.Interface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samples\Samples.csproj">
       <Name>Samples</Name>
     </ProjectReference>

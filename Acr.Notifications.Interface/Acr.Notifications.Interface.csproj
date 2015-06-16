@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2E1A77BA-4C48-42F8-8B5A-3B0FA90705AA}</ProjectGuid>
+    <ProjectGuid>{CA226892-76A6-4101-A82C-BABBD9773953}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Acr.Notifications</RootNamespace>
-    <AssemblyName>Acr.Notifications</AssemblyName>
+    <AssemblyName>Acr.Notifications.Interface</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,15 +35,11 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\Acr.Notifications.Interface\Acr.Notifications.Interface.csproj">
-      <Project>{ca226892-76a6-4101-a82c-babbd9773953}</Project>
-      <Name>Acr.Notifications.Interface</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="INotifications.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <Import Project="..\Acr.Notifications.Shared\Acr.Notifications.Shared.projitems" Label="Shared" Condition="Exists('..\Acr.Notifications.Shared\Acr.Notifications.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
