@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>Acr.Notifications</id>
-        <version>1.0.0</version>
+        <version>1.0.0-beta8</version>
         <title>ACR Notifications Plugin for Xamarin and Windows</title>
         <description>Local Notifications for Xamarin and Windows</description>
         <authors>Allan Ritchie</authors>
@@ -29,11 +29,15 @@ Initial Release
         <file src="..\Acr.Notifications.iOS\bin\iPhone\Release\Acr.Notifications.dll" target="lib\Xamarin.iOS10\Acr.Notifications.dll" />
         <file src="..\Acr.Notifications.iOS\bin\iPhone\Release\Acr.Notifications.Interface.dll" target="lib\Xamarin.iOS10\Acr.Notifications.Interface.dll" />
 
-        <!-- wp8 -->
+        <!--wp81 sl-->
+        <file src="..\Acr.Notifications.WindowsPhone\bin\Release\Acr.Notifications.dll" target="lib\wp81\Acr.Notifications.dll" />
+        <file src="..\Acr.Notifications.WindowsPhone\bin\Release\Acr.Notifications.Interface.dll" target="lib\wp81\Acr.Notifications.Interface.dll" />
+
+        <!-- wp81 -->
         <file src="..\Acr.Notifications.Windows\bin\Release\Acr.Notifications.dll" target="lib\wpa81\Acr.Notifications.dll" />
         <file src="..\Acr.Notifications.Windows\bin\Release\Acr.Notifications.Interface.dll" target="lib\wpa81\Acr.Notifications.Interface.dll" />
 
-        <!-- winstore -->
+        <!-- win -->
         <file src="..\Acr.Notifications.Windows\bin\Release\Acr.Notifications.dll" target="lib\win8\Acr.Notifications.dll" />
         <file src="..\Acr.Notifications.Windows\bin\Release\Acr.Notifications.Interface.dll" target="lib\win8\Acr.Notifications.Interface.dll" />
     </files>
