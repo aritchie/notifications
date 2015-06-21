@@ -15,6 +15,11 @@ Install the nuget package in your platform project as well as your shared librar
 
     Notifications.Instance.Send("Happy Birthday", "I sent this a long time ago", when = TimeSpan.FromDays(50));
 
+###Cancel a specific notification
+
+    var id = Notifications.Instance.Send("Hi", "This is my scheduled notification", when = TimeSpan.FromDays(1));
+    Notifications.Instance.Cancel(id);
+
 ###Cancel all scheduled notifications and clear badge:
 
     Notifications.Instance.CancelAll();

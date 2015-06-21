@@ -2,6 +2,8 @@ using System;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Preferences;
+using Java.IO;
 
 
 namespace Acr.Notifications {
@@ -14,41 +16,49 @@ namespace Acr.Notifications {
         //builder.SetLargeIcon (BitmapFactory.DecodeResource (Resources, Resource.Drawable.monkey_icon));
 
         public NotificationsImpl() {
-            this.notificationManager = (NotificationManager)Application.Context.GetSystemService(Context.NotificationService);
-            //this.alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
             this.appIconId = Application.Context.Resources.GetIdentifier("icon", "drawable", Application.Context.PackageName);
         }
 
 
-        public void Send(string title, string message, string sound = null, TimeSpan? when = null) {
+        public virtual string Send(string title, string message, string sound = null, TimeSpan? when = null) {
+            var id = this.GetNextNotificationId();
+
             var builder = new Notification
                 .Builder(Application.Context)
+                .SetAutoCancel(true)
                 .SetContentTitle(title)
                 .SetContentText(message)
-                //.SetSound() // TODO: Uri:  builder.SetSound (RingtoneManager.GetDefaultUri(RingtoneType.Alarm));
                 .SetSmallIcon(this.appIconId);
 
-            //if (when != null) {
-            //    builder.SetWhen(when.Value.Ticks);
-            //}
+            if (sound != null) {
+                //builder.SetSound (RingtoneManager.GetDefaultUri(RingtoneType.Alarm));
+                var file = new File(sound);
+                var uri = Android.Net.Uri.FromFile(file);
+                builder.SetSound(uri);
+            }
+
+            if (when != null)
+                builder.SetWhen(when.Value.Ticks);
 
             var notification = builder.Build();
-            this.notificationManager.Notify(0, notification);
+            this.notificationManager.Notify(id, notification);
 
-    //Intent alarmIntent = new Intent(Forms.Context, typeof(AlarmReceiver));
-    //alarmIntent.PutExtra ("message", message);
-    //alarmIntent.PutExtra ("title", title);
-
-    //PendingIntent pendingIntent = PendingIntent.GetBroadcast(Forms.Context, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
-    //
-
-    ////TODO: For demo set after 5 seconds.
-    //alarmManager.Set(AlarmType.ElapsedRealtime, SystemClock.ElapsedRealtime () + 5 * 1000, pendingIntent);
+            return id.ToString();
         }
 
 
-        public void CancelAll() {
+        public virtual void CancelAll() {
             this.notificationManager.CancelAll();
+        }
+
+
+        public virtual bool Cancel(string id) {
+            var @int = 0;
+            if (!Int32.TryParse(id, out @int))
+                return false;
+
+            this.notificationManager.Cancel(@int);
+            return true;
         }
 
 
@@ -62,6 +72,26 @@ namespace Acr.Notifications {
 
                 vibrate.Vibrate(ms);
             }
+        }
+
+
+        private readonly object syncLock = new object();
+
+        protected virtual int GetNextNotificationId() {
+            var ctx = Application.Context.ApplicationContext;
+            var id = 0;
+
+            lock (this.syncLock) {
+                using (var prefs = PreferenceManager.GetDefaultSharedPreferences(ctx)) {
+                    id = prefs.GetInt("NotificationId", 0);
+                    id++;
+                    using (var editor = prefs.Edit()) {
+                        editor.PutInt("NotificationId", id);
+                        editor.Commit();
+                    }
+                }
+            }
+            return id;
         }
     }
 }

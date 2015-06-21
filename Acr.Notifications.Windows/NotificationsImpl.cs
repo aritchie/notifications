@@ -30,11 +30,12 @@ namespace Acr.Notifications {
 
             this.badgeXml = BadgeUpdateManager.GetTemplateContent(BadgeTemplateType.BadgeNumber);
             this.badgeEl = (XmlElement)this.badgeXml.SelectSingleNode("/badge");
-
         }
 
 
-        public void Send(string title, string message, string sound = null, TimeSpan? when = null) {
+        public virtual string Send(string title, string message, string sound = null, TimeSpan? when = null) {
+            var id = Guid.NewGuid().ToString();
+
             var soundXml = sound == null
                 ? String.Empty
                 : String.Format("<audio src=\"ms-appx:///Assets/{0}.wav\"/>", sound);
@@ -49,13 +50,16 @@ namespace Acr.Notifications {
             }
             else {
                 var date = DateTimeOffset.Now.Add(when.Value);
-                var schedule = new ScheduledToastNotification(xml, date);
+                var schedule = new ScheduledToastNotification(xml, date) {
+                    Id = id
+                };
                 this.toastNotifier.AddToSchedule(schedule);
             }
+            return id;
         }
 
 
-        public int Badge {
+        public virtual int Badge {
             get { return 0; }
             set {
                 if (value == 0)
@@ -68,7 +72,20 @@ namespace Acr.Notifications {
         }
 
 
-        public void CancelAll() {
+        public virtual bool Cancel(string id) {
+            var notification = this.toastNotifier
+                .GetScheduledToastNotifications()
+                .FirstOrDefault(x => x.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
+
+            if (notification == null)
+                return false;
+
+            this.toastNotifier.RemoveFromSchedule(notification);
+            return true;
+        }
+
+
+        public virtual void CancelAll() {
             this.Badge = 0;
             var list = this.toastNotifier
                 .GetScheduledToastNotifications()

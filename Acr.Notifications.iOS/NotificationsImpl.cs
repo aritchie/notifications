@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AudioToolbox;
 using Foundation;
 using UIKit;
@@ -16,13 +17,14 @@ namespace Acr.Notifications {
         }
 
 
-        public int Badge {
+        public virtual int Badge {
             get { return (int)UIApplication.SharedApplication.ApplicationIconBadgeNumber; }
             set { UIApplication.SharedApplication.ApplicationIconBadgeNumber = value; }
         }
 
 
-        public void Send(string title, string message, string sound = null, TimeSpan? when = null) {
+        public virtual string Send(string title, string message, string sound = null, TimeSpan? when = null) {
+            var msgId = Guid.NewGuid().ToString();
             var dt = DateTime.Now;
             if (when != null)
                 dt = dt.Add(when.Value);
@@ -35,17 +37,35 @@ namespace Acr.Notifications {
             if (sound != null)
                 notification.SoundName = sound;
 
+            notification.UserInfo.SetValueForKey(new NSString(msgId), new NSString("MessageID"));
             UIApplication.SharedApplication.ScheduleLocalNotification(notification);
+            return msgId;
         }
 
 
-        public void CancelAll() {
+        public virtual bool Cancel(string messageId) {
+            var key = new NSString("MessageID");
+            var keyValue = new NSString(messageId);
+
+            var notification = UIApplication.SharedApplication.ScheduledLocalNotifications.FirstOrDefault(x =>
+                x.UserInfo.ContainsKey(key) &&
+                x.UserInfo[key].Equals(keyValue)
+            );
+            if (notification == null)
+                return false;
+
+            UIApplication.SharedApplication.CancelLocalNotification(notification);
+            return true;
+        }
+
+
+        public virtual void CancelAll() {
             this.Badge = 0;
             UIApplication.SharedApplication.CancelAllLocalNotifications();
         }
 
 
-        public void Vibrate(int ms) {
+        public virtual void Vibrate(int ms) {
             SystemSound.Vibrate.PlaySystemSound();
         }
     }

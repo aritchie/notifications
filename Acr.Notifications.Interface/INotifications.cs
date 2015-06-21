@@ -6,8 +6,13 @@ namespace Acr.Notifications {
     public interface INotifications {
 
         void CancelAll();
-        void Send(string title, string message, string sound = null, TimeSpan? when = null);
+
+        bool Cancel(string messageId);
+
+        string Send(string title, string message, string sound = null, TimeSpan? when = null);
+
         int Badge { get; set; }
+
         void Vibrate(int ms = 300);
     }
 }
