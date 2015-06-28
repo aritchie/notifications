@@ -13,10 +13,15 @@ namespace Samples {
                     VerticalOptions = LayoutOptions.Center,
                     Children = {
                         new Button {
-                            Text = "Press This & Exit App within 6 seconds",
+                            Text = "Press This & Exit App within 10 seconds",
                             Command = new Command(() => {
                                 Notifications.Instance.Badge = 4;
-                                Notifications.Instance.Send("Test Message", "Hello from the ACR Sample Notification App", null, TimeSpan.FromSeconds(6));
+                                Notifications.Instance.Send(
+                                    "Test Message",
+                                    "Hello from the ACR Sample Notification App",
+                                    null,
+                                    TimeSpan.FromSeconds(10)
+                                );
                             })
                         },
                         new Button {

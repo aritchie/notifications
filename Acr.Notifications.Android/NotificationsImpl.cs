@@ -4,68 +4,88 @@ using Android.Content;
 using Android.OS;
 using Android.Preferences;
 using Java.IO;
+using Java.Lang;
 
 
 namespace Acr.Notifications {
 
-    public class NotificationsImpl : INotifications {
+    public class NotificationsImpl : AbstractNotificationsImpl {
         private readonly NotificationManager notificationManager;
+        private readonly AlarmManager alarmManager;
         private readonly int appIconId;
+
 
         // IconId = Resource.Drawable.ic_notification
         //builder.SetLargeIcon (BitmapFactory.DecodeResource (Resources, Resource.Drawable.monkey_icon));
+        //builder.SetSound (RingtoneManager.GetDefaultUri(RingtoneType.Alarm));
 
         public NotificationsImpl() {
             this.appIconId = Application.Context.Resources.GetIdentifier("icon", "drawable", Application.Context.PackageName);
+            this.notificationManager = (NotificationManager)Application.Context.GetSystemService(Context.NotificationService);
+            this.alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
         }
 
 
-        public virtual string Send(string title, string message, string sound = null, TimeSpan? when = null) {
+        public override string Send(Notification notification) {
             var id = this.GetNextNotificationId();
 
-            var builder = new Notification
+            if (notification.IsScheduled) {
+                var pending = notification.ToPendingIntent(id);
+                var ts = notification.SendTime.Subtract(DateTime.Now);
+                var triggerMs = Convert.ToInt64(JavaSystem.CurrentTimeMillis() + ts.TotalMilliseconds);
+
+                this.alarmManager.Set(
+                    AlarmType.RtcWakeup,
+                    triggerMs,
+                    pending
+                );
+                return id.ToString();
+            }
+
+            var builder = new global::Android.App.Notification
                 .Builder(Application.Context)
                 .SetAutoCancel(true)
-                .SetContentTitle(title)
-                .SetContentText(message)
+                .SetContentTitle(notification.Title)
+                .SetContentText(notification.Message)
                 .SetSmallIcon(this.appIconId);
 
-            if (sound != null) {
-                //builder.SetSound (RingtoneManager.GetDefaultUri(RingtoneType.Alarm));
-                var file = new File(sound);
+            if (notification.Sound != null) {
+                var file = new File(notification.Sound);
                 var uri = Android.Net.Uri.FromFile(file);
                 builder.SetSound(uri);
             }
 
-            if (when != null)
-                builder.SetWhen(when.Value.Ticks);
-
-            var notification = builder.Build();
-            this.notificationManager.Notify(id, notification);
-
+            //notification.Actions.ToList().ForEach(x => {
+            //    var intent = new Intent(x.Identifier);
+            //    var pending = PendingIntent.GetActivity(Application.Context, 0, intent, PendingIntentFlags.OneShot);
+            //    builder.AddAction(0, x.Title, pending);
+            //});
+            var not = builder.Build();
+            this.notificationManager.Notify(id, not);
             return id.ToString();
         }
 
 
-        public virtual void CancelAll() {
+        public override void CancelAll() {
+
+            //this.alarmManager.Cancel()
             this.notificationManager.CancelAll();
         }
 
 
-        public virtual bool Cancel(string id) {
+        public override bool Cancel(string id) {
             var @int = 0;
             if (!Int32.TryParse(id, out @int))
                 return false;
 
+            var pending = Helpers.GetNotificationPendingIntent(@int);
+            this.alarmManager.Cancel(pending);
             this.notificationManager.Cancel(@int);
             return true;
         }
 
 
-        public int Badge { get; set; }
-
-
-        public void Vibrate(int ms) {
+        public override void Vibrate(int ms) {
             using (var vibrate = (Vibrator)Application.Context.GetSystemService(Context.VibratorService)) {
                 if (!vibrate.HasVibrator)
                     return;

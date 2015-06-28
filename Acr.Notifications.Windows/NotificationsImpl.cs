@@ -6,7 +6,7 @@ using Windows.UI.Notifications;
 
 namespace Acr.Notifications {
 
-    public class NotificationsImpl : INotifications {
+    public class NotificationsImpl : AbstractNotificationsImpl {
         private const string TOAST_TEMPLATE = @"
 <toast>
 {0}
@@ -33,33 +33,30 @@ namespace Acr.Notifications {
         }
 
 
-        public virtual string Send(string title, string message, string sound = null, TimeSpan? when = null) {
+        public override string Send(Notification notification) {
             var id = Guid.NewGuid().ToString();
 
-            var soundXml = sound == null
+            var soundXml = notification.Sound == null
                 ? String.Empty
-                : String.Format("<audio src=\"ms-appx:///Assets/{0}.wav\"/>", sound);
+                : String.Format("<audio src=\"ms-appx:///Assets/{0}.wav\"/>", notification.Sound);
 
-            var xmlData = String.Format(TOAST_TEMPLATE, soundXml, title, message);
+            var xmlData = String.Format(TOAST_TEMPLATE, soundXml, notification.Title, notification.Message);
             var xml = new XmlDocument();
             xml.LoadXml(xmlData);
 
-            if (when == null) {
+            if (notification.Date == null && notification.When == null) {
                 var toast = new ToastNotification(xml);
                 this.toastNotifier.Show(toast);
             }
             else {
-                var date = DateTimeOffset.Now.Add(when.Value);
-                var schedule = new ScheduledToastNotification(xml, date) {
-                    Id = id
-                };
+                var schedule = new ScheduledToastNotification(xml, notification.SendTime) { Id = id };
                 this.toastNotifier.AddToSchedule(schedule);
             }
             return id;
         }
 
 
-        public virtual int Badge {
+        public override int Badge {
             get { return 0; }
             set {
                 if (value == 0)
@@ -72,7 +69,7 @@ namespace Acr.Notifications {
         }
 
 
-        public virtual bool Cancel(string id) {
+        public override bool Cancel(string id) {
             var notification = this.toastNotifier
                 .GetScheduledToastNotifications()
                 .FirstOrDefault(x => x.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
@@ -85,7 +82,7 @@ namespace Acr.Notifications {
         }
 
 
-        public virtual void CancelAll() {
+        public override void CancelAll() {
             this.Badge = 0;
             var list = this.toastNotifier
                 .GetScheduledToastNotifications()
@@ -97,8 +94,8 @@ namespace Acr.Notifications {
 
 
 
-        public void Vibrate(int ms) {
 #if WINDOWS_PHONE
+        public override void Vibrate(int ms) {
             var ts = TimeSpan.FromMilliseconds(ms);
             Windows
                 .Phone
@@ -107,7 +104,7 @@ namespace Acr.Notifications {
                 .VibrationDevice
                 .GetDefault()
                 .Vibrate(ts);
-#endif
         }
+#endif
     }
 }
