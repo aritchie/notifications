@@ -55,12 +55,9 @@ namespace Acr.Notifications {
                 var uri = Android.Net.Uri.FromFile(file);
                 builder.SetSound(uri);
             }
+            //if (notification.Actions != null)
+            //    notification.Actions.ToList().ForEach(x => this.AddActionToBuilder(builder, x));
 
-            notification.Actions.ToList().ForEach(x => {
-                var intent = new Intent(x.Identifier);
-                var pending = PendingIntent.GetActivity(Application.Context, 0, intent, PendingIntentFlags.OneShot);
-                builder.AddAction(0, x.Title, pending);
-            });
             var not = builder.Build();
             this.notificationManager.Notify(id, not);
             return id.ToString();
@@ -97,6 +94,19 @@ namespace Acr.Notifications {
 
 
         private readonly object syncLock = new object();
+
+
+        //protected virtual void AddActionToBuilder(Android.App.Notification.Builder builder, NotificationAction action) {
+        //    try {
+        //        var intent = new Intent(action.Identifier);
+        //        var pending = PendingIntent.GetActivity(Application.Context, 0, intent, PendingIntentFlags.OneShot);
+        //        builder.AddAction(0, action.Title, pending);
+        //    }
+        //    catch (System.Exception ex) {
+        //        System.Console.WriteLine(ex.ToString());
+        //    }
+        //}
+
 
         protected virtual int GetNextNotificationId() {
             var ctx = Application.Context.ApplicationContext;

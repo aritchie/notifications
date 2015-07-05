@@ -33,6 +33,10 @@ namespace Acr.Notifications {
 
             var data = intent.GetStringExtra(DATA_KEY);
             var notification = JsonConvert.DeserializeObject<Notification>(data);
+
+            // nullify date so it doesn't just reschedule
+            notification.Date = null;
+            notification.When = null;
             return notification;
         }
     }
