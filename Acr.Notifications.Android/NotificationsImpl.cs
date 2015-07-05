@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -55,11 +56,11 @@ namespace Acr.Notifications {
                 builder.SetSound(uri);
             }
 
-            //notification.Actions.ToList().ForEach(x => {
-            //    var intent = new Intent(x.Identifier);
-            //    var pending = PendingIntent.GetActivity(Application.Context, 0, intent, PendingIntentFlags.OneShot);
-            //    builder.AddAction(0, x.Title, pending);
-            //});
+            notification.Actions.ToList().ForEach(x => {
+                var intent = new Intent(x.Identifier);
+                var pending = PendingIntent.GetActivity(Application.Context, 0, intent, PendingIntentFlags.OneShot);
+                builder.AddAction(0, x.Title, pending);
+            });
             var not = builder.Build();
             this.notificationManager.Notify(id, not);
             return id.ToString();

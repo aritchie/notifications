@@ -24,34 +24,41 @@ namespace Acr.Notifications {
 
 
         public override string Send(Notification notification) {
-            var msgId = Guid.NewGuid().ToString();
             var not = new UILocalNotification {
                 FireDate = (NSDate)notification.SendTime,
                 AlertAction = notification.Title,
                 AlertBody = notification.Message,
                 SoundName = notification.Sound
             };
+            var msgId = Guid.NewGuid().ToString();
 
-            //if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0)) {
-            //    //var category = new UIMutableUserNotificationCategory();
-            //    //UIMutableUserNotificationCategory category = new UIMutableUserNotificationCategory();
-            //    //category.Identifier = "NotificationString";
-            //    //category.SetActions(new UIUserNotificationAction[]{shareAction,saveAction}, UIUserNotificationActionContext.Minimal);
-            //    //NSSet categories = new NSSet (category);
-            //    notification.Actions.ToList().ForEach(x => {
-            //        var action = new UIMutableUserNotificationAction {
-            //            Title = x.Title,
-            //            Identifier = x.Identifier,
-            //            Destructive = x.IsDestructive
-            //        };
-            //        //saveAction.ActivationMode = UIUserNotificationActivationMode.Background; ??
-            //        //saveAction.AuthenticationRequired = false;
-            //    });
-            //    //category.SetActions();
-            //    //not.Category = "";
-            //}
+            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0) && notification.Actions.Any()) {
+                var category = new UIMutableUserNotificationCategory {
+                    Identifier = Guid.NewGuid().ToString()
+                };
+                var actions = notification
+                    .Actions
+                    .Select(x => new UIMutableUserNotificationAction {
+                        Title = x.Title,
+                        Identifier = x.Identifier,
+                        Destructive = x.IsDestructive,
+                        AuthenticationRequired = false,
+                        ActivationMode = x.IsBackgroundAction
+                            ? UIUserNotificationActivationMode.Background
+                            : UIUserNotificationActivationMode.Foreground
+                    })
+                    .ToArray();
 
-            not.UserInfo.SetValueForKey(new NSString(msgId), new NSString("MessageID"));
+                category.SetActions(actions, UIUserNotificationActionContext.Default);
+                var catSet = new NSSet(category);
+                var settings = UIUserNotificationSettings.GetSettingsForTypes(
+                    UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
+                    catSet
+                );
+                UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+                not.Category = category.Identifier;
+            }
+
             UIApplication.SharedApplication.ScheduleLocalNotification(not);
             return msgId;
         }

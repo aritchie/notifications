@@ -13,7 +13,7 @@ namespace Acr.Notifications {
         public Notification() {
             this.Title = DefaultTitle;
             this.Sound = DefaultSound;
-            //this.Actions = new List<NotificationAction>();
+            this.Actions = new List<NotificationAction>();
         }
 
 
@@ -24,8 +24,7 @@ namespace Acr.Notifications {
 
         public TimeSpan? When { get; set; }
         public DateTime? Date { get; set; }
-
-        //public IList<NotificationAction> Actions { get; set; }
+        public IList<NotificationAction> Actions { get; set; }
 
         #region Helpers
 
@@ -41,10 +40,16 @@ namespace Acr.Notifications {
         }
 
 
-        //public Notification AddAction(NotificationAction action) {
-        //    this.Actions.Add(action);
-        //    return this;
-        //}
+        public Notification AddAction(NotificationAction action) {
+            this.Actions.Add(action);
+            return this;
+        }
+
+
+        public Notification AddAction(string title, string identifier, bool destructive = false, bool isBackgroundAction = true) {
+            this.Actions.Add(new NotificationAction(title, identifier, destructive, isBackgroundAction));
+            return this;
+        }
 
 
         public Notification SetSound(string sound) {

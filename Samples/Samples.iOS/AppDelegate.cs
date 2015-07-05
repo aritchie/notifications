@@ -30,5 +30,15 @@ namespace Samples.iOS {
                 //UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(alert, true, null);
             }
         }
+
+
+        public override void HandleAction(UIApplication application, string actionIdentifier, NSDictionary remoteNotificationInfo, Action completionHandler) {
+            if (UIApplication.SharedApplication.ApplicationState == UIApplicationState.Active)
+                new UIAlertView("Notification Action", actionIdentifier, null, "OK", null).Show();
+            else
+                Console.WriteLine("Notification Action {0}", actionIdentifier);
+
+            base.HandleAction(application, actionIdentifier, remoteNotificationInfo, completionHandler);
+        }
     }
 }
