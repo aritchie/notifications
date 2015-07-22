@@ -2,6 +2,14 @@
 
 ---
 
+##Features
+
+    * Local Notifications
+    * Scheduled Notifications
+    * Badges
+    * Context Actions (iOS only for now)
+
+
 ###Installation:
 
 
