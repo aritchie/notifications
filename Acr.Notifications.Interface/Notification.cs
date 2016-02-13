@@ -10,23 +10,13 @@ namespace Acr.Notifications {
         public static string DefaultSound { get; set; }
 
 
-        public Notification() {
-            this.Title = DefaultTitle;
-            this.Sound = DefaultSound;
-            this.Actions = new List<NotificationAction>();
-        }
-
-
-        //public string LaunchUri { get; set; }
-        public string Title { get; set; }
-        public string Message { get; set; }
+        public string Title { get; set; } = DefaultTitle;
+        public string Message { get; set; } = DefaultSound;
         public string Sound { get; set; }
 
         public TimeSpan? When { get; set; }
         public DateTime? Date { get; set; }
-        public IList<NotificationAction> Actions { get; set; }
 
-        #region Helpers
 
         public Notification SetTitle(string title) {
             this.Title = title;
@@ -36,18 +26,6 @@ namespace Acr.Notifications {
 
         public Notification SetMessage(string message) {
             this.Message = message;
-            return this;
-        }
-
-
-        public Notification AddAction(NotificationAction action) {
-            this.Actions.Add(action);
-            return this;
-        }
-
-
-        public Notification AddAction(string title, string identifier, bool destructive = false, bool isBackgroundAction = true) {
-            this.Actions.Add(new NotificationAction(title, identifier, destructive, isBackgroundAction));
             return this;
         }
 
@@ -85,7 +63,5 @@ namespace Acr.Notifications {
                 return dt;
             }
         }
-
-        #endregion
     }
 }

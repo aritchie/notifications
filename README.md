@@ -8,7 +8,6 @@
 * Sounds
 * Scheduled Notifications
 * Badges
-* Context Actions (iOS only for now)
 
 
 ###Installation:
@@ -43,12 +42,3 @@ Install the nuget package in your platform project as well as your shared librar
 ###To set a badge (excluding android):
 
     Notifications.Instance.Badge = 4; // TODO: 0 clears badge
-
-
-###Notification Actions (iOS only)
-
-There is no way to handle actions directly with this implementation, you must override HandleAction off your AppDelegate
-
-    Notifications.Instance.Send(new Notification("Test Title", "Test Message")
-        .AddAction("Title", "Identifier")
-    );

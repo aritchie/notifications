@@ -26,8 +26,6 @@ namespace Samples {
                                 Notifications.Instance.Send(new Notification()
                                     .SetMessage("Hello from the ACR Sample Notification App")
                                     .SetSchedule(TimeSpan.FromSeconds(10))
-                                    .AddAction("Test", Guid.NewGuid().ToString(), false, false)
-                                    .AddAction("Destroy", Guid.NewGuid().ToString(), true)
                                 )
                             )
                         },

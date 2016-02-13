@@ -24,41 +24,17 @@ namespace Acr.Notifications {
 
 
         public override string Send(Notification notification) {
+            var msgId = Guid.NewGuid().ToString();
+            var userInfo = new NSMutableDictionary();
+            userInfo.Add(new NSString("MessageID"), new NSString(msgId));
+
             var not = new UILocalNotification {
                 FireDate = (NSDate)notification.SendTime,
                 AlertAction = notification.Title,
                 AlertBody = notification.Message,
-                SoundName = notification.Sound
+                SoundName = notification.Sound,
+                UserInfo = userInfo
             };
-            var msgId = Guid.NewGuid().ToString();
-
-            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0) && notification.Actions.Any()) {
-                var category = new UIMutableUserNotificationCategory {
-                    Identifier = Guid.NewGuid().ToString()
-                };
-                var actions = notification
-                    .Actions
-                    .Select(x => new UIMutableUserNotificationAction {
-                        Title = x.Title,
-                        Identifier = x.Identifier,
-                        Destructive = x.IsDestructive,
-                        AuthenticationRequired = false,
-                        ActivationMode = x.IsBackgroundAction
-                            ? UIUserNotificationActivationMode.Background
-                            : UIUserNotificationActivationMode.Foreground
-                    })
-                    .ToArray();
-
-                category.SetActions(actions, UIUserNotificationActionContext.Default);
-                var catSet = new NSSet(category);
-                var settings = UIUserNotificationSettings.GetSettingsForTypes(
-                    UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
-                    catSet
-                );
-                UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
-                not.Category = category.Identifier;
-            }
-
             UIApplication.SharedApplication.ScheduleLocalNotification(not);
             return msgId;
         }
@@ -91,44 +67,3 @@ namespace Acr.Notifications {
         }
     }
 }
-/*
-    public override void HandleAction (UIApplication application, string actionIdentifier, UILocalNotification localNotification, Action completionHandler)
-    {
-// if (actionIdentifier == "SaveActionString") {
-//
-// }
-nint tskID = UIApplication.SharedApplication.BeginBackgroundTask(() => {});
-new Task ( () => {
-//Start monitoring for beacon region when a significant location change is detected.
-UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
-SendError ("It Worked!", "I Handled the Action");
-completionHandler ();
-UIApplication.SharedApplication.EndBackgroundTask(tskID);
-}).Start();
-
-    }
-    public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
-    {
-        try{
-            // show an alert if app is in Foreground
-            if(application.ApplicationState == UIApplicationState.Active){
-                //Create Alert
-                var textInputAlertController = UIAlertController.Create(notification.AlertAction, notification.AlertBody, UIAlertControllerStyle.Alert);
-
-                //Add Actions
-                var shareAction = UIAlertAction.Create ("Share", UIAlertActionStyle.Default, alertAction => ShareNotification());
-                var saveAction = UIAlertAction.Create("Save", UIAlertActionStyle.Default, alertAction => SaveNotification());
-                textInputAlertController.AddAction(shareAction);
-                textInputAlertController.AddAction(saveAction);
-
-                //Present Alert
-                initialViewController.PresentViewController(textInputAlertController, true, null);
-            }
-
-        }catch(Exception ex){
-            SendError (ex.Message.ToString (), "ReceivedLocalNotification Error");
-
-        }
-
-    }
-*/

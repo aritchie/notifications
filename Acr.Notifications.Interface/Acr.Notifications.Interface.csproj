@@ -39,7 +39,6 @@
   <ItemGroup>
     <Compile Include="AbstractNotificationsImpl.cs" />
     <Compile Include="INotifications.cs" />
-    <Compile Include="NotificationAction.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
