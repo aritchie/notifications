@@ -32,16 +32,16 @@ namespace Samples {
                         },
                         new Button
                         {
-                            Text = "Multiple Timed Messages (5 seconds each x 10 messages)",
+                            Text = "Multiple Timed Messages (10 messages x 5 seconds apart)",
                             Command = new Command(() =>
                             {
+                                Notifications.Instance.Send("Samples", "Starting Sample Schedule Notifications");
                                 for (var i = 1; i < 11; i++)
                                 {
                                     var seconds = i * 5;
-                                    var dateTime = DateTime.Now.AddSeconds(seconds);
                                     var id = Notifications.Instance.Send(new Notification()
                                         .SetMessage($"Message {i}")
-                                        .SetSchedule(dateTime)
+                                        .SetSchedule(TimeSpan.FromSeconds(seconds))
                                     );
                                     Debug.WriteLine($"Notification ID: {id}");
                                 }

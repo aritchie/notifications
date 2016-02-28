@@ -32,8 +32,9 @@ namespace Acr.Notifications
 
             if (notification.IsScheduled)
             {
-                var ts = notification.SendTime.Subtract(DateTime.Now);
-                var triggerMs = SystemClock.ElapsedRealtime() + ts.TotalMilliseconds;
+                var triggerMs = this.GetEpochMills(notification.SendTime);
+                System.Diagnostics.Debug.WriteLine(triggerMs);
+
                 var pending = notification.ToPendingIntent(id);
 
                 this.alarmManager.Set(
@@ -119,6 +120,7 @@ namespace Acr.Notifications
         void CancelInternal(int notificationId)
         {
             var pending = Helpers.GetNotificationPendingIntent(notificationId);
+            pending.Cancel();
             this.alarmManager.Cancel(pending);
             this.notificationManager.Cancel(notificationId);
         }

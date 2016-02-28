@@ -7,13 +7,13 @@ using Newtonsoft.Json;
 namespace Acr.Notifications {
 
     public static class Helpers {
-        private const string DATA_KEY = "data";
+        const string DATA_KEY = "data";
         const string NOTIFICATION_ID = "id";
 
 
         public static PendingIntent ToPendingIntent(this Notification notification, int id) {
             var json = JsonConvert.SerializeObject(notification);
-            var intent = new Intent(Application.Context.ApplicationContext, typeof(AlarmBroadcastReceiver))
+            var intent = new Intent(Application.Context, typeof(AlarmBroadcastReceiver))
                 .PutExtra(NOTIFICATION_ID, id)
                 .PutExtra(DATA_KEY, json);
             var pending = PendingIntent.GetBroadcast(Application.Context, id, intent, PendingIntentFlags.OneShot);
@@ -22,9 +22,9 @@ namespace Acr.Notifications {
 
 
         public static PendingIntent GetNotificationPendingIntent(int id) {
-            var intent = new Intent(Application.Context.ApplicationContext, typeof(AlarmBroadcastReceiver));
-            intent.SetData(Android.Net.Uri.Parse("notification://" + id));
-
+            var intent = new Intent(Application.Context, typeof(AlarmBroadcastReceiver))
+                .PutExtra(NOTIFICATION_ID, id)
+                .PutExtra(DATA_KEY, "hack");
             var pending = PendingIntent.GetBroadcast(Application.Context, id, intent, PendingIntentFlags.OneShot);
             return pending;
         }
