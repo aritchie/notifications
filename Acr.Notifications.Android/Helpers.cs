@@ -42,5 +42,11 @@ namespace Acr.Notifications {
             notification.When = null;
             return notification;
         }
+
+
+        public static int NotificationId(this Intent intent)
+        {
+            return intent.GetIntExtra(NOTIFICATION_ID, 0);
+        }
     }
 }

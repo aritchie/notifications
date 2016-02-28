@@ -37,9 +37,11 @@ namespace Samples {
                             {
                                 for (var i = 1; i < 11; i++)
                                 {
+                                    var seconds = i * 5;
+                                    var dateTime = DateTime.Now.AddSeconds(seconds);
                                     var id = Notifications.Instance.Send(new Notification()
                                         .SetMessage($"Message {i}")
-                                        .SetSchedule(TimeSpan.FromSeconds(5 * i))
+                                        .SetSchedule(dateTime)
                                     );
                                     Debug.WriteLine($"Notification ID: {id}");
                                 }

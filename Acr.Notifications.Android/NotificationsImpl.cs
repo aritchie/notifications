@@ -13,12 +13,8 @@ namespace Acr.Notifications
 
     public class NotificationsImpl : AbstractNotificationsImpl
     {
-        const string SCHEDULED_IDS = "ScheduledIds";
-        const string NOTIFICATION_ID = "NotificationId";
-
         readonly NotificationManagerCompat notificationManager;
         readonly AlarmManager alarmManager;
-        readonly ISettings settings;
         public int AppIconResourceId { get; set; }
 
 
@@ -27,18 +23,12 @@ namespace Acr.Notifications
             this.AppIconResourceId = Application.Context.Resources.GetIdentifier("icon", "drawable", Application.Context.PackageName);
             this.notificationManager = NotificationManagerCompat.From(Application.Context);
             this.alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
-            this.settings = Settings.Settings.Local;
-            this.settings.KeysNotToClear.AddRange(new[]
-            {
-                SCHEDULED_IDS,
-                NOTIFICATION_ID
-            });
         }
 
 
         public override string Send(Notification notification)
         {
-            var id = this.GetNextNotificationId();
+            var id = NotificationIdManager.Instance.GetNextId();
 
             if (notification.IsScheduled)
             {
@@ -51,7 +41,7 @@ namespace Acr.Notifications
                     Convert.ToInt64(triggerMs),
                     pending
                 );
-                this.AddScheduledId(id);
+                NotificationIdManager.Instance.AddScheduledId(id);
                 return id.ToString();
             }
 
@@ -84,11 +74,11 @@ namespace Acr.Notifications
 
         public override void CancelAll()
         {
-            var scheduleIds = this.GetScheduledIds();
+            var scheduleIds = NotificationIdManager.Instance.GetScheduledIds();
             foreach (var id in scheduleIds)
                 this.CancelInternal(id);
 
-            this.settings.Remove(SCHEDULED_IDS);
+            NotificationIdManager.Instance.ClearAllScheduled();
             this.notificationManager.CancelAll();
         }
 
@@ -100,7 +90,7 @@ namespace Acr.Notifications
                 return false;
 
             this.CancelInternal(@int);
-            this.RemoveScheduledId(@int);
+            NotificationIdManager.Instance.RemoveScheduledId(@int);
             return true;
         }
 
@@ -114,43 +104,6 @@ namespace Acr.Notifications
 
                 vibrate.Vibrate(ms);
             }
-        }
-
-
-        readonly object syncLock = new object();
-        protected virtual int GetNextNotificationId()
-        {
-            var id = 0;
-
-            lock (this.syncLock)
-            {
-                id = this.settings.Get(NOTIFICATION_ID, 0);
-                id++;
-                this.settings.Set(NOTIFICATION_ID, id);
-            }
-            return id;
-        }
-
-
-        protected virtual IList<int> GetScheduledIds()
-        {
-            return this.settings.Get(SCHEDULED_IDS, new List<int>());
-        }
-
-
-        protected virtual void AddScheduledId(int id)
-        {
-            var ids = this.GetScheduledIds();
-            ids.Add(id);
-            this.settings.Set(SCHEDULED_IDS, ids);
-        }
-
-
-        protected virtual void RemoveScheduledId(int id)
-        {
-            var ids = this.GetScheduledIds();
-            if (ids.Remove(id))
-                this.settings.Set(SCHEDULED_IDS, ids);
         }
 
 
