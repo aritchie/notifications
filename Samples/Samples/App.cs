@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Acr.Notifications;
 using Xamarin.Forms;
 
@@ -28,6 +29,21 @@ namespace Samples {
                                     .SetSchedule(TimeSpan.FromSeconds(10))
                                 )
                             )
+                        },
+                        new Button
+                        {
+                            Text = "Multiple Timed Messages (5 seconds each x 10 messages)",
+                            Command = new Command(() =>
+                            {
+                                for (var i = 1; i < 11; i++)
+                                {
+                                    var id = Notifications.Instance.Send(new Notification()
+                                        .SetMessage($"Message {i}")
+                                        .SetSchedule(TimeSpan.FromSeconds(5 * i))
+                                    );
+                                    Debug.WriteLine($"Notification ID: {id}");
+                                }
+                            })
                         },
                         new Button {
                             Text = "Cancel All Notifications",

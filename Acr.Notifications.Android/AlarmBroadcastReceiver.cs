@@ -10,8 +10,12 @@ namespace Acr.Notifications {
     public class AlarmBroadcastReceiver : BroadcastReceiver {
 
         public override void OnReceive(Context context, Intent intent) {
-            var notification = intent.FromIntent();
-            Notifications.Instance.Send(notification); // resend without schedule so it goes through normal mechanism
+            var notification = intent.ToNotification();
+
+            // resend without schedule so it goes through normal mechanism
+            notification.When = null;
+            notification.Date = null;
+            Notifications.Instance.Send(notification);
         }
     }
 }

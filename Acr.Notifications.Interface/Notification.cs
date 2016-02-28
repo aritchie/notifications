@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 
 namespace Acr.Notifications {
@@ -48,7 +47,7 @@ namespace Acr.Notifications {
         }
 
 
-        public bool IsScheduled { get { return this.Date != null || this.When != null; }}
+        public bool IsScheduled => this.Date != null || this.When != null;
 
 
         public DateTime SendTime {

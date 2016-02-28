@@ -8,12 +8,15 @@ namespace Acr.Notifications {
 
     public static class Helpers {
         private const string DATA_KEY = "data";
+        const string NOTIFICATION_ID = "id";
 
 
         public static PendingIntent ToPendingIntent(this Notification notification, int id) {
             var json = JsonConvert.SerializeObject(notification);
-            var intent = new Intent(Application.Context.ApplicationContext, typeof(AlarmBroadcastReceiver)).PutExtra(DATA_KEY, json);
-            var pending = PendingIntent.GetBroadcast(Application.Context, 0, intent, PendingIntentFlags.CancelCurrent);
+            var intent = new Intent(Application.Context.ApplicationContext, typeof(AlarmBroadcastReceiver))
+                .PutExtra(NOTIFICATION_ID, id)
+                .PutExtra(DATA_KEY, json);
+            var pending = PendingIntent.GetBroadcast(Application.Context, id, intent, PendingIntentFlags.OneShot);
             return pending;
         }
 
@@ -22,12 +25,12 @@ namespace Acr.Notifications {
             var intent = new Intent(Application.Context.ApplicationContext, typeof(AlarmBroadcastReceiver));
             intent.SetData(Android.Net.Uri.Parse("notification://" + id));
 
-            var pending = PendingIntent.GetBroadcast(Application.Context, 0, intent, PendingIntentFlags.CancelCurrent);
+            var pending = PendingIntent.GetBroadcast(Application.Context, id, intent, PendingIntentFlags.OneShot);
             return pending;
         }
 
 
-        public static Notification FromIntent(this Intent intent) {
+        public static Notification ToNotification(this Intent intent) {
             if (!intent.HasExtra(DATA_KEY))
                 throw new ArgumentException("Invalid intent package");
 
