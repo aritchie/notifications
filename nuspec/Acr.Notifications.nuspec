@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>Acr.Notifications</id>
-        <version>1.5.0</version>
+        <version>1.5.1</version>
         <title>ACR Notifications Plugin for Xamarin and Windows</title>
         <description>Local Notifications, Scheduled Notifications, Badges, and Vibration for Xamarin and Windows</description>
         <authors>Allan Ritchie</authors>
@@ -14,11 +14,15 @@
         <dependencies>
             <group targetFramework="MonoAndroid">
                 <dependency id="Newtonsoft.Json" version="[8.0.2, 9)" />
-                <dependency id="Acr.Settings" version="[4.3.9, 5)" />
+                <dependency id="Acr.Settings" version="[5, 6)" />
                 <dependency id="Xamarin.Android.Support.v4" version="[23.1.1.0, 24)" />
             </group>
         </dependencies>
         <releaseNotes>
+1.5.1
+[droid][fix] remove dependency on resources and allow for updates to support libs
+[update] update nuget packages
+
 1.5
 [droid][fix] scheduled notifications
 [droid][fix] cancel all scheduled notifications

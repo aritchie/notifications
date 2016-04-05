@@ -12,7 +12,6 @@
     <RootNamespace>Acr.Notifications</RootNamespace>
     <AssemblyName>Acr.Notifications</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
     <DevInstrumentationEnabled>True</DevInstrumentationEnabled>
@@ -37,17 +36,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Acr.Settings, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Acr.Settings.4.3.9\lib\MonoAndroid10\Acr.Settings.dll</HintPath>
+      <HintPath>..\packages\Acr.Settings.5.1.0\lib\MonoAndroid10\Acr.Settings.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Acr.Settings.Interface, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Acr.Settings.4.3.9\lib\MonoAndroid10\Acr.Settings.Interface.dll</HintPath>
+      <HintPath>..\packages\Acr.Settings.5.1.0\lib\MonoAndroid10\Acr.Settings.Interface.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -63,15 +62,10 @@
     <Compile Include="Helpers.cs" />
     <Compile Include="NotificationIdManager.cs" />
     <Compile Include="NotificationsImpl.cs" />
-    <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Resources\AboutResources.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\Values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Acr.Notifications.Interface\Acr.Notifications.Interface.csproj">
@@ -81,7 +75,7 @@
   </ItemGroup>
   <Import Project="..\Acr.Notifications.Shared\Acr.Notifications.Shared.projitems" Label="Shared" Condition="Exists('..\Acr.Notifications.Shared\Acr.Notifications.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
