@@ -5,30 +5,37 @@ using Foundation;
 using UIKit;
 
 
-namespace Acr.Notifications {
+namespace Acr.Notifications
+{
 
-    public class NotificationsImpl : AbstractNotificationsImpl {
+    public class NotificationsImpl : AbstractNotificationsImpl
+    {
 
-        public NotificationsImpl() {
-            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0)) {
+        public NotificationsImpl()
+        {
+            if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+            {
                 var settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, null);
                 UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
             }
         }
 
 
-        public override int Badge {
+        public override int Badge
+        {
             get { return (int)UIApplication.SharedApplication.ApplicationIconBadgeNumber; }
             set { UIApplication.SharedApplication.ApplicationIconBadgeNumber = value; }
         }
 
 
-        public override string Send(Notification notification) {
+        public override string Send(Notification notification)
+        {
             var msgId = Guid.NewGuid().ToString();
             var userInfo = new NSMutableDictionary();
             userInfo.Add(new NSString("MessageID"), new NSString(msgId));
 
-            var not = new UILocalNotification {
+            var not = new UILocalNotification
+            {
                 FireDate = (NSDate)notification.SendTime,
                 AlertAction = notification.Title,
                 AlertBody = notification.Message,
@@ -40,7 +47,8 @@ namespace Acr.Notifications {
         }
 
 
-        public override bool Cancel(string messageId) {
+        public override bool Cancel(string messageId)
+        {
             var key = new NSString("MessageID");
             var keyValue = new NSString(messageId);
 
@@ -56,13 +64,15 @@ namespace Acr.Notifications {
         }
 
 
-        public override void CancelAll() {
+        public override void CancelAll()
+        {
             this.Badge = 0;
             UIApplication.SharedApplication.CancelAllLocalNotifications();
         }
 
 
-        public override void Vibrate(int ms) {
+        public override void Vibrate(int ms)
+        {
             SystemSound.Vibrate.PlaySystemSound();
         }
     }

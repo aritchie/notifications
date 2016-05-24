@@ -4,17 +4,22 @@ using Acr.Notifications;
 using Xamarin.Forms;
 
 
-namespace Samples {
+namespace Samples
+{
 
-    public class App : Application {
+    public class App : Application
+    {
         public static bool IsInBackgrounded { get; private set; }
 
 
-        public App() {
+        public App()
+        {
             Notification.DefaultTitle = "Test Title";
 
-            this.MainPage = new ContentPage {
-                Content = new StackLayout {
+            this.MainPage = new ContentPage
+            {
+                Content = new StackLayout
+                {
                     VerticalOptions = LayoutOptions.Center,
                     Children = {
                         new Button {
@@ -47,7 +52,18 @@ namespace Samples {
                                 }
                             })
                         },
-                        new Button {
+                        new Button
+                        {
+                            Text = "Delay 3 Messages for 2 minutes",
+                            Command = new Command(() =>
+                            {
+                                Notifications.Instance.Send("Samples", "Message 1");
+                                Notifications.Instance.Send("Samples", "Message 2");
+                                Notifications.Instance.Send("Samples", "Message 3");
+                            })
+                        },
+                        new Button
+                        {
                             Text = "Cancel All Notifications",
                             Command = new Command(Notifications.Instance.CancelAll)
                         }
@@ -57,13 +73,15 @@ namespace Samples {
         }
 
 
-        protected override void OnResume() {
+        protected override void OnResume()
+        {
             base.OnResume();
             App.IsInBackgrounded = false;
         }
 
 
-        protected override void OnSleep() {
+        protected override void OnSleep()
+        {
             base.OnSleep();
             App.IsInBackgrounded = true;
         }

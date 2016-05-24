@@ -3,13 +3,15 @@ using Android.App;
 using Android.Content;
 
 
-namespace Acr.Notifications {
-
+namespace Acr.Notifications
+{
     [BroadcastReceiver]
-    [IntentFilter(new [] { Intent.ActionBootCompleted }, Priority = Int32.MaxValue)]
-    public class AlarmBroadcastReceiver : BroadcastReceiver {
+    [IntentFilter(new[] { Intent.ActionBootCompleted }, Priority = Int32.MaxValue)]
+    public class AlarmBroadcastReceiver : BroadcastReceiver
+    {
 
-        public override void OnReceive(Context context, Intent intent) {
+        public override void OnReceive(Context context, Intent intent)
+        {
             var notification = intent.ToNotification();
             var notificationId = intent.NotificationId();
             NotificationIdManager.Instance.RemoveScheduledId(notificationId);

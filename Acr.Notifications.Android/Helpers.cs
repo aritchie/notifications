@@ -4,14 +4,17 @@ using Android.Content;
 using Newtonsoft.Json;
 
 
-namespace Acr.Notifications {
+namespace Acr.Notifications
+{
 
-    public static class Helpers {
+    public static class Helpers
+    {
         const string DATA_KEY = "data";
         const string NOTIFICATION_ID = "id";
 
 
-        public static PendingIntent ToPendingIntent(this Notification notification, int id) {
+        public static PendingIntent ToPendingIntent(this Notification notification, int id)
+        {
             var json = JsonConvert.SerializeObject(notification);
             var intent = new Intent(Application.Context, typeof(AlarmBroadcastReceiver))
                 .PutExtra(NOTIFICATION_ID, id)
@@ -21,7 +24,8 @@ namespace Acr.Notifications {
         }
 
 
-        public static PendingIntent GetNotificationPendingIntent(int id) {
+        public static PendingIntent GetNotificationPendingIntent(int id)
+        {
             var intent = new Intent(Application.Context, typeof(AlarmBroadcastReceiver))
                 .PutExtra(NOTIFICATION_ID, id)
                 .PutExtra(DATA_KEY, "hack");
@@ -30,7 +34,8 @@ namespace Acr.Notifications {
         }
 
 
-        public static Notification ToNotification(this Intent intent) {
+        public static Notification ToNotification(this Intent intent)
+        {
             if (!intent.HasExtra(DATA_KEY))
                 throw new ArgumentException("Invalid intent package");
 

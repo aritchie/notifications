@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using Acr.Settings;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -60,6 +58,11 @@ namespace Acr.Notifications
                     .AddNextIntent(launchIntent)
                     .GetPendingIntent(id, (int)PendingIntentFlags.OneShot)
                 );
+
+            if (notification.Vibrate)
+            {
+                builder.SetVibrate(new long[] { 500, 500});
+            }
 
             if (notification.Sound != null)
             {

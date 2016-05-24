@@ -1,9 +1,11 @@
 ﻿using System;
 
 
-namespace Acr.Notifications {
+namespace Acr.Notifications
+{
 
-    public class Notification {
+    public class Notification
+    {
 
         public static string DefaultTitle { get; set; }
         public static string DefaultSound { get; set; }
@@ -12,36 +14,42 @@ namespace Acr.Notifications {
         public string Title { get; set; } = DefaultTitle;
         public string Message { get; set; } = DefaultSound;
         public string Sound { get; set; }
+        public bool Vibrate { get; set; }
 
         public TimeSpan? When { get; set; }
         public DateTime? Date { get; set; }
 
 
-        public Notification SetTitle(string title) {
+        public Notification SetTitle(string title)
+        {
             this.Title = title;
             return this;
         }
 
 
-        public Notification SetMessage(string message) {
+        public Notification SetMessage(string message)
+        {
             this.Message = message;
             return this;
         }
 
 
-        public Notification SetSound(string sound) {
+        public Notification SetSound(string sound)
+        {
             this.Sound = sound;
             return this;
         }
 
 
-        public Notification SetSchedule(TimeSpan timeSpan) {
+        public Notification SetSchedule(TimeSpan timeSpan)
+        {
             this.When = timeSpan;
             return this;
         }
 
 
-        public Notification SetSchedule(DateTime dateTime) {
+        public Notification SetSchedule(DateTime dateTime)
+        {
             this.Date = dateTime;
             return this;
         }
@@ -50,8 +58,10 @@ namespace Acr.Notifications {
         public bool IsScheduled => this.Date != null || this.When != null;
 
 
-        public DateTime SendTime {
-            get {
+        public DateTime SendTime
+        {
+            get
+            {
                 if (this.Date != null)
                     return this.Date.Value;
 
