@@ -11,7 +11,6 @@ namespace Acr.Notifications
 
     public class NotificationsImpl : AbstractNotificationsImpl
     {
-        readonly NotificationManagerCompat notificationManager;
         readonly AlarmManager alarmManager;
         public int AppIconResourceId { get; set; }
 
@@ -19,7 +18,6 @@ namespace Acr.Notifications
         public NotificationsImpl()
         {
             this.AppIconResourceId = Application.Context.Resources.GetIdentifier("icon", "drawable", Application.Context.PackageName);
-            this.notificationManager = NotificationManagerCompat.From(Application.Context);
             this.alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
         }
 
@@ -59,7 +57,7 @@ namespace Acr.Notifications
 
             if (notification.Vibrate)
             {
-                builder.SetVibrate(new long[] { 500, 500});
+                builder.SetVibrate(new long[] { 500, 500 });
             }
 
             if (notification.Sound != null)
@@ -69,7 +67,9 @@ namespace Acr.Notifications
                 builder.SetSound(uri);
             }
             var not = builder.Build();
-            this.notificationManager.Notify(id, not);
+            NotificationManagerCompat
+                .From(Application.Context)
+                .Notify(id, not);
             return id.ToString();
         }
 
@@ -80,7 +80,9 @@ namespace Acr.Notifications
                 this.CancelInternal(id);
 
             NotificationSettings.Instance.ClearScheduled();
-            this.notificationManager.CancelAll();
+            NotificationManagerCompat
+                .From(Application.Context)
+                .CancelAll();
         }
 
 
@@ -136,7 +138,9 @@ namespace Acr.Notifications
             var pending = Helpers.GetNotificationPendingIntent(notificationId);
             pending.Cancel();
             this.alarmManager.Cancel(pending);
-            this.notificationManager.Cancel(notificationId);
+            NotificationManagerCompat
+                .From(Application.Context)
+                .Cancel(notificationId);
         }
     }
 }

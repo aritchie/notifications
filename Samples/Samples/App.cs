@@ -16,8 +16,9 @@ namespace Samples
         {
             Notification.DefaultTitle = "Test Title";
 
-            this.MainPage = new ContentPage
+            this.MainPage = new NavigationPage(new ContentPage
             {
+                Title = "Notifications",
                 Content = new StackLayout
                 {
                     VerticalOptions = LayoutOptions.Center,
@@ -25,9 +26,15 @@ namespace Samples
                         new Button
                         {
                             Text = "Set Badge",
-                            Command = new Command(() => Notifications.Instance.Badge = 99)
+                            Command = new Command(() => Notifications.Instance.Badge = new Random().Next(100))
                         },
-                        new Button {
+                        new Button
+                        {
+                            Text = "Clear Badge",
+                            Command = new Command(() => Notifications.Instance.Badge = 0)
+                        },
+                        new Button
+                        {
                             Text = "Press This & Exit App within 10 seconds",
                             Command = new Command(() =>
                                 Notifications.Instance.Send(new Notification()
@@ -56,22 +63,17 @@ namespace Samples
                         },
                         new Button
                         {
-                            Text = "Delay 3 Messages for 2 minutes",
-                            Command = new Command(() =>
-                            {
-                                Notifications.Instance.Send("Samples", "Message 1");
-                                Notifications.Instance.Send("Samples", "Message 2");
-                                Notifications.Instance.Send("Samples", "Message 3");
-                            })
+                            Text = "Cancel All Notifications",
+                            Command = new Command(Notifications.Instance.CancelAll)
                         },
                         new Button
                         {
-                            Text = "Cancel All Notifications",
-                            Command = new Command(Notifications.Instance.CancelAll)
+                            Text = "Vibrate",
+                            Command = new Command(() => Notifications.Instance.Vibrate())
                         }
                     }
                 }
-            };
+            });
         }
 
 

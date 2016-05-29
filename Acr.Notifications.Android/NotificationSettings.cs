@@ -30,7 +30,7 @@ namespace Acr.Notifications
 
             lock (this.syncLock)
             {
-                this.CurrentScheduleId++;
+                id = this.CurrentScheduleId++;
             }
             this.ScheduleIds.Add(this.CurrentScheduleId);
             this.OnPropertyChanged("CurrentScheduleId");
