@@ -111,7 +111,7 @@
       <Link>NotificationsImpl.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\Acr.Notifications.Uwp.rd.xml" />
+    <EmbeddedResource Include="Properties\Acr.Notifications.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Acr.Notifications.Interface\Acr.Notifications.Interface.csproj">

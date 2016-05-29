@@ -80,6 +80,6 @@ Initial Release
         <file src="..\Acr.Notifications.Windows\bin\Release\Acr.Notifications.*" target="lib\win8\" />
 
         <!-- uwp -->
-        <file src="..\Acr.Notifications.Uwp\bin\Release\Acr.Notifications.*" target="lib\uap10.0\" />
+        <file src="..\Acr.Notifications.Uwp\bin\Release\Acr.Notifications.*" target="lib\uap10\" />
     </files>
 </package>
