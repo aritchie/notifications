@@ -4,10 +4,12 @@ using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
 
 
-namespace Acr.Notifications {
+namespace Acr.Notifications
+{
 
-    public class NotificationsImpl : AbstractNotificationsImpl {
-        private const string TOAST_TEMPLATE = @"
+    public class NotificationsImpl : AbstractNotificationsImpl
+    {
+        const string TOAST_TEMPLATE = @"
 <toast>
 {0}
   <visual>
@@ -18,13 +20,14 @@ namespace Acr.Notifications {
   </visual>
 </toast>";
 
-        private readonly BadgeUpdater badgeUpdater;
-        private readonly ToastNotifier toastNotifier;
-        private readonly XmlDocument badgeXml;
-        private readonly XmlElement badgeEl;
+        readonly BadgeUpdater badgeUpdater;
+        readonly ToastNotifier toastNotifier;
+        readonly XmlDocument badgeXml;
+        readonly XmlElement badgeEl;
 
 
-        public NotificationsImpl() {
+        public NotificationsImpl()
+        {
             this.badgeUpdater = BadgeUpdateManager.CreateBadgeUpdaterForApplication();
             this.toastNotifier = ToastNotificationManager.CreateToastNotifier();
 
@@ -33,22 +36,25 @@ namespace Acr.Notifications {
         }
 
 
-        public override string Send(Notification notification) {
+        public override string Send(Notification notification)
+        {
             var id = Guid.NewGuid().ToString();
 
             var soundXml = notification.Sound == null
                 ? String.Empty
-                : String.Format("<audio src=\"ms-appx:///Assets/{0}.wav\"/>", notification.Sound);
+                : $"<audio src=\"ms-appx:///Assets/{notification.Sound}.wav\"/>";
 
             var xmlData = String.Format(TOAST_TEMPLATE, soundXml, notification.Title, notification.Message);
             var xml = new XmlDocument();
             xml.LoadXml(xmlData);
 
-            if (notification.Date == null && notification.When == null) {
+            if (notification.Date == null && notification.When == null)
+            {
                 var toast = new ToastNotification(xml);
                 this.toastNotifier.Show(toast);
             }
-            else {
+            else
+            {
                 var schedule = new ScheduledToastNotification(xml, notification.SendTime) { Id = id };
                 this.toastNotifier.AddToSchedule(schedule);
             }
@@ -56,12 +62,15 @@ namespace Acr.Notifications {
         }
 
 
-        public override int Badge {
+        public override int Badge
+        {
             get { return 0; }
-            set {
+            set
+            {
                 if (value == 0)
                     this.badgeUpdater.Clear();
-                else {
+                else
+                {
                     this.badgeEl.SetAttribute("value", value.ToString());
                     this.badgeUpdater.Update(new BadgeNotification(this.badgeXml));
                 }
@@ -69,7 +78,8 @@ namespace Acr.Notifications {
         }
 
 
-        public override bool Cancel(string id) {
+        public override bool Cancel(string id)
+        {
             var notification = this.toastNotifier
                 .GetScheduledToastNotifications()
                 .FirstOrDefault(x => x.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
@@ -82,7 +92,8 @@ namespace Acr.Notifications {
         }
 
 
-        public override void CancelAll() {
+        public override void CancelAll()
+        {
             this.Badge = 0;
             var list = this.toastNotifier
                 .GetScheduledToastNotifications()
@@ -94,8 +105,9 @@ namespace Acr.Notifications {
 
 
 
-#if WINDOWS_PHONE
-        public override void Vibrate(int ms) {
+#if WINDOWS_PHONE || WINDOWS_UWP
+        public override void Vibrate(int ms)
+        {
             var ts = TimeSpan.FromMilliseconds(ms);
             Windows
                 .Phone

@@ -26,13 +26,11 @@ namespace Acr.Notifications
 
         public override string Send(Notification notification)
         {
-            var id = NotificationIdManager.Instance.GetNextId();
+            var id = NotificationSettings.Instance.CreateScheduleId();
 
             if (notification.IsScheduled)
             {
                 var triggerMs = this.GetEpochMills(notification.SendTime);
-                System.Diagnostics.Debug.WriteLine(triggerMs);
-
                 var pending = notification.ToPendingIntent(id);
 
                 this.alarmManager.Set(
@@ -40,7 +38,7 @@ namespace Acr.Notifications
                     Convert.ToInt64(triggerMs),
                     pending
                 );
-                NotificationIdManager.Instance.AddScheduledId(id);
+
                 return id.ToString();
             }
 
@@ -53,7 +51,7 @@ namespace Acr.Notifications
                 .SetContentTitle(notification.Title)
                 .SetContentText(notification.Message)
                 .SetSmallIcon(this.AppIconResourceId)
-                .SetContentIntent(Android.Support.V4.App.TaskStackBuilder
+                .SetContentIntent(TaskStackBuilder
                     .Create(Application.Context)
                     .AddNextIntent(launchIntent)
                     .GetPendingIntent(id, (int)PendingIntentFlags.OneShot)
@@ -78,11 +76,10 @@ namespace Acr.Notifications
 
         public override void CancelAll()
         {
-            var scheduleIds = NotificationIdManager.Instance.GetScheduledIds();
-            foreach (var id in scheduleIds)
+            foreach (var id in NotificationSettings.Instance.ScheduleIds)
                 this.CancelInternal(id);
 
-            NotificationIdManager.Instance.ClearAllScheduled();
+            NotificationSettings.Instance.ClearScheduled();
             this.notificationManager.CancelAll();
         }
 
@@ -94,8 +91,22 @@ namespace Acr.Notifications
                 return false;
 
             this.CancelInternal(@int);
-            NotificationIdManager.Instance.RemoveScheduledId(@int);
+            NotificationSettings.Instance.RemoveScheduledId(@int);
             return true;
+        }
+
+
+        public override int Badge
+        {
+            get { return NotificationSettings.Instance.CurrentBadge; }
+            set
+            {
+                NotificationSettings.Instance.CurrentBadge = value;
+                if (value <= 0)
+                    ME.Leolin.Shortcutbadger.ShortcutBadger.RemoveCount(Application.Context);
+                else
+                    ME.Leolin.Shortcutbadger.ShortcutBadger.ApplyCount(Application.Context, value);
+            }
         }
 
 

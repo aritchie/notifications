@@ -14,6 +14,11 @@ namespace Acr.Notifications
         public string Title { get; set; } = DefaultTitle;
         public string Message { get; set; } = DefaultSound;
         public string Sound { get; set; }
+
+
+        /// <summary>
+        /// Only works with Androi
+        /// </summary>
         public bool Vibrate { get; set; }
 
         public TimeSpan? When { get; set; }
@@ -37,6 +42,13 @@ namespace Acr.Notifications
         public Notification SetSound(string sound)
         {
             this.Sound = sound;
+            return this;
+        }
+
+
+        public Notification SetVibrate(bool enabled)
+        {
+            this.Vibrate = enabled;
             return this;
         }
 

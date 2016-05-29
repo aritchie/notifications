@@ -22,15 +22,17 @@ namespace Samples
                 {
                     VerticalOptions = LayoutOptions.Center,
                     Children = {
-                        new Button {
+                        new Button
+                        {
                             Text = "Set Badge",
-                            Command = new Command(() => Notifications.Instance.Badge = 1)
+                            Command = new Command(() => Notifications.Instance.Badge = 99)
                         },
                         new Button {
                             Text = "Press This & Exit App within 10 seconds",
                             Command = new Command(() =>
                                 Notifications.Instance.Send(new Notification()
                                     .SetMessage("Hello from the ACR Sample Notification App")
+                                    .SetVibrate(true)
                                     .SetSchedule(TimeSpan.FromSeconds(10))
                                 )
                             )

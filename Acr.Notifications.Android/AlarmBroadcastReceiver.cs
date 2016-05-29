@@ -9,12 +9,11 @@ namespace Acr.Notifications
     [IntentFilter(new[] { Intent.ActionBootCompleted }, Priority = Int32.MaxValue)]
     public class AlarmBroadcastReceiver : BroadcastReceiver
     {
-
         public override void OnReceive(Context context, Intent intent)
         {
             var notification = intent.ToNotification();
             var notificationId = intent.NotificationId();
-            NotificationIdManager.Instance.RemoveScheduledId(notificationId);
+            NotificationSettings.Instance.RemoveScheduledId(notificationId);
 
             // resend without schedule so it goes through normal mechanism
             notification.When = null;
