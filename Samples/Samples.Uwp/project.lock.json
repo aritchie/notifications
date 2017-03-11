@@ -16308,14 +16308,14 @@
       "frameworks": {
         "uap10.0": {
           "projectReferences": {
-            "C:\\dev\\acr\\notifications\\Samples\\Samples\\Samples.csproj": {
-              "projectPath": "C:\\dev\\acr\\notifications\\Samples\\Samples\\Samples.csproj"
-            },
             "C:\\dev\\acr\\notifications\\Acr.Notifications.Interface\\Acr.Notifications.Interface.csproj": {
               "projectPath": "C:\\dev\\acr\\notifications\\Acr.Notifications.Interface\\Acr.Notifications.Interface.csproj"
             },
             "C:\\dev\\acr\\notifications\\Acr.Notifications.Uwp\\Acr.Notifications.Uwp.csproj": {
               "projectPath": "C:\\dev\\acr\\notifications\\Acr.Notifications.Uwp\\Acr.Notifications.Uwp.csproj"
+            },
+            "C:\\dev\\acr\\notifications\\Samples\\Samples\\Samples.csproj": {
+              "projectPath": "C:\\dev\\acr\\notifications\\Samples\\Samples\\Samples.csproj"
             }
           }
         }
@@ -16323,7 +16323,7 @@
     },
     "dependencies": {
       "Acr.Settings": "5.1.1",
-      "Xamarin.Forms": "[2.3.3.193, )"
+      "Xamarin.Forms": "2.3.3.193"
     },
     "frameworks": {
       "uap10.0": {}
