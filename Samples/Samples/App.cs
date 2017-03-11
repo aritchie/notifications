@@ -26,18 +26,18 @@ namespace Samples
                         new Button
                         {
                             Text = "Set Badge",
-                            Command = new Command(() => Notifications.Instance.Badge = new Random().Next(100))
+                            Command = new Command(() => CrossNotifications.Current.Badge = new Random().Next(100))
                         },
                         new Button
                         {
                             Text = "Clear Badge",
-                            Command = new Command(() => Notifications.Instance.Badge = 0)
+                            Command = new Command(() => CrossNotifications.Current.Badge = 0)
                         },
                         new Button
                         {
                             Text = "Press This & Exit App within 10 seconds",
                             Command = new Command(() =>
-                                Notifications.Instance.Send(new Notification()
+                                CrossNotifications.Current.Send(new Notification()
                                     .SetMessage("Hello from the ACR Sample Notification App")
                                     .SetVibrate(true)
                                     .SetSchedule(TimeSpan.FromSeconds(10))
@@ -49,11 +49,11 @@ namespace Samples
                             Text = "Multiple Timed Messages (10 messages x 5 seconds apart)",
                             Command = new Command(() =>
                             {
-                                Notifications.Instance.Send("Samples", "Starting Sample Schedule Notifications");
+                                CrossNotifications.Current.Send("Samples", "Starting Sample Schedule Notifications");
                                 for (var i = 1; i < 11; i++)
                                 {
                                     var seconds = i * 5;
-                                    var id = Notifications.Instance.Send(new Notification()
+                                    var id = CrossNotifications.Current.Send(new Notification()
                                         .SetMessage($"Message {i}")
                                         .SetSchedule(TimeSpan.FromSeconds(seconds))
                                     );
@@ -64,12 +64,12 @@ namespace Samples
                         new Button
                         {
                             Text = "Cancel All Notifications",
-                            Command = new Command(Notifications.Instance.CancelAll)
+                            Command = new Command(CrossNotifications.Current.CancelAll)
                         },
                         new Button
                         {
                             Text = "Vibrate",
-                            Command = new Command(() => Notifications.Instance.Vibrate())
+                            Command = new Command(() => CrossNotifications.Current.Vibrate())
                         }
                     }
                 }
