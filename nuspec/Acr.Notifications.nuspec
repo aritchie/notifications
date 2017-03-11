@@ -78,15 +78,6 @@ Initial Release
         <!-- ios -->
         <file src="..\Acr.Notifications.iOS\bin\iPhone\Release\Acr.Notifications.*" target="lib\Xamarin.iOS10\" />
 
-        <!--wp81 sl-->
-        <file src="..\Acr.Notifications.WindowsPhone\bin\Release\Acr.Notifications.*" target="lib\wp81\" />
-
-        <!-- wp81 -->
-        <file src="..\Acr.Notifications.Windows\bin\Release\Acr.Notifications.*" target="lib\wpa81\" />
-
-        <!-- win -->
-        <file src="..\Acr.Notifications.Windows\bin\Release\Acr.Notifications.*" target="lib\win8\" />
-
         <!-- uwp -->
         <file src="..\Acr.Notifications.Uwp\bin\Release\Acr.Notifications.*" target="lib\uap10\" />
     </files>
