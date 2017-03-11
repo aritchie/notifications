@@ -17,7 +17,7 @@ namespace Acr.Notifications
 
 
         /// <summary>
-        /// Only works with Androi
+        /// Only works with Android
         /// </summary>
         public bool Vibrate { get; set; }
 
