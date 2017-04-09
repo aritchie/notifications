@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>Acr.Notifications</id>
-        <version>3.0.0</version>
+        <version>3.1.0</version>
         <title>ACR Notifications Plugin for Xamarin and Windows</title>
         <description>Local Notifications, Scheduled Notifications, Badges, and Vibration for Xamarin and Windows</description>
         <authors>Allan Ritchie</authors>
@@ -13,13 +13,16 @@
         <tags>notifications windows xamarin xam.pcl</tags>
         <dependencies>
             <group targetFramework="MonoAndroid">
-                <dependency id="Acr.Settings" version="[5.1, 6)" />
-                <dependency id="Newtonsoft.Json" version="[8, 11)" />
+                <dependency id="Acr.Settings" version="[6, 7)" />
+                <dependency id="Newtonsoft.Json" version="[10, 11)" />
                 <dependency id="Xamarin.Android.ShortcutBadger" version="[1.1.809, 2)" />
-                <dependency id="Xamarin.Android.Support.v4" version="[23.0.1.3, 24)" />
+                <dependency id="Xamarin.Android.Support.v4" version="[23.0.1.3, 26)" />
             </group>
         </dependencies>
         <releaseNotes>
+3.1
+nuget package updates
+
 3.0
 [fix][uwp] scheduled notifications with id are fixed
 [breaking] Notifications.Instance is now CrossNotifications.Current

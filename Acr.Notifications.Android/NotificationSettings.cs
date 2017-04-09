@@ -8,7 +8,7 @@ namespace Acr.Notifications
     class NotificationSettings : INotifyPropertyChanged
     {
         static readonly Lazy<NotificationSettings> instance = new Lazy<NotificationSettings>(
-            () => Settings.Settings.Local.Bind<NotificationSettings>()
+            () => Settings.Settings.Current.Bind<NotificationSettings>()
         );
         public static NotificationSettings Instance => instance.Value;
         readonly object syncLock = new object();
@@ -33,8 +33,8 @@ namespace Acr.Notifications
                 id = this.CurrentScheduleId++;
             }
             this.ScheduleIds.Add(this.CurrentScheduleId);
-            this.OnPropertyChanged("CurrentScheduleId");
-            this.OnPropertyChanged("ScheduleIds");
+            this.OnPropertyChanged(nameof(CurrentScheduleId));
+            this.OnPropertyChanged(nameof(ScheduleIds));
             return id;
         }
 
@@ -42,22 +42,20 @@ namespace Acr.Notifications
         public void RemoveScheduledId(int id)
         {
             if (this.ScheduleIds.Remove(id))
-                this.OnPropertyChanged("ScheduleIds");
+                this.OnPropertyChanged(nameof(ScheduleIds));
         }
 
 
         public void ClearScheduled()
         {
             this.ScheduleIds.Clear();
-            this.OnPropertyChanged("ScheduleIds");
+            this.OnPropertyChanged(nameof(ScheduleIds));
         }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+            => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
