@@ -41,12 +41,13 @@ namespace Acr.Notifications
         const string CFG_KEY = "acr.notifications";
         string GetMessageId()
         {
-            var id = 1;
+            var id = 0;
             var s = ApplicationData.Current.LocalSettings.Values;
             if (s.ContainsKey(CFG_KEY))
             {
                 id = Int32.Parse((string)s[CFG_KEY]);
             }
+            id++;
             s[CFG_KEY] = id.ToString();
             return id.ToString();
         }

@@ -20,6 +20,9 @@
             </group>
         </dependencies>
         <releaseNotes>
+3.1.1
+[fix][uwp] issue with notification id not incrementing
+
 3.1
 nuget package updates
 
