@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acr.Notifications", "Acr.Notifications\Acr.Notifications.csproj", "{2E1A77BA-4C48-42F8-8B5A-3B0FA90705AA}"
 EndProject
@@ -20,7 +20,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{70BDA3FF-41F7-491C-A23D-2FD65CE1CDA0}"
 	ProjectSection(SolutionItems) = preProject
 		nuspec\Acr.Notifications.nuspec = nuspec\Acr.Notifications.nuspec
-		license.txt = license.txt
+		ISSUE_TEMPLATE = ISSUE_TEMPLATE
+		LICENSE.md = LICENSE.md
 		nuspec\nuget.exe = nuspec\nuget.exe
 		nuspec\pack.cmd = nuspec\pack.cmd
 		nuspec\push.cmd = nuspec\push.cmd

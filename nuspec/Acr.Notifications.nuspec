@@ -7,7 +7,7 @@
         <description>Local Notifications, Scheduled Notifications, Badges, and Vibration for Xamarin and Windows</description>
         <authors>Allan Ritchie</authors>
         <owners>Allan Ritchie</owners>
-        <licenseUrl>https://github.com/aritchie/notifications/blob/master/license.txt</licenseUrl>
+        <licenseUrl>https://github.com/aritchie/notifications/blob/master/LICENSE.md</licenseUrl>
         <projectUrl>https://github.com/aritchie/notifications</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <tags>notifications windows xamarin xam.pcl</tags>
