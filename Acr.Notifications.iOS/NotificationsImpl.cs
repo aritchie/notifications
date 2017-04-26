@@ -37,7 +37,7 @@ namespace Acr.Notifications
             var not = new UILocalNotification
             {
                 FireDate = (NSDate)notification.SendTime,
-                AlertAction = notification.Title,
+                AlertTitle = notification.Title,
                 AlertBody = notification.Message,
                 SoundName = notification.Sound,
                 UserInfo = userInfo
