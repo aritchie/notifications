@@ -3,6 +3,7 @@ using System.Linq;
 using AudioToolbox;
 using Foundation;
 using UIKit;
+using UserNotifications;
 
 
 namespace Acr.Notifications
@@ -23,8 +24,8 @@ namespace Acr.Notifications
 
         public override int Badge
         {
-            get { return (int)UIApplication.SharedApplication.ApplicationIconBadgeNumber; }
-            set { UIApplication.SharedApplication.ApplicationIconBadgeNumber = value; }
+            get => (int)UIApplication.SharedApplication.ApplicationIconBadgeNumber;
+            set => UIApplication.SharedApplication.ApplicationIconBadgeNumber = value;
         }
 
 
@@ -34,10 +35,36 @@ namespace Acr.Notifications
             var userInfo = new NSMutableDictionary();
             userInfo.Add(new NSString("MessageID"), new NSString(msgId));
 
+            //UNUserNotificationCenter.Current.RequestAuthorization (UNAuthorizationOptions.Alert, (approved, err) => {
+            //    // Handle approval
+            //});
+            //https://developer.xamarin.com/guides/ios/platform_features/introduction-to-ios10/user-notifications/enhanced-user-notifications/#About-Local-Notifications
+            //UNUserNotificationCenter.Current.RemoveAllPendingNotificationRequests();
+            //UNUserNotificationCenter.Current.RemoveAllDeliveredNotifications();
+            //UNUserNotificationCenter.Current.GetNotificationSettings(settings => {});
+            //var request = new UNMutableNotificationContent();
+            //request.ThreadIdentifier = "";
+            //request.Title = "";
+            //request.Badge = 0;
+            //request.Sound = UNNotificationSound.Default;
+            ////request.UserInfo = userInfo;
+            ////request.Subtitle = "";
+            //var trigger =  UNTimeIntervalNotificationTrigger.CreateTrigger (5, false);
+
+            //var requestID = "sampleRequest";
+            //var request = UNNotificationRequest.FromIdentifier (requestID, content, trigger);
+
+            //UNUserNotificationCenter.Current.AddNotificationRequest (request, (err) => {
+            //    if (err != null) {
+            //        // Do something with error...
+            //    }
+            //});
+
+
             var not = new UILocalNotification
             {
                 FireDate = (NSDate)notification.SendTime,
-                AlertAction = notification.Title,
+                AlertTitle = notification.Title,
                 AlertBody = notification.Message,
                 SoundName = notification.Sound,
                 UserInfo = userInfo
