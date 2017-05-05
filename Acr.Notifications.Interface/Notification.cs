@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 
 namespace Acr.Notifications
@@ -23,6 +25,8 @@ namespace Acr.Notifications
 
         public TimeSpan? When { get; set; }
         public DateTime? Date { get; set; }
+        public IDictionary<string, string> Metadata { get; set; } = new Dictionary<string, string>();
+
 
 
         public Notification SetTitle(string title)
@@ -66,6 +70,12 @@ namespace Acr.Notifications
             return this;
         }
 
+
+        public Notification SetMetadata(string key, string value)
+        {
+            this.Metadata.Add(key, value);
+            return this;
+        }
 
         public bool IsScheduled => this.Date != null || this.When != null;
 
