@@ -1,21 +1,31 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 
-namespace Acr.Notifications {
+namespace Acr.Notifications
+{
 
-    public interface INotifications {
+    public interface INotifications
+    {
+        /// <summary>
+        /// This is required on iOS to trigger permission request
+        /// </summary>
+        Task<bool> RequestPermission();
+
 
         /// <summary>
         /// Cancel all scheduled notifications
         /// </summary>
-        void CancelAll();
+        Task CancelAll();
+
 
         /// <summary>
         /// Cancel a specific notification
         /// </summary>
         /// <param name="messageId"></param>
         /// <returns>Returns true if message found and cancelled successfully</returns>
-        bool Cancel(string messageId);
+        Task Cancel(string messageId);
+
 
         /// <summary>
         /// Send a notification
@@ -25,7 +35,7 @@ namespace Acr.Notifications {
         /// <param name="sound"></param>
         /// <param name="when"></param>
         /// <returns>The messageID that you can use to cancel with</returns>
-        string Send(string title, string message, string sound = null, TimeSpan? when = null);
+        Task Send(string title, string message, string sound = null, TimeSpan? when = null);
 
 
         /// <summary>

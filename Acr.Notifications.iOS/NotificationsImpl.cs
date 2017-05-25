@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using AudioToolbox;
 using Foundation;
 using UIKit;
@@ -11,14 +12,30 @@ namespace Acr.Notifications
 
     public class NotificationsImpl : AbstractNotificationsImpl
     {
-
-        public NotificationsImpl()
+        public override async Task<bool> RequestPermission()
         {
+            var result = false;
+
             if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
             {
-                var settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, null);
+                var settings = UIUserNotificationSettings.GetSettingsForTypes(
+                    UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
+                    null
+                );
                 UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+                result = true;
             }
+            else if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
+            {
+                var tcs = new TaskCompletionSource<bool>();
+
+                UNUserNotificationCenter.Current.RequestAuthorization(
+                    UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound,
+                    (approved, error) => tcs.TrySetResult(approved)
+                );
+                result = await tcs.Task;
+            }
+            return result;
         }
 
 
@@ -69,7 +86,9 @@ namespace Acr.Notifications
                 SoundName = notification.Sound,
                 UserInfo = userInfo
             };
-            UIApplication.SharedApplication.ScheduleLocalNotification(not);
+            UIApplication.SharedApplication.InvokeOnMainThread(() =>
+                UIApplication.SharedApplication.ScheduleLocalNotification(not)
+            );
             return msgId;
         }
 
@@ -86,7 +105,9 @@ namespace Acr.Notifications
             if (notification == null)
                 return false;
 
-            UIApplication.SharedApplication.CancelLocalNotification(notification);
+            UIApplication.SharedApplication.InvokeOnMainThread(() =>
+                UIApplication.SharedApplication.CancelLocalNotification(notification)
+            );
             return true;
         }
 
@@ -99,8 +120,6 @@ namespace Acr.Notifications
 
 
         public override void Vibrate(int ms)
-        {
-            SystemSound.Vibrate.PlaySystemSound();
-        }
+            => UIApplication.SharedApplication.InvokeOnMainThread(SystemSound.Vibrate.PlaySystemSound);
     }
 }
