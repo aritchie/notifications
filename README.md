@@ -13,8 +13,6 @@ Plugin for Easy Cross Platform notifications
 * Sounds
 * Read all Scheduled Notifications
 * Badges
-  * iOS
-  * Android
 
 
 ## Supported OS
@@ -25,37 +23,39 @@ Plugin for Easy Cross Platform notifications
 
 ### Installation
 
-Install the nuget package in your platform project as well as your shared library.
+Install the nuget package in your platform project as well as your netstandard library.
 
 
 ### Send a notification
 
 ```csharp
-CrossNotifications.Current.Send("My Title", "My message for the notification");
+await CrossNotifications.Current.Send("My Title", "My message for the notification");
 ```
 
 ### Send a scheduled notification:
 
 ```csharp
-CrossNotifications.Current.Send("Happy Birthday", "I sent this a long time ago", when = TimeSpan.FromDays(50));
+await CrossNotifications.Current.Send("Happy Birthday", "I sent this a long time ago", when = TimeSpan.FromDays(50));
 ```
 
 ### Cancel a specific notification
 ```csharp
-var id = CrossNotifications.Current.Send("Hi", "This is my scheduled notification", when = TimeSpan.FromDays(1));
-CrossNotifications.Current.Cancel(id);
+var id = await CrossNotifications.Current.Send("Hi", "This is my scheduled notification", when = TimeSpan.FromDays(1));
+await CrossNotifications.Current.Cancel(id);
 ```
 
 ### Cancel all scheduled notifications and clear badge:
 
-[warning] This will not cancel future scheduled notifications on Android.  Keep the notification IDs and cancel one-by-one
 ```csharp
 CrossNotifications.Current.CancelAll();
 ```
 
-### To set a badge (excluding android):
+### To set a badge:
+
+Setting badges works on all platforms, though only select flavours of Android.  A 3rd party library is used to accomplish this.
+
 ```csharp
-CrossNotifications.Current.Badge = 4; // TODO: 0 clears badge
+await CrossNotifications.Current.SetBadge(4); // 0 clears badge
 ```
 
 
@@ -74,3 +74,8 @@ _In the notification.Sound property - set only the filename without the extensio
 * Supports aac, flac, m4a, mp3, wav, & wma file formats
 * For desktop v1511, custom audio will not work.  The plugin will ignore the sound config if it sees this.
 * Read the following article for more info: https://blogs.msdn.microsoft.com/tiles_and_toasts/2016/06/18/quickstart-sending-a-toast-notification-with-custom-audio/
+
+
+### FAQ
+* Why are most methods async now?
+* _iOS requires all UI based commands run on the UI thread.  Notifications are part of UIKit and thus have this requirement.  With all of my plugins, I try to manage the thread marshalling for you_
