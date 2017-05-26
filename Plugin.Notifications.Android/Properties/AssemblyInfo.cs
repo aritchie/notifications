@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
 
-
-[assembly: AssemblyTitle("Plugin.Notifications.macOS")]
+[assembly: AssemblyTitle("Plugin.Notifications.Android")]
 [assembly: AssemblyDescription("")]

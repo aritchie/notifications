@@ -39,17 +39,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Acr.Notifications.Interface\Acr.Notifications.Interface.csproj">
-      <Project>{ca226892-76a6-4101-a82c-babbd9773953}</Project>
-      <Name>Acr.Notifications.Interface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Acr.Notifications\Acr.Notifications.csproj">
-      <Project>{2e1a77ba-4c48-42f8-8b5a-3b0fa90705aa}</Project>
-      <Name>Acr.Notifications</Name>
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xamarin.Forms.2.3.3.193\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Core.dll</HintPath>
     </Reference>
