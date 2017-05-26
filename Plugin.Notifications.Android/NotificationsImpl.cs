@@ -40,6 +40,9 @@ namespace Plugin.Notifications
                 return id.ToString();
             }
 
+            //Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            //Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+ "://" + getPackageName() + "/raw/kalimba");
+
             var launchIntent = Application.Context.PackageManager.GetLaunchIntentForPackage(Application.Context.PackageName);
             launchIntent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
 

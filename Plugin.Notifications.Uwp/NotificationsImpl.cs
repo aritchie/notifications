@@ -139,3 +139,46 @@ namespace Plugin.Notifications
                 .Vibrate(TimeSpan.FromMilliseconds(ms));
     }
 }
+/*
+* Supports aac, flac, m4a, mp3, wav, & wma file formats
+//https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/tiles-and-notifications-badges
+
+using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.UI.Notifications;
+
+
+ToastContent toastContent = new ToastContent()
+{
+    Visual = new ToastVisual()
+    {
+        ... (omitted)
+    }
+};
+
+
+bool supportsCustomAudio = true;
+
+// If we're running on Desktop before Version 1511, do NOT include custom audio
+// since it was not supported until Version 1511, and would result in a silent toast.
+if (AnalyticsInfo.VersionInfo.DeviceFamily.Equals("Windows.Desktop")
+    && !ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 2))
+{
+    supportsCustomAudio = false;
+}
+
+if (supportsCustomAudio)
+{
+    toastContent.Audio = new ToastAudio()
+    {
+        Src = new Uri("ms-appx:///Assets/Audio/CustomToastAudio.m4a")
+    };
+}
+
+
+
+// Create the Toast notification from the previous Toast content
+ToastNotification notification = new ToastNotification(toastContent.GetXml());
+
+// And then send the Toast
+ToastNotificationManager.CreateToastNotifier().Show(notification);
+     */
