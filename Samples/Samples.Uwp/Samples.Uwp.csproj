@@ -126,9 +126,17 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Samples\Samples.csproj">
-      <Project>{01553d0e-1ba0-40a4-a759-ade7068a126d}</Project>
-      <Name>Samples</Name>
+    <ProjectReference Include="..\..\Plugin.Notifications.Abstractions\Plugin.Notifications.Abstractions.csproj">
+      <Project>{1ed7f929-0eaa-44f2-8b08-38414080e3e3}</Project>
+      <Name>Plugin.Notifications.Abstractions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Plugin.Notifications.Uwp\Plugin.Notifications.Uwp.csproj">
+      <Project>{c78af30b-065c-4ba7-bd6d-1f63004115a0}</Project>
+      <Name>Plugin.Notifications.Uwp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samples.Core\Samples.Core.csproj">
+      <Project>{86ced844-9019-4af5-9467-252a106551d1}</Project>
+      <Name>Samples.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

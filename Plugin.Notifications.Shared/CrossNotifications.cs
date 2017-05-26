@@ -9,15 +9,17 @@ namespace Plugin.Notifications
         static INotifications current;
         public static INotifications Current
         {
-            get {
-#if PCL
-                throw new ArgumentException("Platform implementation not found.  Did you reference the nuget package in your main project as well?");
+            get
+            {
+#if BAIT
+                if (current == null)
+                    throw new ArgumentException("[Plugin.Notifications] Platform implementation not found.  Did you reference the nuget package in your main project as well?");
 #else
                 current = current ?? new NotificationsImpl();
-                return current;
 #endif
+                return current;
             }
-            set { current = value; }
+            set => current = value;
         }
     }
 }

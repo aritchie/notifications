@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
 using Windows.Storage;
 using Windows.UI.Notifications;
@@ -53,7 +54,7 @@ namespace Plugin.Notifications
         }
 
 
-        public override string Send(Notification notification)
+        public override Task Send(Notification notification)
         {
             var id = this.GetMessageId();
 
@@ -78,51 +79,54 @@ namespace Plugin.Notifications
                 };
                 this.toastNotifier.AddToSchedule(schedule);
             }
-            return id;
+            //return id;
+            return Task.CompletedTask;
         }
 
 
-        public override int Badge
-        {
-            get { return 0; }
-            set
-            {
-                if (value == 0)
-                {
-                    this.badgeUpdater.Clear();
-                }
-                else
-                {
-                    this.badgeEl.SetAttribute("value", value.ToString());
-                    this.badgeUpdater.Update(new BadgeNotification(this.badgeXml));
-                }
-            }
-        }
+        //public override int Badge
+        //{
+        //    get { return 0; }
+        //    set
+        //    {
+        //        if (value == 0)
+        //        {
+        //            this.badgeUpdater.Clear();
+        //        }
+        //        else
+        //        {
+        //            this.badgeEl.SetAttribute("value", value.ToString());
+        //            this.badgeUpdater.Update(new BadgeNotification(this.badgeXml));
+        //        }
+        //    }
+        //}
 
 
-        public override bool Cancel(string id)
+        public override Task<bool> Cancel(string id)
         {
             var notification = this.toastNotifier
                 .GetScheduledToastNotifications()
                 .FirstOrDefault(x => x.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
 
             if (notification == null)
-                return false;
+                return Task.FromResult(false);
 
             this.toastNotifier.RemoveFromSchedule(notification);
-            return true;
+            return Task.FromResult(true);
         }
 
 
-        public override void CancelAll()
+        public override Task CancelAll()
         {
-            this.Badge = 0;
+            //this.Badge = 0;
             var list = this.toastNotifier
                 .GetScheduledToastNotifications()
                 .ToList();
 
             foreach (var item in list)
                 this.toastNotifier.RemoveFromSchedule(item);
+
+            return Task.CompletedTask;
         }
 
 

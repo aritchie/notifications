@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="2.3.5.239-pre3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Plugin.Notifications.Abstractions\Plugin.Notifications.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Plugin.Notifications\Plugin.Notifications.csproj" />
+  </ItemGroup>
+
+</Project>
