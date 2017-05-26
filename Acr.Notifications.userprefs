@@ -1,0 +1,10 @@
+﻿<Properties StartupConfiguration="{54D7E939-80C8-4B17-95BE-00A246B4877E}|Default">
+  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.Acr.Notifications.Android PreferredExecutionTarget="Android.Android_7.1" />
+</Properties>
