@@ -140,7 +140,8 @@ namespace Plugin.Notifications
     }
 }
 /*
-* Supports aac, flac, m4a, mp3, wav, & wma file formats
+
+// custom glyphs?
 //https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/tiles-and-notifications-badges
 
 using Microsoft.Toolkit.Uwp.Notifications;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AudioToolbox;
@@ -39,14 +40,30 @@ namespace Plugin.Notifications
         }
 
 
-        public override int Badge
+        public override Task<IEnumerable<Notification>> GetScheduledNotifications()
         {
-            get => (int)UIApplication.SharedApplication.ApplicationIconBadgeNumber;
-            set => UIApplication.SharedApplication.ApplicationIconBadgeNumber = value;
+            throw new NotImplementedException();
         }
 
 
-        public override string Send(Notification notification)
+        public override Task<int> GetBadge()
+        {
+            return base.GetBadge();
+        }
+
+
+        public override Task SetBadge(int value)
+        {
+            return base.SetBadge(value);
+        }
+        //public override int Badge
+        //{
+        //    get => (int)UIApplication.SharedApplication.ApplicationIconBadgeNumber;
+        //    set => UIApplication.SharedApplication.ApplicationIconBadgeNumber = value;
+        //}
+
+
+        public override Task<string> Send(Notification notification)
         {
             var msgId = Guid.NewGuid().ToString();
             var userInfo = new NSMutableDictionary();
@@ -80,7 +97,7 @@ namespace Plugin.Notifications
 
             var not = new UILocalNotification
             {
-                FireDate = (NSDate)notification.SendTime,
+                FireDate = notification.SendTime.ToNSDate(),
                 AlertTitle = notification.Title,
                 AlertBody = notification.Message,
                 SoundName = notification.Sound,
@@ -93,7 +110,7 @@ namespace Plugin.Notifications
         }
 
 
-        public override bool Cancel(string messageId)
+        public override Task<bool> Cancel(string messageId)
         {
             var key = new NSString("MessageID");
             var keyValue = new NSString(messageId);

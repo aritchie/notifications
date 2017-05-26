@@ -5,7 +5,7 @@
 * [breaking] Most methods are now async to deal with iOS' need to have notifications run on the main thread
 * [feature] package is now NET standard 1.0 compliant
 * [feature] sound manage is 100x easier now.  explained in readme
-* [feature] UWP now supports badges!
+* [feature] Repeat intervals
 
 ## 3.1.2
 * [fix][ios] alert title not set properly

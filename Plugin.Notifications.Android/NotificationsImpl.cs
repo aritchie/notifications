@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Support.V4.App;
 using Java.IO;
+using Console = System.Console;
 
 
 namespace Plugin.Notifications
@@ -57,6 +60,7 @@ namespace Plugin.Notifications
                     .AddNextIntent(launchIntent)
                     .GetPendingIntent(id, (int)PendingIntentFlags.OneShot)
                 );
+            //var pending = PendingIntent.GetBroadcast(Application.Context, id, intent, PendingIntentFlags.UpdateCurrent);
 
             if (notification.Vibrate)
             {
@@ -103,18 +107,33 @@ namespace Plugin.Notifications
         }
 
 
-        //public override int Badge
-        //{
-        //    get { return NotificationSettings.Instance.CurrentBadge; }
-        //    set
-        //    {
-        //        NotificationSettings.Instance.CurrentBadge = value;
-        //        if (value <= 0)
-        //            ME.Leolin.Shortcutbadger.ShortcutBadger.RemoveCount(Application.Context);
-        //        else
-        //            ME.Leolin.Shortcutbadger.ShortcutBadger.ApplyCount(Application.Context, value);
-        //    }
-        //}
+        public override Task<IEnumerable<Notification>> GetScheduledNotifications()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public override Task<int> GetBadge() => Task.FromResult(NotificationSettings.Instance.CurrentBadge);
+
+        public override Task SetBadge(int value)
+        {
+            try
+            {
+                NotificationSettings.Instance.CurrentBadge = value;
+                if (value <= 0)
+                {
+                    ME.Leolin.Shortcutbadger.ShortcutBadger.RemoveCount(Application.Context);
+                }
+                else
+                {
+                    ME.Leolin.Shortcutbadger.ShortcutBadger.ApplyCount(Application.Context, value);
+                }
+            }
+            catch
+            {
+            }
+            return Task.CompletedTask;
+        }
 
 
         public override void Vibrate(int ms)

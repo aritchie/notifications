@@ -42,5 +42,12 @@ namespace Plugin.Notifications
                 return dt;
             }
         }
+
+        /*
+         * TODO: Repeat Intervals
+if (notification.Interval != NotificationInterval.None) {
+				not.RepeatInterval = notification.Interval == NotificationInterval.Weekly ? NSCalendarUnit.Week : NSCalendarUnit.Day;
+			}
+         */
     }
 }
