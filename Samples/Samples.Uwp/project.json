@@ -1,6 +1,5 @@
 ﻿{
   "dependencies": {
-    "Acr.Settings": "5.1.1",
     "Xamarin.Forms": "2.3.5.239-pre3"
   },
   "frameworks": {
