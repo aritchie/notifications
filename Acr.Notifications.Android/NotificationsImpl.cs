@@ -69,8 +69,7 @@ namespace Acr.Notifications
 
             if (notification.Sound != null)
             {
-                var file = new File(notification.Sound);
-                var uri = Android.Net.Uri.FromFile(file);
+                var uri = Android.Net.Uri.Parse(notification.Sound);
                 builder.SetSound(uri);
             }
             var not = builder.Build();

@@ -23,6 +23,7 @@
 3.2.0
 [feature] full metadata can now be added to a notification via Notification.SetMetadata (UWP scheduled message currently wont allow this)
 [fix][android] default sound was not set on the notification properly
+[fix][android] URI is now parsed instead of assuming a file location
 
 3.1.2
 [fix][ios] alert title not set properly
