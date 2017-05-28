@@ -68,6 +68,12 @@ namespace Acr.Notifications
             if (notification.Date == null && notification.When == null)
             {
                 var toast = new ToastNotification(xml);
+
+                if (notification.Metadata.Count > 0)
+                {
+                    foreach (var pair in notification.Metadata)
+                        toast.Data.Values.Add(pair.Key, pair.Value);
+                }
                 this.toastNotifier.Show(toast);
             }
             else

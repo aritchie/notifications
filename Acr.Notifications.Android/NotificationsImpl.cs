@@ -1,4 +1,7 @@
 using System;
+using System.Collections;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -55,6 +58,10 @@ namespace Acr.Notifications
                     .GetPendingIntent(id, (int)PendingIntentFlags.OneShot)
                 );
 
+            foreach (var pair in notification.Metadata)
+            {
+                builder.Extras.PutString(pair.Key, pair.Value);
+            }
             if (notification.Vibrate)
             {
                 builder.SetVibrate(new long[] { 500, 500 });

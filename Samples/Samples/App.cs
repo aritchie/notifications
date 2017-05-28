@@ -40,6 +40,7 @@ namespace Samples
                                 CrossNotifications.Current.Send(new Notification()
                                     .SetMessage("Hello from the ACR Sample Notification App")
                                     .SetVibrate(true)
+                                    .SetMetadata("test", "test")
                                     .SetSchedule(TimeSpan.FromSeconds(10))
                                 )
                             )
@@ -55,6 +56,7 @@ namespace Samples
                                     var seconds = i * 5;
                                     var id = CrossNotifications.Current.Send(new Notification()
                                         .SetMessage($"Message {i}")
+                                        .SetMetadata("multi", "multi")
                                         .SetSchedule(TimeSpan.FromSeconds(seconds))
                                     );
                                     Debug.WriteLine($"Notification ID: {id}");

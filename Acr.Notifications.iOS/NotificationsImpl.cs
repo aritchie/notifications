@@ -34,6 +34,8 @@ namespace Acr.Notifications
             var msgId = Guid.NewGuid().ToString();
             var userInfo = new NSMutableDictionary();
             userInfo.Add(new NSString("MessageID"), new NSString(msgId));
+            foreach (var pair in notification.Metadata)
+                userInfo.Add(new NSString(pair.Key), new NSString(pair.Value));
 
             //UNUserNotificationCenter.Current.RequestAuthorization (UNAuthorizationOptions.Alert, (approved, err) => {
             //    // Handle approval
