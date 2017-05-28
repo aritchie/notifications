@@ -12,8 +12,8 @@ namespace Acr.Notifications
 
 
         public string Title { get; set; } = DefaultTitle;
-        public string Message { get; set; } = DefaultSound;
-        public string Sound { get; set; }
+        public string Message { get; set; }
+        public string Sound { get; set; } = DefaultSound;
 
 
         /// <summary>

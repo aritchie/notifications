@@ -39,14 +39,34 @@ var id = CrossNotifications.Current.Send("Hi", "This is my scheduled notificatio
 CrossNotifications.Current.Cancel(id);
 ```
 
-###Cancel all scheduled notifications and clear badge:
+### Cancel all scheduled notifications and clear badge:
 
 [warning] This will not cancel future scheduled notifications on Android.  Keep the notification IDs and cancel one-by-one
 ```csharp
 CrossNotifications.Current.CancelAll();
 ```
 
-###To set a badge (excluding android):
+### To set a badge:
+Badges work on iOS and Windows, but only certain flavours of Android.  Please take a Xamarin.ShortcutBadger for more info.
 ```csharp
 CrossNotifications.Current.Badge = 4; // TODO: 0 clears badge
 ```
+
+
+### Sounds
+
+This library only forwards a path through to the native API.  These paths will
+be vastly different between platforms
+
+You can set a default sound:
+```csharp
+Notification.DefaultSound = "path";
+```
+
+#### Android
+The path will be something like android.resource://<YOUR PACKAGE NAME>/raw/<your file without the extension>";
+Make sure the file is set as an AndroidResource in its file properties.
+
+#### iOS
+You must simply add a caf sound to the app bundle and call it with 
+notification.Sound = "soundname.caf";
