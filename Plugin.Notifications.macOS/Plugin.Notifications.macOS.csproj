@@ -66,6 +66,11 @@
       <Name>Plugin.Notifications.Abstractions</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NETStandard.Library">
+      <Version>1.6.1</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="..\Plugin.Notifications.Shared\Plugin.Notifications.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
 </Project>

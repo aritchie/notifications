@@ -7,7 +7,6 @@ using Android.Content;
 using Android.OS;
 using Android.Support.V4.App;
 using Java.IO;
-using Console = System.Console;
 
 
 namespace Plugin.Notifications
@@ -15,12 +14,16 @@ namespace Plugin.Notifications
     public class NotificationsImpl : AbstractNotificationsImpl
     {
         readonly AlarmManager alarmManager;
-        public int AppIconResourceId { get; set; }
+        public static int AppIconResourceId { get; set; }
 
+
+        static NotificationsImpl()
+        {
+            AppIconResourceId = Application.Context.Resources.GetIdentifier("icon", "drawable", Application.Context.PackageName);
+        }
 
         public NotificationsImpl()
         {
-            this.AppIconResourceId = Application.Context.Resources.GetIdentifier("icon", "drawable", Application.Context.PackageName);
             this.alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
         }
 
@@ -54,14 +57,17 @@ namespace Plugin.Notifications
                 .SetAutoCancel(true)
                 .SetContentTitle(notification.Title)
                 .SetContentText(notification.Message)
-                .SetSmallIcon(this.AppIconResourceId)
+                .SetSmallIcon(AppIconResourceId)
                 .SetContentIntent(TaskStackBuilder
                     .Create(Application.Context)
                     .AddNextIntent(launchIntent)
                     .GetPendingIntent(id, (int)PendingIntentFlags.OneShot)
                 );
             //var pending = PendingIntent.GetBroadcast(Application.Context, id, intent, PendingIntentFlags.UpdateCurrent);
-
+            foreach (var pair in notification.Metadata)
+            {
+                builder.Extras.PutString(pair.Key, pair.Value);
+            }
             if (notification.Vibrate)
             {
                 builder.SetVibrate(new long[] { 500, 500 });
@@ -69,8 +75,7 @@ namespace Plugin.Notifications
 
             if (notification.Sound != null)
             {
-                var file = new File(notification.Sound);
-                var uri = Android.Net.Uri.FromFile(file);
+                var uri = Android.Net.Uri.Parse(notification.Sound);
                 builder.SetSound(uri);
             }
             var not = builder.Build();

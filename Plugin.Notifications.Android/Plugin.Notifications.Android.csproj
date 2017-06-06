@@ -43,13 +43,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AcrSqliteConnection.cs" />
     <Compile Include="AlarmBroadcastReceiver.cs" />
+    <Compile Include="DbNotification.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="NotificationSettings.cs" />
     <Compile Include="NotificationsImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="NETStandard.Library">
+      <Version>1.6.1</Version>
+    </PackageReference>
+    <PackageReference Include="sqlite-net-pcl">
+      <Version>1.3.3</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Android.ShortcutBadger">
       <Version>1.1.809</Version>
     </PackageReference>

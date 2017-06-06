@@ -250,6 +250,15 @@
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
       },
+      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        }
+      },
       "Microsoft.VisualBasic/10.0.1": {
         "type": "package",
         "dependencies": {
@@ -2399,7 +2408,9 @@
         "type": "project",
         "framework": "Unsupported,Version=v0.0",
         "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.3"
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.3",
+          "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
+          "NETStandard.Library": "1.6.1"
         }
       },
       "Samples.Core/1.0.0": {
@@ -2608,6 +2619,15 @@
       },
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
+      },
+      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        }
       },
       "Microsoft.VisualBasic/10.0.1": {
         "type": "package",
@@ -4841,7 +4861,9 @@
         "type": "project",
         "framework": "Unsupported,Version=v0.0",
         "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.3"
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.3",
+          "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
+          "NETStandard.Library": "1.6.1"
         }
       },
       "Samples.Core/1.0.0": {
@@ -5051,6 +5073,15 @@
       },
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
+      },
+      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        }
       },
       "Microsoft.VisualBasic/10.0.1": {
         "type": "package",
@@ -7322,7 +7353,9 @@
         "type": "project",
         "framework": "Unsupported,Version=v0.0",
         "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.3"
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.3",
+          "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
+          "NETStandard.Library": "1.6.1"
         }
       },
       "Samples.Core/1.0.0": {
@@ -7534,6 +7567,15 @@
       },
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
+      },
+      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        }
       },
       "Microsoft.VisualBasic/10.0.1": {
         "type": "package",
@@ -9773,7 +9815,9 @@
         "type": "project",
         "framework": "Unsupported,Version=v0.0",
         "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.3"
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.3",
+          "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
+          "NETStandard.Library": "1.6.1"
         }
       },
       "Samples.Core/1.0.0": {
@@ -9986,6 +10030,15 @@
       },
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
+      },
+      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        }
       },
       "Microsoft.VisualBasic/10.0.1": {
         "type": "package",
@@ -12263,7 +12316,9 @@
         "type": "project",
         "framework": "Unsupported,Version=v0.0",
         "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.3"
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.3",
+          "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
+          "NETStandard.Library": "1.6.1"
         }
       },
       "Samples.Core/1.0.0": {
@@ -12475,6 +12530,15 @@
       },
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
+      },
+      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        }
       },
       "Microsoft.VisualBasic/10.0.1": {
         "type": "package",
@@ -14714,7 +14778,9 @@
         "type": "project",
         "framework": "Unsupported,Version=v0.0",
         "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.3"
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.3",
+          "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
+          "NETStandard.Library": "1.6.1"
         }
       },
       "Samples.Core/1.0.0": {
@@ -14927,6 +14993,15 @@
       },
       "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
         "type": "package"
+      },
+      "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll": {}
+        }
       },
       "Microsoft.VisualBasic/10.0.1": {
         "type": "package",
@@ -17204,7 +17279,9 @@
         "type": "project",
         "framework": "Unsupported,Version=v0.0",
         "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.3"
+          "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.3",
+          "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
+          "NETStandard.Library": "1.6.1"
         }
       },
       "Samples.Core/1.0.0": {
@@ -17441,6 +17518,30 @@
         "microsoft.netcore.windows.apisets.1.0.1.nupkg.sha512",
         "microsoft.netcore.windows.apisets.nuspec",
         "runtime.json"
+      ]
+    },
+    "Microsoft.Toolkit.Uwp.Notifications/1.4.1": {
+      "sha512": "Xi32HrnQLgas2Tz4a/3LZGZvY+4KZnlQZQdPFkK0G3AfMHKDxnREI/QKUOyLK6zxr62uaCME18pyStu8ueP1FA==",
+      "type": "package",
+      "path": "microsoft.toolkit.uwp.notifications/1.4.1",
+      "files": [
+        "build/native/Microsoft.Toolkit.Uwp.Notifications.targets",
+        "lib/dotnet/Microsoft.Toolkit.Uwp.Notifications.dll",
+        "lib/dotnet/Microsoft.Toolkit.Uwp.Notifications.pdb",
+        "lib/dotnet/Microsoft.Toolkit.Uwp.Notifications.xml",
+        "lib/native/Microsoft.Toolkit.Uwp.Notifications.pdb",
+        "lib/native/Microsoft.Toolkit.Uwp.Notifications.pri",
+        "lib/native/Microsoft.Toolkit.Uwp.Notifications.winmd",
+        "lib/native/Microsoft.Toolkit.Uwp.Notifications.winmd.xml",
+        "lib/native/Microsoft.Toolkit.Uwp.Notifications.xml",
+        "lib/portable-net40+sl50+win+wpa81+wp80/Microsoft.Toolkit.Uwp.Notifications.dll",
+        "lib/portable-net40+sl50+win+wpa81+wp80/Microsoft.Toolkit.Uwp.Notifications.pdb",
+        "lib/portable-net40+sl50+win+wpa81+wp80/Microsoft.Toolkit.Uwp.Notifications.xml",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.dll",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.pdb",
+        "lib/uap10.0/Microsoft.Toolkit.Uwp.Notifications.xml",
+        "microsoft.toolkit.uwp.notifications.1.4.1.nupkg.sha512",
+        "microsoft.toolkit.uwp.notifications.nuspec"
       ]
     },
     "Microsoft.VisualBasic/10.0.1": {

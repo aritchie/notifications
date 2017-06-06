@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
 using Windows.Storage;
 using Windows.UI.Notifications;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 
 namespace Plugin.Notifications
@@ -25,8 +26,8 @@ namespace Plugin.Notifications
 
         readonly BadgeUpdater badgeUpdater;
         readonly ToastNotifier toastNotifier;
-        readonly XmlDocument badgeXml;
-        readonly XmlElement badgeEl;
+        //readonly XmlDocument badgeXml;
+        //readonly XmlElement badgeEl;
 
 
         public NotificationsImpl()
@@ -34,8 +35,8 @@ namespace Plugin.Notifications
             this.badgeUpdater = BadgeUpdateManager.CreateBadgeUpdaterForApplication();
             this.toastNotifier = ToastNotificationManager.CreateToastNotifier();
 
-            this.badgeXml = BadgeUpdateManager.GetTemplateContent(BadgeTemplateType.BadgeNumber);
-            this.badgeEl = (XmlElement)this.badgeXml.SelectSingleNode("/badge");
+            //this.badgeXml = BadgeUpdateManager.GetTemplateContent(BadgeTemplateType.BadgeNumber);
+            //this.badgeEl = (XmlElement)this.badgeXml.SelectSingleNode("/badge");
         }
 
 
@@ -54,6 +55,7 @@ namespace Plugin.Notifications
         }
 
 
+        //https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/07/08/quickstart-sending-a-local-toast-notification-and-handling-activations-from-it-windows-10/
         public override Task Send(Notification notification)
         {
             var id = this.GetMessageId();
