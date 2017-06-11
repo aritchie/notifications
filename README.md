@@ -64,7 +64,7 @@ Notification.DefaultSound = "path";
 ```
 
 #### Android
-The path will be something like android.resource://<YOUR PACKAGE NAME>/raw/<your file without the extension>";
+The path will be something like android.resource://!YOUR PACKAGE NAME!/raw/<your file without the extension>";  Go to https://stackoverflow.com/questions/13760168/how-to-set-notification-with-custom-sound-in-android for more info
 Make sure the file is set as an AndroidResource in its file properties.
 
 #### iOS
