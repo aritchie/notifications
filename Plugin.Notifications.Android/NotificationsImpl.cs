@@ -22,6 +22,7 @@ namespace Plugin.Notifications
             AppIconResourceId = Application.Context.Resources.GetIdentifier("icon", "drawable", Application.Context.PackageName);
         }
 
+
         public NotificationsImpl()
         {
             this.alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
@@ -30,20 +31,19 @@ namespace Plugin.Notifications
 
         public override Task Send(Notification notification)
         {
-            var id = NotificationSettings.Instance.CreateScheduleId();
+            if (notification.Id == null)
+                notification.Id = NotificationSettings.Instance.CreateScheduleId();
 
             if (notification.IsScheduled)
             {
                 var triggerMs = this.GetEpochMills(notification.SendTime);
-                var pending = notification.ToPendingIntent(id);
+                var pending = notification.ToPendingIntent(notification.Id.Value);
 
                 this.alarmManager.Set(
                     AlarmType.RtcWakeup,
                     Convert.ToInt64(triggerMs),
                     pending
                 );
-
-                return id.ToString();
             }
 
             //Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -51,6 +51,10 @@ namespace Plugin.Notifications
 
             var launchIntent = Application.Context.PackageManager.GetLaunchIntentForPackage(Application.Context.PackageName);
             launchIntent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
+            foreach (var pair in notification.Metadata)
+            {
+                launchIntent.PutExtra(pair.Key, pair.Value);
+            }
 
             var builder = new NotificationCompat
                 .Builder(Application.Context)
@@ -61,13 +65,9 @@ namespace Plugin.Notifications
                 .SetContentIntent(TaskStackBuilder
                     .Create(Application.Context)
                     .AddNextIntent(launchIntent)
-                    .GetPendingIntent(id, (int)PendingIntentFlags.OneShot)
+                    .GetPendingIntent(notification.Id.Value, PendingIntentFlags.OneShot)
                 );
-            //var pending = PendingIntent.GetBroadcast(Application.Context, id, intent, PendingIntentFlags.UpdateCurrent);
-            foreach (var pair in notification.Metadata)
-            {
-                builder.Extras.PutString(pair.Key, pair.Value);
-            }
+
             if (notification.Vibrate)
             {
                 builder.SetVibrate(new long[] { 500, 500 });
@@ -81,8 +81,9 @@ namespace Plugin.Notifications
             var not = builder.Build();
             NotificationManagerCompat
                 .From(Application.Context)
-                .Notify(id, not);
-            return id.ToString();
+                .Notify(notification.Id.Value, not);
+
+            return Task.CompletedTask;
         }
 
 
@@ -100,7 +101,7 @@ namespace Plugin.Notifications
         }
 
 
-        public override Task<bool> Cancel(string id)
+        public override Task Cancel(string id)
         {
             var @int = 0;
             if (!Int32.TryParse(id, out @int))
@@ -113,6 +114,12 @@ namespace Plugin.Notifications
 
 
         public override Task<IEnumerable<Notification>> GetScheduledNotifications()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public override Task<bool> RequestPermission()
         {
             throw new NotImplementedException();
         }

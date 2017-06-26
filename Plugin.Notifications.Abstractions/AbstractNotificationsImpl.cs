@@ -11,6 +11,10 @@ namespace Plugin.Notifications
         public abstract Task Cancel(string messageId);
         public abstract Task Send(Notification notification);
         public abstract Task<IEnumerable<Notification>> GetScheduledNotifications();
+        public abstract Task<bool> RequestPermission();
+        public abstract Task<int> GetBadge();
+        public abstract Task SetBadge(int value);
+        public abstract void Vibrate(int ms);
 
 
         public virtual async Task CancelAll()
@@ -21,11 +25,5 @@ namespace Plugin.Notifications
                 await this.Cancel(notification.Id);
             }
         }
-
-
-        public virtual Task<bool> RequestPermission() => Task.FromResult(true);
-        public virtual Task<int> GetBadge() => Task.FromResult(-1);
-        public virtual Task SetBadge(int value) => Task.FromResult(new object());
-        public virtual void Vibrate(int ms) {}
     }
 }

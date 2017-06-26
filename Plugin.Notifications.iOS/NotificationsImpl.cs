@@ -48,22 +48,22 @@ namespace Plugin.Notifications
 
         public override Task<int> GetBadge()
         {
-            return base.GetBadge();
+            var tcs = new TaskCompletionSource<int>();
+            UIApplication.SharedApplication.InvokeOnMainThread(() =>
+            {
+                var value = (int)UIApplication.SharedApplication.ApplicationIconBadgeNumber;
+                tcs.TrySetResult(value);
+            });
+            return tcs.Task;
         }
 
 
-        public override Task SetBadge(int value)
-        {
-            return base.SetBadge(value);
-        }
-        //public override int Badge
-        //{
-        //    get => (int)UIApplication.SharedApplication.ApplicationIconBadgeNumber;
-        //    set => UIApplication.SharedApplication.ApplicationIconBadgeNumber = value;
-        //}
+        public override Task SetBadge(int value) => this.Invoke(() =>
+            UIApplication.SharedApplication.ApplicationIconBadgeNumber = value
+        );
 
 
-        public override Task<string> Send(Notification notification)
+        public override Task Send(Notification notification)
         {
             var msgId = Guid.NewGuid().ToString();
             var userInfo = new NSMutableDictionary();
@@ -103,14 +103,11 @@ namespace Plugin.Notifications
                 SoundName = notification.Sound,
                 UserInfo = userInfo
             };
-            UIApplication.SharedApplication.InvokeOnMainThread(() =>
-                UIApplication.SharedApplication.ScheduleLocalNotification(not)
-            );
-            return msgId;
+            return this.Invoke(() => UIApplication.SharedApplication.ScheduleLocalNotification(not));
         }
 
 
-        public override Task<bool> Cancel(string messageId)
+        public override Task Cancel(string messageId)
         {
             var key = new NSString("MessageID");
             var keyValue = new NSString(messageId);
@@ -120,23 +117,31 @@ namespace Plugin.Notifications
                 x.UserInfo[key].Equals(keyValue)
             );
             if (notification == null)
-                return false;
-
-            UIApplication.SharedApplication.InvokeOnMainThread(() =>
+            {
+            }
+            return this.Invoke(() =>
                 UIApplication.SharedApplication.CancelLocalNotification(notification)
             );
-            return true;
         }
 
 
-        public override void CancelAll()
+        public override Task CancelAll() => this.Invoke(() =>
+            UIApplication.SharedApplication.CancelAllLocalNotifications()
+        );
+
+
+        public override void Vibrate(int ms) => this.Invoke(() => SystemSound.Vibrate.PlaySystemSound());
+
+
+        Task Invoke(Action action)
         {
-            this.Badge = 0;
-            UIApplication.SharedApplication.CancelAllLocalNotifications();
+            var tcs = new TaskCompletionSource<object>();
+            UIApplication.SharedApplication.InvokeOnMainThread(() =>
+            {
+                action();
+                tcs.TrySetResult(null);
+            });
+            return tcs.Task;
         }
-
-
-        public override void Vibrate(int ms)
-            => UIApplication.SharedApplication.InvokeOnMainThread(SystemSound.Vibrate.PlaySystemSound);
     }
 }
