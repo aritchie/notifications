@@ -6,6 +6,7 @@
 * [feature] package is now NET standard 1.0 compliant
 * [feature] sound manage is 100x easier now.  explained in readme
 * [feature] Repeat intervals
+* [feature] macOS & tvOS
 
 ## 3.1.2
 * [fix][ios] alert title not set properly

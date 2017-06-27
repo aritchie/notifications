@@ -31,7 +31,7 @@ namespace Plugin.Notifications
         /// </summary>
         /// <param name="messageId"></param>
         /// <returns>Returns true if message found and cancelled successfully</returns>
-        Task Cancel(string messageId);
+        Task Cancel(int messageId);
 
 
         /// <summary>

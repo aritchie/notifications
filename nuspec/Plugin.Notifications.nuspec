@@ -12,7 +12,6 @@
         <releaseNotes>https://github.com/aritchie/notifications/blob/master/changelog.md</releaseNotes>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <tags>notifications windows xamarin xam.pcl</tags>
-        <releaseNotes></releaseNotes>
         <dependencies>
             <group targetFramework="MonoAndroid">
                 <dependency id="Xamarin.Android.ShortcutBadger" version="[1.1.809, 2)" />

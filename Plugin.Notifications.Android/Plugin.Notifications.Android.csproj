@@ -46,8 +46,9 @@
     <Compile Include="AcrSqliteConnection.cs" />
     <Compile Include="AlarmBroadcastReceiver.cs" />
     <Compile Include="DbNotification.cs" />
+    <Compile Include="DbNotificationMetadata.cs" />
+    <Compile Include="DbSettings.cs" />
     <Compile Include="Helpers.cs" />
-    <Compile Include="NotificationSettings.cs" />
     <Compile Include="NotificationsImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

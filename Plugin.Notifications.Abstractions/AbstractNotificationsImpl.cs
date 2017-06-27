@@ -8,7 +8,7 @@ namespace Plugin.Notifications
 
     public abstract class AbstractNotificationsImpl : INotifications
     {
-        public abstract Task Cancel(string messageId);
+        public abstract Task Cancel(int notificationId);
         public abstract Task Send(Notification notification);
         public abstract Task<IEnumerable<Notification>> GetScheduledNotifications();
         public abstract Task<bool> RequestPermission();
@@ -22,7 +22,7 @@ namespace Plugin.Notifications
             var notifications = await this.GetScheduledNotifications();
             foreach (var notification in notifications)
             {
-                await this.Cancel(notification.Id);
+                await this.Cancel(notification.Id.Value);
             }
         }
     }

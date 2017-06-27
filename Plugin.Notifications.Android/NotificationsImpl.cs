@@ -1,18 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+using System.Linq;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Support.V4.App;
-using Java.IO;
 
 
 namespace Plugin.Notifications
 {
     public class NotificationsImpl : AbstractNotificationsImpl
     {
+        readonly AcrSqliteConnection conn;
+        readonly DbSettings settings;
         readonly AlarmManager alarmManager;
         public static int AppIconResourceId { get; set; }
 
@@ -25,14 +26,25 @@ namespace Plugin.Notifications
 
         public NotificationsImpl()
         {
+            this.conn = new AcrSqliteConnection();
             this.alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
+
+            this.settings = this.conn.Settings.SingleOrDefault();
+            if (this.settings == null)
+            {
+                this.settings = new DbSettings();
+                this.conn.Insert(this.settings);
+            }
         }
 
 
         public override Task Send(Notification notification)
         {
             if (notification.Id == null)
-                notification.Id = NotificationSettings.Instance.CreateScheduleId();
+            {
+                notification.Id = ++this.settings.CurrentScheduleId;
+                this.conn.Update(this.settings);
+            }
 
             if (notification.IsScheduled)
             {
@@ -45,10 +57,6 @@ namespace Plugin.Notifications
                     pending
                 );
             }
-
-            //Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            //Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+ "://" + getPackageName() + "/raw/kalimba");
-
             var launchIntent = Application.Context.PackageManager.GetLaunchIntentForPackage(Application.Context.PackageName);
             launchIntent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
             foreach (var pair in notification.Metadata)
@@ -75,6 +83,10 @@ namespace Plugin.Notifications
 
             if (notification.Sound != null)
             {
+                if (!notification.Sound.Contains("://"))
+                {
+                    notification.Sound = $"{ContentResolver.SchemeAndroidResource}://{Application.Context.PackageName}/raw/{notification.Sound}";
+                }
                 var uri = Android.Net.Uri.Parse(notification.Sound);
                 builder.SetSound(uri);
             }
@@ -89,10 +101,13 @@ namespace Plugin.Notifications
 
         public override Task CancelAll()
         {
-            foreach (var id in NotificationSettings.Instance.ScheduleIds)
-                this.CancelInternal(id);
+            var notifications = this.conn.Notifications.ToList();
+            foreach (var notification in notifications)
+                this.CancelInternal(notification.Id);
 
-            NotificationSettings.Instance.ClearScheduled();
+            this.conn.DeleteAll<DbNotificationMetadata>();
+            this.conn.DeleteAll<DbNotification>();
+
             NotificationManagerCompat
                 .From(Application.Context)
                 .CancelAll();
@@ -101,37 +116,43 @@ namespace Plugin.Notifications
         }
 
 
-        public override Task Cancel(string id)
+        public override Task Cancel(int notificationId)
         {
-            var @int = 0;
-            if (!Int32.TryParse(id, out @int))
-                return Task.FromResult(false);
-
-            this.CancelInternal(@int);
-            NotificationSettings.Instance.RemoveScheduledId(@int);
+            this.CancelInternal(notificationId);
             return Task.FromResult(true);
         }
 
 
         public override Task<IEnumerable<Notification>> GetScheduledNotifications()
         {
-            throw new NotImplementedException();
+            var nots = this.conn.Notifications.ToList();
+            var mds = this.conn.NotificationMetadata.ToList();
+            return Task.FromResult(nots.Select(x => new Notification
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Message = x.Message,
+                Sound = x.Sound,
+                Vibrate = x.Vibrate,
+                Date = x.DateScheduled,
+                Metadata = mds
+                    .Where(y => y.NotificationId == x.Id)
+                    .ToDictionary(
+                        y => y.Key,
+                        y => y.Value
+                    )
+            }));
         }
 
 
-        public override Task<bool> RequestPermission()
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public override Task<int> GetBadge() => Task.FromResult(NotificationSettings.Instance.CurrentBadge);
-
+        public override Task<bool> RequestPermission() => Task.FromResult(true);
+        public override Task<int> GetBadge() => Task.FromResult(this.settings.CurrentBadge);
         public override Task SetBadge(int value)
         {
             try
             {
-                NotificationSettings.Instance.CurrentBadge = value;
+                this.settings.CurrentBadge = value;
+                this.conn.Update(this.settings);
                 if (value <= 0)
                 {
                     ME.Leolin.Shortcutbadger.ShortcutBadger.RemoveCount(Application.Context);
@@ -169,9 +190,10 @@ namespace Plugin.Notifications
         }
 
 
-        void CancelInternal(int notificationId)
+        protected virtual void CancelInternal(int notificationId)
         {
             var pending = Helpers.GetNotificationPendingIntent(notificationId);
+            this.conn.Notifications.Delete(x => x.Id == notificationId);
             pending.Cancel();
             this.alarmManager.Cancel(pending);
             NotificationManagerCompat
