@@ -7,7 +7,7 @@ namespace Plugin.Notifications
 {
     public class NotificationsImpl : AbstractNotificationsImpl
     {
-        public override Task Cancel(string messageId)
+        public override Task Cancel(int notificationId)
         {
             throw new NotImplementedException();
         }
@@ -19,7 +19,31 @@ namespace Plugin.Notifications
         }
 
 
+        public override Task<int> GetBadge()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public override Task SetBadge(int value)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public override void Vibrate(int ms)
+        {
+            throw new NotImplementedException();
+        }
+
+
         public override Task<IEnumerable<Notification>> GetScheduledNotifications()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public override Task<bool> RequestPermission()
         {
             throw new NotImplementedException();
         }
