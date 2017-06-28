@@ -40,9 +40,22 @@ namespace Plugin.Notifications
         }
 
 
-        public override Task<IEnumerable<Notification>> GetScheduledNotifications()
+        public override async Task<IEnumerable<Notification>> GetScheduledNotifications()
         {
-            throw new NotImplementedException();
+            var tcs = new TaskCompletionSource<List<Notification>>();
+            UIApplication.SharedApplication.InvokeOnMainThread(() => tcs.TrySetResult(
+                UIApplication
+                    .SharedApplication
+                    .ScheduledLocalNotifications
+                    .Select(x => new Notification
+                    {
+                        // TODO
+                    })
+                    .ToList()
+            ));
+
+            var result = await tcs.Task;
+            return result;
         }
 
 
@@ -107,10 +120,10 @@ namespace Plugin.Notifications
         }
 
 
-        public override Task Cancel(string messageId)
+        public override Task Cancel(int messageId)
         {
             var key = new NSString("MessageID");
-            var keyValue = new NSString(messageId);
+            var keyValue = new NSString(messageId.ToString());
 
             var notification = UIApplication.SharedApplication.ScheduledLocalNotifications.FirstOrDefault(x =>
                 x.UserInfo.ContainsKey(key) &&
