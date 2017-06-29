@@ -22,25 +22,30 @@ namespace Plugin.Notifications
 
         public override Task Cancel(int notificationId) => this.Invoke(() =>
         {
-            // TODO: cancel delivered and scheduled?
+            var dnc = NSUserNotificationCenter.DefaultUserNotificationCenter;
+            var native = dnc.ScheduledNotifications.FirstOrDefault(x => x.Identifier == notificationId.ToString());
+            if (native != null)
+                dnc.RemoveScheduledNotification(native);
+
+            native = dnc.DeliveredNotifications.FirstOrDefault(x => x.Identifier == notificationId.ToString());
+            if (native != null)
+                dnc.RemoveDeliveredNotification(native);
         });
 
 
         public override Task Send(Notification notification) => this.Invoke(() =>
         {
-            //new     UNUserNotificationCenter.Current.RequestAuthorization (UNAuthorizationOptions.Alert, (approved, err) => {
-            //    // Handle approval
-            //});
-            var not = new NSUserNotification
+            var native = new NSUserNotification
             {
+                Identifier = notification.Id.Value.ToString(),
                 Title = notification.Title,
                 InformativeText = notification.Message,
-                Identifier = notification.Id.Value.ToString(),
-                DeliveryDate = (NSDate) notification.SendTime
+                SoundName = notification.Sound,
+                DeliveryDate = notification.SendTime.ToNSDate()
             };
             NSUserNotificationCenter
                 .DefaultUserNotificationCenter
-                .ScheduleNotification(not);
+                .ScheduleNotification(native);
         });
 
 
@@ -76,8 +81,13 @@ namespace Plugin.Notifications
                     .ScheduledNotifications
                     .Select(x => new Notification
                     {
-                        // TODO
+                        Id = this.ToNotificationId(x.Identifier),
+                        Title = x.Title,
+                        Message = x.InformativeText,
+                        Sound = x.SoundName,
+                        Date = x.DeliveryDate.ToDateTime()
                     });
+
                 tcs.TrySetResult(natives);
             });
             return tcs.Task;
@@ -85,6 +95,15 @@ namespace Plugin.Notifications
 
 
         public override Task<bool> RequestPermission() => Task.FromResult(true);
+
+
+        int ToNotificationId(string value)
+        {
+            if (!Int32.TryParse(value, out var i))
+                return -1;
+
+            return i;
+        }
 
 
         async Task Invoke(Action action)

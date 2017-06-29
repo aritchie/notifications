@@ -57,6 +57,9 @@
     <Reference Include="Xamarin.Mac" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Plugin.Notifications.iOS\Extensions.cs">
+      <Link>Extensions.cs</Link>
+    </Compile>
     <Compile Include="NotificationsImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
