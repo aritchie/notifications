@@ -36,7 +36,15 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Compile Include="NotificationsImpl.cs" />
+    <Compile Include="..\Plugin.Notifications.iOS\AbstractAppleNotificationsImpl.cs">
+      <Link>AbstractAppleNotificationsImpl.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugin.Notifications.iOS\Extensions.cs">
+      <Link>Extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Plugin.Notifications.iOS\UNNotificationsImpl.cs">
+      <Link>UNNotificationsImpl.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

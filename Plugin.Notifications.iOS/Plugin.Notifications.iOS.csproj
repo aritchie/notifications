@@ -40,9 +40,12 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractAppleNotificationsImpl.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="NotificationsImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UILocalNotificationsImpl.cs" />
+    <Compile Include="UNNotificationsImpl.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Plugin.Notifications.Abstractions\Plugin.Notifications.Abstractions.csproj">
