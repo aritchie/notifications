@@ -29,9 +29,9 @@ namespace Plugin.Notifications
         /// <summary>
         /// Cancel a specific notification
         /// </summary>
-        /// <param name="messageId"></param>
+        /// <param name="notificationId"></param>
         /// <returns>Returns true if message found and cancelled successfully</returns>
-        Task Cancel(int messageId);
+        Task Cancel(int notificationId);
 
 
         /// <summary>
