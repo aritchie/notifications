@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
@@ -56,6 +57,12 @@ namespace Plugin.Notifications
 
 
         //https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/07/08/quickstart-sending-a-local-toast-notification-and-handling-activations-from-it-windows-10/
+        public override Task Cancel(int notificationId)
+        {
+            throw new NotImplementedException();
+        }
+
+
         public override Task Send(Notification notification)
         {
             var id = this.GetMessageId();
@@ -86,6 +93,30 @@ namespace Plugin.Notifications
         }
 
 
+        public override Task<int> GetBadge()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public override Task SetBadge(int value)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public override Task<IEnumerable<Notification>> GetScheduledNotifications()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public override Task<bool> RequestPermission()
+        {
+            throw new NotImplementedException();
+        }
+
+
         //public override int Badge
         //{
         //    get { return 0; }
@@ -104,18 +135,18 @@ namespace Plugin.Notifications
         //}
 
 
-        public override Task<bool> Cancel(string id)
-        {
-            var notification = this.toastNotifier
-                .GetScheduledToastNotifications()
-                .FirstOrDefault(x => x.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
+        //public override Task<bool> Cancel(string id)
+        //{
+        //    var notification = this.toastNotifier
+        //        .GetScheduledToastNotifications()
+        //        .FirstOrDefault(x => x.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
 
-            if (notification == null)
-                return Task.FromResult(false);
+        //    if (notification == null)
+        //        return Task.FromResult(false);
 
-            this.toastNotifier.RemoveFromSchedule(notification);
-            return Task.FromResult(true);
-        }
+        //    this.toastNotifier.RemoveFromSchedule(notification);
+        //    return Task.FromResult(true);
+        //}
 
 
         public override Task CancelAll()
