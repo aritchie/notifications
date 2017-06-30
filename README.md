@@ -3,7 +3,7 @@
 Plugin for Easy Cross Platform notifications
 
 [![NuGet](https://img.shields.io/nuget/v/Acr.Notifications.svg?maxAge=2592000)](https://www.nuget.org/packages/Acr.Notifications/)
-[Change Log - May 26, 2017](changelog.md)
+[Change Log - July 1, 2017](changelog.md)
 
 
 ## Features
@@ -13,10 +13,13 @@ Plugin for Easy Cross Platform notifications
 * Sounds
 * Read all Scheduled Notifications
 * Badges
+* Set metadata on each notification for identification
+* Cancel individual or all notifications
 
 
 ## Supported OS
 * iOS 6+
+* macOS
 * Android 4+
 * Universal Windows Platform (Win10/UWP)
 * NET Standard 1.0
@@ -55,7 +58,9 @@ CrossNotifications.Current.CancelAll();
 Setting badges works on all platforms, though only select flavours of Android.  A 3rd party library is used to accomplish this.
 
 ```csharp
-await CrossNotifications.Current.SetBadge(4); // 0 clears badge
+await CrossNotifications.Current.SetBadge(4);
+await CrossNotifications.Current.GetBadge();
+// 0 clears badge
 ```
 
 
@@ -65,6 +70,7 @@ _In the notification.Sound property - set only the filename without the extensio
 
 #### Android
 * Put the sound in your /Resources/raw/ folder - make sure the file properties is set to _AndroidResource_
+* You can pass the actual full sound path OR just the name... the plugin will figure it out!
 
 #### iOS
 * Put the file in your iOS app bundle
@@ -79,3 +85,6 @@ _In the notification.Sound property - set only the filename without the extensio
 ### FAQ
 * Why are most methods async now?
 * _iOS requires all UI based commands run on the UI thread.  Notifications are part of UIKit and thus have this requirement.  With all of my plugins, I try to manage the thread marshalling for you_
+
+* Why can't I set a string as an identifier
+* _Android needs an integer for how it sets identifiers_

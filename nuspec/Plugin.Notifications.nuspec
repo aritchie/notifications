@@ -29,11 +29,8 @@
         <!-- ios -->
         <file src="..\Plugin.Notifications.iOS\bin\Release\Plugin.Notifications.*" target="lib\Xamarin.iOS10\" />
 
-        <!-- tvOS -->
-        <!--<file src="..\Plugin.Notifications.tvOS\bin\Release\Plugin.Notifications.*" target="lib\Xamarin.tvOS10\" />-->
-
         <!-- macOS -->
-        <!--<file src="..\Plugin.Notifications.macOS\bin\Release\Plugin.Notifications.*" target="lib\Xamarin.Mac20\" />-->
+        <file src="..\Plugin.Notifications.macOS\bin\Release\Plugin.Notifications.*" target="lib\Xamarin.Mac20\" />
 
         <!-- uwp -->
         <file src="..\Plugin.Notifications.Uwp\bin\Release\Plugin.Notifications.*" target="lib\uap10\" />

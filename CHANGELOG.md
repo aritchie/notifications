@@ -4,9 +4,9 @@
 * [breaking] Acr.Notifications => Plugin.Notifications
 * [breaking] Most methods are now async to deal with iOS' need to have notifications run on the main thread
 * [feature] package is now NET standard 1.0 compliant
+* [feature] ability to set your own identifier 
 * [feature] sound manage is 100x easier now.  explained in readme
-* [feature] Repeat intervals
-* [feature] macOS & tvOS
+* [feature] macOS support
 
 ## 3.1.2
 * [fix][ios] alert title not set properly

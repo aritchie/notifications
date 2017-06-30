@@ -9,11 +9,7 @@ using UserNotifications;
 
 namespace Plugin.Notifications
 {
-#if __IOS__
     public class UNNotificationsImpl : AbstractAppleNotificationsImpl
-#else
-    public class NotificationsImpl : AbstractAppleNotificationsImpl
-#endif
     {
         public override Task CancelAll() => this.Invoke(() =>
         {
@@ -24,7 +20,7 @@ namespace Plugin.Notifications
 
         public override Task Cancel(int notificationId) => this.Invoke(() =>
         {
-            var ids = new [] {notificationId.ToString()};
+            var ids = new [] { notificationId.ToString() };
             UNUserNotificationCenter.Current.RemovePendingNotificationRequests(ids);
             UNUserNotificationCenter.Current.RemoveDeliveredNotifications(ids);
         });
@@ -32,17 +28,19 @@ namespace Plugin.Notifications
 
         public override Task Send(Notification notification) => this.Invoke(async () =>
         {
-            ////request.Subtitle = "";
-            //var trigger =  UNTimeIntervalNotificationTrigger.CreateTrigger (5, false);
+            // TODO: set ID
+            var content = new UNMutableNotificationContent
+            {
+                Title = notification.Title,
+                Body = notification.Message
+            };
+            if (!String.IsNullOrWhiteSpace(notification.Sound))
+                content.Sound = UNNotificationSound.GetSound(notification.Sound);
+
             var request = UNNotificationRequest.FromIdentifier(
                 notification.Id.Value.ToString(),
-                new UNMutableNotificationContent
-                {
-                    Title = notification.Title,
-                    Body = notification.Message,
-                    Sound = UNNotificationSound.GetSound(notification.Sound) // TODO
-                },
-                UNCalendarNotificationTrigger.CreateTrigger(new NSDateComponents(), false)
+                content,
+                null
             );
             await UNUserNotificationCenter.Current.AddNotificationRequestAsync(request);
         });
@@ -70,6 +68,37 @@ namespace Plugin.Notifications
                 (approved, error) => tcs.TrySetResult(approved)
             );
             return tcs.Task;
+        }
+
+
+        protected virtual Notification FromNative(UNNotificationRequest native)
+        {
+            if (!Int32.TryParse(native.Identifier, out var i))
+                return null;
+
+            var plugin = new Notification
+            {
+                Id = i,
+                Title = native.Content.Title,
+                Message = native.Content.Body,
+                Sound = native.Content.Sound.ToString(),
+                Date = (native.Trigger as UNCalendarNotificationTrigger)?.NextTriggerDate.ToDateTime() ?? DateTime.MinValue
+            };
+
+            foreach (var pair in native.Content.UserInfo)
+            {
+                var key = pair.Key as NSString;
+                if (key != null)
+                {
+                    var value = pair.Value as NSString;
+                    if (value != null)
+                    {
+                        plugin.Metadata.Add(key, value);
+                    }
+                }
+            }
+
+            return plugin;
         }
     }
 }

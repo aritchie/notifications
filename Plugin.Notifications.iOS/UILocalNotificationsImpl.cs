@@ -23,8 +23,8 @@ namespace Plugin.Notifications
                 x.UserInfo[key].Equals(keyValue)
             );
             if (notification == null)
-            {
-            }
+                return Task.CompletedTask;
+
             return this.Invoke(() =>
                 UIApplication.SharedApplication.CancelLocalNotification(notification)
             );
@@ -38,6 +38,7 @@ namespace Plugin.Notifications
 
         public override Task Send(Notification notification)
         {
+            // TODO: set ID
             var msgId = Guid.NewGuid().ToString();
             var userInfo = new NSMutableDictionary();
             userInfo.Add(new NSString(NOTIFICATION_ID_KEY), new NSString(msgId));
@@ -64,10 +65,7 @@ namespace Plugin.Notifications
                 UIApplication
                     .SharedApplication
                     .ScheduledLocalNotifications
-                    .Select(x => new Notification
-                    {
-                        // TODO
-                    })
+                    .Select(this.FromNative)
             ));
             return tcs.Task;
         }
@@ -81,6 +79,34 @@ namespace Plugin.Notifications
             );
             UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
             return Task.FromResult(true);
+        }
+
+
+        protected virtual Notification FromNative(UILocalNotification native)
+        {
+            var plugin = new Notification
+            {
+                Title = native.AlertTitle,
+                Message = native.AlertBody,
+                Sound = native.SoundName,
+                Date = native.FireDate.ToDateTime()
+            };
+
+            // TODO: get id, throw out if missing
+            foreach (var pair in native.UserInfo)
+            {
+                var key = pair.Key as NSString;
+                if (key != null)
+                {
+                    var value = pair.Value as NSString;
+                    if (value != null)
+                    {
+                        plugin.Metadata.Add(key, value);
+                    }
+                }
+            }
+
+            return plugin;
         }
     }
 }
