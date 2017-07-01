@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
 using Windows.Storage;
 using Windows.UI.Notifications;
-using Microsoft.Toolkit.Uwp.Notifications;
 
 
 namespace Plugin.Notifications
@@ -27,8 +26,8 @@ namespace Plugin.Notifications
 
         readonly BadgeUpdater badgeUpdater;
         readonly ToastNotifier toastNotifier;
-        //readonly XmlDocument badgeXml;
-        //readonly XmlElement badgeEl;
+        readonly XmlDocument badgeXml;
+        readonly XmlElement badgeEl;
 
 
         public NotificationsImpl()
@@ -36,40 +35,50 @@ namespace Plugin.Notifications
             this.badgeUpdater = BadgeUpdateManager.CreateBadgeUpdaterForApplication();
             this.toastNotifier = ToastNotificationManager.CreateToastNotifier();
 
-            //this.badgeXml = BadgeUpdateManager.GetTemplateContent(BadgeTemplateType.BadgeNumber);
-            //this.badgeEl = (XmlElement)this.badgeXml.SelectSingleNode("/badge");
+            this.badgeXml = BadgeUpdateManager.GetTemplateContent(BadgeTemplateType.BadgeNumber);
+            this.badgeEl = (XmlElement)this.badgeXml.SelectSingleNode("/badge");
         }
 
 
-        const string CFG_KEY = "acr.notifications";
-        string GetMessageId()
-        {
-            var id = 0;
-            var s = ApplicationData.Current.LocalSettings.Values;
-            if (s.ContainsKey(CFG_KEY))
-            {
-                id = Int32.Parse((string)s[CFG_KEY]);
-            }
-            id++;
-            s[CFG_KEY] = id.ToString();
-            return id.ToString();
-        }
-
-
-        //https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/07/08/quickstart-sending-a-local-toast-notification-and-handling-activations-from-it-windows-10/
         public override Task Cancel(int notificationId)
         {
-            throw new NotImplementedException();
+            var id = notificationId.ToString();
+
+            var notification = this.toastNotifier
+                .GetScheduledToastNotifications()
+                .FirstOrDefault(x => x.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
+
+            if (notification == null)
+                return Task.FromResult(false);
+
+            this.toastNotifier.RemoveFromSchedule(notification);
+            return Task.FromResult(true);
+        }
+
+
+        public override Task CancelAll()
+        {
+            this.SetBadge(0);
+
+            var list = this.toastNotifier
+                .GetScheduledToastNotifications()
+                .ToList();
+
+            foreach (var item in list)
+                this.toastNotifier.RemoveFromSchedule(item);
+
+            return Task.CompletedTask;
         }
 
 
         public override Task Send(Notification notification)
         {
-            var id = this.GetMessageId();
+            if (notification.Id == null)
+                notification.Id = this.GetMessageId();
 
             var soundXml = notification.Sound == null
                 ? String.Empty
-                : $"<audio src=\"ms-appx:///Assets/{notification.Sound}.wav\"/>";
+                : $"<audio src=\"ms-appx:///Assets/{notification.Sound}.wav\"/>"; // TODO: sound type
 
             var xmlData = String.Format(TOAST_TEMPLATE, soundXml, notification.Title, notification.Message);
             var xml = new XmlDocument();
@@ -84,83 +93,51 @@ namespace Plugin.Notifications
             {
                 var schedule = new ScheduledToastNotification(xml, notification.SendTime)
                 {
-                    Id = id
+                    Id = notification.Id.Value.ToString()
                 };
                 this.toastNotifier.AddToSchedule(schedule);
             }
-            //return id;
             return Task.CompletedTask;
         }
 
 
         public override Task<int> GetBadge()
         {
-            throw new NotImplementedException();
+            var attr = this.badgeEl.GetAttribute("value");
+            if (attr == null)
+                return Task.FromResult(0);
+
+            Int32.TryParse(attr, out var count);
+            return Task.FromResult(count);
         }
 
 
         public override Task SetBadge(int value)
         {
-            throw new NotImplementedException();
+            if (value == 0)
+            {
+                this.badgeUpdater.Clear();
+            }
+            else
+            {
+                this.badgeEl.SetAttribute("value", value.ToString());
+                this.badgeUpdater.Update(new BadgeNotification(this.badgeXml));
+            }
+            return Task.CompletedTask;
         }
 
 
         public override Task<IEnumerable<Notification>> GetScheduledNotifications()
         {
-            throw new NotImplementedException();
-        }
-
-
-        public override Task<bool> RequestPermission()
-        {
-            throw new NotImplementedException();
-        }
-
-
-        //public override int Badge
-        //{
-        //    get { return 0; }
-        //    set
-        //    {
-        //        if (value == 0)
-        //        {
-        //            this.badgeUpdater.Clear();
-        //        }
-        //        else
-        //        {
-        //            this.badgeEl.SetAttribute("value", value.ToString());
-        //            this.badgeUpdater.Update(new BadgeNotification(this.badgeXml));
-        //        }
-        //    }
-        //}
-
-
-        //public override Task<bool> Cancel(string id)
-        //{
-        //    var notification = this.toastNotifier
-        //        .GetScheduledToastNotifications()
-        //        .FirstOrDefault(x => x.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
-
-        //    if (notification == null)
-        //        return Task.FromResult(false);
-
-        //    this.toastNotifier.RemoveFromSchedule(notification);
-        //    return Task.FromResult(true);
-        //}
-
-
-        public override Task CancelAll()
-        {
-            //this.Badge = 0;
             var list = this.toastNotifier
                 .GetScheduledToastNotifications()
-                .ToList();
+                .Select(x => new Notification());
 
-            foreach (var item in list)
-                this.toastNotifier.RemoveFromSchedule(item);
-
-            return Task.CompletedTask;
+            return Task.FromResult(list);
         }
+
+
+        public override Task<bool> RequestPermission() => Task.FromResult(true);
 
 
         public override void Vibrate(int ms) => Windows
@@ -170,17 +147,24 @@ namespace Plugin.Notifications
                 .VibrationDevice
                 .GetDefault()
                 .Vibrate(TimeSpan.FromMilliseconds(ms));
+
+
+        const string CFG_KEY = "acr.notifications";
+        int GetMessageId()
+        {
+            var id = 0;
+            var s = ApplicationData.Current.LocalSettings.Values;
+            if (s.ContainsKey(CFG_KEY))
+            {
+                id = Int32.Parse((string)s[CFG_KEY]);
+            }
+            id++;
+            s[CFG_KEY] = id.ToString();
+            return id;
+        }
     }
 }
 /*
-
-// custom glyphs?
-//https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/tiles-and-notifications-badges
-
-using Microsoft.Toolkit.Uwp.Notifications;
-using Windows.UI.Notifications;
-
-
 ToastContent toastContent = new ToastContent()
 {
     Visual = new ToastVisual()
@@ -206,13 +190,4 @@ if (supportsCustomAudio)
     {
         Src = new Uri("ms-appx:///Assets/Audio/CustomToastAudio.m4a")
     };
-}
-
-
-
-// Create the Toast notification from the previous Toast content
-ToastNotification notification = new ToastNotification(toastContent.GetXml());
-
-// And then send the Toast
-ToastNotificationManager.CreateToastNotifier().Show(notification);
-     */
+}*/
