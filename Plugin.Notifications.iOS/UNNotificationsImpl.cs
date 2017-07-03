@@ -28,7 +28,9 @@ namespace Plugin.Notifications
 
         public override Task Send(Notification notification) => this.Invoke(async () =>
         {
-            // TODO: set ID
+            if (notification.Id == null)
+                notification.GeneratedNotificationId();
+
             var content = new UNMutableNotificationContent
             {
                 Title = notification.Title,
@@ -37,10 +39,19 @@ namespace Plugin.Notifications
             if (!String.IsNullOrWhiteSpace(notification.Sound))
                 content.Sound = UNNotificationSound.GetSound(notification.Sound);
 
+            var dt = notification.SendTime;
             var request = UNNotificationRequest.FromIdentifier(
                 notification.Id.Value.ToString(),
                 content,
-                null
+                UNCalendarNotificationTrigger.CreateTrigger(new NSDateComponents
+                {
+                    Year = dt.Year,
+                    Month = dt.Month,
+                    Day = dt.Day,
+                    Hour = dt.Hour,
+                    Minute = dt.Minute,
+                    Second = dt.Second
+                }, false)
             );
             await UNUserNotificationCenter.Current.AddNotificationRequestAsync(request);
         });
@@ -63,6 +74,8 @@ namespace Plugin.Notifications
         {
             var tcs = new TaskCompletionSource<bool>();
 
+            //UNUserNotificationCenter.Current.Delegate.DidReceiveNotificationResponse();
+            //UNUserNotificationCenter.Current.Delegate.WillPresentNotification();
             UNUserNotificationCenter.Current.RequestAuthorization(
                 UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound,
                 (approved, error) => tcs.TrySetResult(approved)
@@ -82,21 +95,9 @@ namespace Plugin.Notifications
                 Title = native.Content.Title,
                 Message = native.Content.Body,
                 Sound = native.Content.Sound.ToString(),
-                Date = (native.Trigger as UNCalendarNotificationTrigger)?.NextTriggerDate.ToDateTime() ?? DateTime.MinValue
+                Date = (native.Trigger as UNCalendarNotificationTrigger)?.NextTriggerDate.ToDateTime() ?? DateTime.MinValue,
+                Metadata = native.Content.UserInfo.FromNsDictionary()
             };
-
-            foreach (var pair in native.Content.UserInfo)
-            {
-                var key = pair.Key as NSString;
-                if (key != null)
-                {
-                    var value = pair.Value as NSString;
-                    if (value != null)
-                    {
-                        plugin.Metadata.Add(key, value);
-                    }
-                }
-            }
 
             return plugin;
         }

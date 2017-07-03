@@ -35,13 +35,17 @@ namespace Plugin.Notifications
 
         public override Task Send(Notification notification) => this.Invoke(() =>
         {
+            if (notification.Id == null)
+                notification.GeneratedNotificationId();
+
             var native = new NSUserNotification
             {
                 Identifier = notification.Id.Value.ToString(),
                 Title = notification.Title,
                 InformativeText = notification.Message,
                 SoundName = notification.Sound,
-                DeliveryDate = notification.SendTime.ToNSDate()
+                DeliveryDate = notification.SendTime.ToNSDate(),
+                UserInfo = notification.Metadata.ToNsDictionary()
             };
             NSUserNotificationCenter
                 .DefaultUserNotificationCenter
@@ -85,7 +89,8 @@ namespace Plugin.Notifications
                         Title = x.Title,
                         Message = x.InformativeText,
                         Sound = x.SoundName,
-                        Date = x.DeliveryDate.ToDateTime()
+                        Date = x.DeliveryDate.ToDateTime(),
+                        Metadata = x.UserInfo.FromNsDictionary()
                     });
 
                 tcs.TrySetResult(natives);
@@ -97,7 +102,7 @@ namespace Plugin.Notifications
         public override Task<bool> RequestPermission() => Task.FromResult(true);
 
 
-        int ToNotificationId(string value)
+        protected int ToNotificationId(string value)
         {
             if (!Int32.TryParse(value, out var i))
                 return -1;
@@ -106,7 +111,7 @@ namespace Plugin.Notifications
         }
 
 
-        async Task Invoke(Action action)
+        protected async Task Invoke(Action action)
         {
             var tcs = new TaskCompletionSource<object>();
             NSApplication.SharedApplication.InvokeOnMainThread(() =>

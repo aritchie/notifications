@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
 using Windows.Storage;
 using Windows.UI.Notifications;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 
 namespace Plugin.Notifications
@@ -73,6 +74,11 @@ namespace Plugin.Notifications
 
         public override Task Send(Notification notification)
         {
+            var content = new ToastContent
+            {
+                Launch = ""
+            };
+
             if (notification.Id == null)
                 notification.Id = this.GetMessageId();
 
@@ -165,14 +171,45 @@ namespace Plugin.Notifications
     }
 }
 /*
+
+// Now we can construct the final toast content
 ToastContent toastContent = new ToastContent()
 {
-    Visual = new ToastVisual()
+    Visual = visual,
+    Actions = actions,
+
+    // Arguments when the user taps body of toast
+    Launch = new QueryString()
     {
-        ... (omitted)
-    }
+        { "action", "viewConversation" },
+        { "conversationId", conversationId.ToString() }
+
+    }.ToString()
 };
 
+// And create the toast notification
+var toast = new ToastNotification(toastContent.GetXml());
+
+
+
+
+// Now we can construct the final toast content
+string argsLaunch = $"action=viewConversation&conversationId={conversationId}";
+
+// TODO: all args need to be XML escaped
+
+string toastXmlString =
+$@"<toast launch='{argsLaunch}'>
+    {toastVisual}
+    {toastActions}
+</toast>";
+
+// Parse to XML
+XmlDocument toastXml = new XmlDocument();
+toastXml.LoadXml(toastXmlString);
+
+// Generate toast
+var toast = new ToastNotification(toastXml);
 
 bool supportsCustomAudio = true;
 

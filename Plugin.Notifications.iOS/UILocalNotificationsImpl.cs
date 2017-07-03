@@ -38,13 +38,10 @@ namespace Plugin.Notifications
 
         public override Task Send(Notification notification)
         {
-            // TODO: set ID
-            var msgId = Guid.NewGuid().ToString();
-            var userInfo = new NSMutableDictionary();
-            userInfo.Add(new NSString(NOTIFICATION_ID_KEY), new NSString(msgId));
+            if (notification.Id == null)
+                notification.GeneratedNotificationId();
 
-            foreach (var pair in notification.Metadata)
-                userInfo.Add(new NSString(pair.Key), new NSString(pair.Value));
+            notification.Metadata.Add(NOTIFICATION_ID_KEY, notification.Id.ToString());
 
             var not = new UILocalNotification
             {
@@ -52,7 +49,7 @@ namespace Plugin.Notifications
                 AlertTitle = notification.Title,
                 AlertBody = notification.Message,
                 SoundName = notification.Sound,
-                UserInfo = userInfo
+                UserInfo = notification.Metadata.ToNsDictionary()
             };
             return this.Invoke(() => UIApplication.SharedApplication.ScheduleLocalNotification(not));
         }
@@ -89,21 +86,14 @@ namespace Plugin.Notifications
                 Title = native.AlertTitle,
                 Message = native.AlertBody,
                 Sound = native.SoundName,
-                Date = native.FireDate.ToDateTime()
+                Date = native.FireDate.ToDateTime(),
+                Metadata = native.UserInfo.FromNsDictionary()
             };
 
-            // TODO: get id, throw out if missing
-            foreach (var pair in native.UserInfo)
+            if (plugin.Metadata.ContainsKey(NOTIFICATION_ID_KEY))
             {
-                var key = pair.Key as NSString;
-                if (key != null)
-                {
-                    var value = pair.Value as NSString;
-                    if (value != null)
-                    {
-                        plugin.Metadata.Add(key, value);
-                    }
-                }
+                if (Int32.TryParse(plugin.Metadata[NOTIFICATION_ID_KEY], out var id))
+                    plugin.Id = id;
             }
 
             return plugin;
