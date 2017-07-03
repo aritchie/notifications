@@ -2,42 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.Data.Xml.Dom;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
+using Windows.System.Profile;
 using Windows.UI.Notifications;
+using Microsoft.QueryStringDotNET;
 using Microsoft.Toolkit.Uwp.Notifications;
 
 
 namespace Plugin.Notifications
 {
-
+    //https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/07/08/quickstart-sending-a-local-toast-notification-and-handling-activations-from-it-windows-10/
     public class NotificationsImpl : AbstractNotificationsImpl
     {
-
-        const string TOAST_TEMPLATE = @"
-<toast>
-{0}
-  <visual>
-    <binding template=""ToastText02"">
-      <text id=""1"">{1}</text>
-      <text id=""2"">{2}</text>
-    </binding>
-  </visual>
-</toast>";
-
         readonly BadgeUpdater badgeUpdater;
         readonly ToastNotifier toastNotifier;
-        readonly XmlDocument badgeXml;
-        readonly XmlElement badgeEl;
 
 
         public NotificationsImpl()
         {
             this.badgeUpdater = BadgeUpdateManager.CreateBadgeUpdaterForApplication();
             this.toastNotifier = ToastNotificationManager.CreateToastNotifier();
-
-            this.badgeXml = BadgeUpdateManager.GetTemplateContent(BadgeTemplateType.BadgeNumber);
-            this.badgeEl = (XmlElement)this.badgeXml.SelectSingleNode("/badge");
         }
 
 
@@ -57,9 +42,9 @@ namespace Plugin.Notifications
         }
 
 
-        public override Task CancelAll()
+        public override async Task CancelAll()
         {
-            this.SetBadge(0);
+            await this.SetBadge(0);
 
             var list = this.toastNotifier
                 .GetScheduledToastNotifications()
@@ -67,37 +52,54 @@ namespace Plugin.Notifications
 
             foreach (var item in list)
                 this.toastNotifier.RemoveFromSchedule(item);
-
-            return Task.CompletedTask;
         }
 
 
         public override Task Send(Notification notification)
         {
-            var content = new ToastContent
-            {
-                Launch = ""
-            };
-
             if (notification.Id == null)
-                notification.Id = this.GetMessageId();
+                notification.Id = this.GetNotificationId();
 
-            var soundXml = notification.Sound == null
-                ? String.Empty
-                : $"<audio src=\"ms-appx:///Assets/{notification.Sound}.wav\"/>"; // TODO: sound type
+            var toastContent = new ToastContent
+            {
+                Launch = this.ToQueryString(notification.Metadata),
+                Visual = new ToastVisual
+                {
+                    BindingGeneric = new ToastBindingGeneric
+                    {
+                        Children =
+                        {
+                            new AdaptiveText
+                            {
+                                Text = notification.Title
+                            },
+                            new AdaptiveText
+                            {
+                                Text = notification.Message
+                            }
+                        }
+                    }
+                }
+            };
+            if (!String.IsNullOrWhiteSpace(notification.Sound) && this.IsAudioSupported)
+            {
+                if (!notification.Sound.StartsWith("ms-appx:"))
+                    notification.Sound = $"ms-appx:///Assets/Audio/{notification.Sound}.m4a";
 
-            var xmlData = String.Format(TOAST_TEMPLATE, soundXml, notification.Title, notification.Message);
-            var xml = new XmlDocument();
-            xml.LoadXml(xmlData);
+                toastContent.Audio = new ToastAudio
+                {
+                    Src = new Uri(notification.Sound)
+                };
+            }
 
             if (notification.Date == null && notification.When == null)
             {
-                var toast = new ToastNotification(xml);
+                var toast = new ToastNotification(toastContent.GetXml());
                 this.toastNotifier.Show(toast);
             }
             else
             {
-                var schedule = new ScheduledToastNotification(xml, notification.SendTime)
+                var schedule = new ScheduledToastNotification(toastContent.GetXml(), notification.SendTime)
                 {
                     Id = notification.Id.Value.ToString()
                 };
@@ -107,27 +109,19 @@ namespace Plugin.Notifications
         }
 
 
-        public override Task<int> GetBadge()
-        {
-            var attr = this.badgeEl.GetAttribute("value");
-            if (attr == null)
-                return Task.FromResult(0);
-
-            Int32.TryParse(attr, out var count);
-            return Task.FromResult(count);
-        }
+        public override Task<int> GetBadge() => Task.FromResult(this.CurrentBadge);
 
 
         public override Task SetBadge(int value)
         {
+            this.CurrentBadge = value;
             if (value == 0)
             {
                 this.badgeUpdater.Clear();
             }
             else
             {
-                this.badgeEl.SetAttribute("value", value.ToString());
-                this.badgeUpdater.Update(new BadgeNotification(this.badgeXml));
+                this.badgeUpdater.Update(new BadgeNotification(new BadgeNumericContent((uint)value).GetXml()));
             }
             return Task.CompletedTask;
         }
@@ -147,16 +141,32 @@ namespace Plugin.Notifications
 
 
         public override void Vibrate(int ms) => Windows
-                .Phone
-                .Devices
-                .Notification
-                .VibrationDevice
-                .GetDefault()
-                .Vibrate(TimeSpan.FromMilliseconds(ms));
+            .Phone
+            .Devices
+            .Notification
+            .VibrationDevice
+            .GetDefault()
+            .Vibrate(TimeSpan.FromMilliseconds(ms));
+
+
+        const string BADGE_KEY = "acr.notifications.badge";
+        protected int CurrentBadge
+        {
+            get
+            {
+                var values = ApplicationData.Current.LocalSettings.Values;
+                var id = 0;
+                if (values.ContainsKey(BADGE_KEY))
+                    Int32.TryParse(values[BADGE_KEY] as string, out id);
+
+                return id;
+            }
+            set => ApplicationData.Current.LocalSettings.Values[BADGE_KEY] = value.ToString();
+        }
 
 
         const string CFG_KEY = "acr.notifications";
-        int GetMessageId()
+        protected virtual int GetNotificationId()
         {
             var id = 0;
             var s = ApplicationData.Current.LocalSettings.Values;
@@ -168,63 +178,33 @@ namespace Plugin.Notifications
             s[CFG_KEY] = id.ToString();
             return id;
         }
+
+
+        protected virtual string ToQueryString(IDictionary<string, string> dict)
+        {
+            var qs = new QueryString();
+            foreach (var pair in dict)
+                qs.Add(pair.Key, pair.Value);
+
+            var r = qs.ToString();
+            return r;
+        }
+
+
+        protected virtual IDictionary<string, string> FromQueryString(string queryString)
+        {
+            var dict = new Dictionary<string, string>();
+            var qs = QueryString.Parse(queryString);
+            foreach (var pair in qs)
+            {
+                dict.Add(pair.Name, pair.Value);
+            }
+            return dict;
+        }
+
+
+        protected virtual bool IsAudioSupported =>
+            AnalyticsInfo.VersionInfo.DeviceFamily.Equals("Windows.Desktop") &&
+            !ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 2);
     }
 }
-/*
-
-// Now we can construct the final toast content
-ToastContent toastContent = new ToastContent()
-{
-    Visual = visual,
-    Actions = actions,
-
-    // Arguments when the user taps body of toast
-    Launch = new QueryString()
-    {
-        { "action", "viewConversation" },
-        { "conversationId", conversationId.ToString() }
-
-    }.ToString()
-};
-
-// And create the toast notification
-var toast = new ToastNotification(toastContent.GetXml());
-
-
-
-
-// Now we can construct the final toast content
-string argsLaunch = $"action=viewConversation&conversationId={conversationId}";
-
-// TODO: all args need to be XML escaped
-
-string toastXmlString =
-$@"<toast launch='{argsLaunch}'>
-    {toastVisual}
-    {toastActions}
-</toast>";
-
-// Parse to XML
-XmlDocument toastXml = new XmlDocument();
-toastXml.LoadXml(toastXmlString);
-
-// Generate toast
-var toast = new ToastNotification(toastXml);
-
-bool supportsCustomAudio = true;
-
-// If we're running on Desktop before Version 1511, do NOT include custom audio
-// since it was not supported until Version 1511, and would result in a silent toast.
-if (AnalyticsInfo.VersionInfo.DeviceFamily.Equals("Windows.Desktop")
-    && !ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 2))
-{
-    supportsCustomAudio = false;
-}
-
-if (supportsCustomAudio)
-{
-    toastContent.Audio = new ToastAudio()
-    {
-        Src = new Uri("ms-appx:///Assets/Audio/CustomToastAudio.m4a")
-    };
-}*/

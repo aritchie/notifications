@@ -376,6 +376,15 @@
           "System.Xml.XDocument": "4.3.0"
         }
       },
+      "QueryString.NET/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/dotnet/QueryString.NETCore.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/QueryString.NETCore.dll": {}
+        }
+      },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
         "type": "package",
         "runtimeTargets": {
@@ -2440,7 +2449,8 @@
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
           "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
-          "NETStandard.Library": "1.6.1"
+          "NETStandard.Library": "1.6.1",
+          "QueryString.NET": "1.0.0"
         }
       },
       "Samples.Core/1.0.0": {
@@ -2775,6 +2785,15 @@
           "System.Threading.Timer": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0",
           "System.Xml.XDocument": "4.3.0"
+        }
+      },
+      "QueryString.NET/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/dotnet/QueryString.NETCore.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/QueryString.NETCore.dll": {}
         }
       },
       "runtime.any.System.Collections/4.3.0": {
@@ -4923,7 +4942,8 @@
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
           "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
-          "NETStandard.Library": "1.6.1"
+          "NETStandard.Library": "1.6.1",
+          "QueryString.NET": "1.0.0"
         }
       },
       "Samples.Core/1.0.0": {
@@ -5259,6 +5279,15 @@
           "System.Threading.Timer": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0",
           "System.Xml.XDocument": "4.3.0"
+        }
+      },
+      "QueryString.NET/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/dotnet/QueryString.NETCore.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/QueryString.NETCore.dll": {}
         }
       },
       "runtime.aot.System.Collections/4.3.0": {
@@ -7445,7 +7474,8 @@
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
           "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
-          "NETStandard.Library": "1.6.1"
+          "NETStandard.Library": "1.6.1",
+          "QueryString.NET": "1.0.0"
         }
       },
       "Samples.Core/1.0.0": {
@@ -7783,6 +7813,15 @@
           "System.Threading.Timer": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0",
           "System.Xml.XDocument": "4.3.0"
+        }
+      },
+      "QueryString.NET/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/dotnet/QueryString.NETCore.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/QueryString.NETCore.dll": {}
         }
       },
       "runtime.any.System.Collections/4.3.0": {
@@ -9937,7 +9976,8 @@
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
           "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
-          "NETStandard.Library": "1.6.1"
+          "NETStandard.Library": "1.6.1",
+          "QueryString.NET": "1.0.0"
         }
       },
       "Samples.Core/1.0.0": {
@@ -10276,6 +10316,15 @@
           "System.Threading.Timer": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0",
           "System.Xml.XDocument": "4.3.0"
+        }
+      },
+      "QueryString.NET/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/dotnet/QueryString.NETCore.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/QueryString.NETCore.dll": {}
         }
       },
       "runtime.aot.System.Collections/4.3.0": {
@@ -12468,7 +12517,8 @@
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
           "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
-          "NETStandard.Library": "1.6.1"
+          "NETStandard.Library": "1.6.1",
+          "QueryString.NET": "1.0.0"
         }
       },
       "Samples.Core/1.0.0": {
@@ -12806,6 +12856,15 @@
           "System.Threading.Timer": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0",
           "System.Xml.XDocument": "4.3.0"
+        }
+      },
+      "QueryString.NET/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/dotnet/QueryString.NETCore.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/QueryString.NETCore.dll": {}
         }
       },
       "runtime.any.System.Collections/4.3.0": {
@@ -14960,7 +15019,8 @@
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
           "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
-          "NETStandard.Library": "1.6.1"
+          "NETStandard.Library": "1.6.1",
+          "QueryString.NET": "1.0.0"
         }
       },
       "Samples.Core/1.0.0": {
@@ -15299,6 +15359,15 @@
           "System.Threading.Timer": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0",
           "System.Xml.XDocument": "4.3.0"
+        }
+      },
+      "QueryString.NET/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/dotnet/QueryString.NETCore.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/QueryString.NETCore.dll": {}
         }
       },
       "runtime.aot.System.Collections/4.3.0": {
@@ -17491,7 +17560,8 @@
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
           "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
-          "NETStandard.Library": "1.6.1"
+          "NETStandard.Library": "1.6.1",
+          "QueryString.NET": "1.0.0"
         }
       },
       "Samples.Core/1.0.0": {
@@ -19936,6 +20006,21 @@
         "dotnet_library_license.txt",
         "netstandard.library.1.6.1.nupkg.sha512",
         "netstandard.library.nuspec"
+      ]
+    },
+    "QueryString.NET/1.0.0": {
+      "sha512": "u+MbuqDtckYQv90rphUgmz1PXA4lBSG50MvP5yHUiCzn/kxAs2W8Pyb9VQRlnc+fBB0q6C/Q+bk+nuKbFVqiIg==",
+      "type": "package",
+      "path": "querystring.net/1.0.0",
+      "files": [
+        "lib/dotnet/QueryString.NETCore.XML",
+        "lib/dotnet/QueryString.NETCore.dll",
+        "lib/dotnet/QueryString.NETCore.pdb",
+        "lib/portable-net4+sl50+win+wpa81+wp80/QueryString.Portable.dll",
+        "lib/portable-net4+sl50+win+wpa81+wp80/QueryString.Portable.pdb",
+        "lib/portable-net4+sl50+win+wpa81+wp80/QueryString.Portable.xml",
+        "querystring.net.1.0.0.nupkg.sha512",
+        "querystring.net.nuspec"
       ]
     },
     "runtime.any.System.Collections/4.3.0": {
