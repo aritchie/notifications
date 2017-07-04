@@ -140,13 +140,19 @@ namespace Plugin.Notifications
         public override Task<bool> RequestPermission() => Task.FromResult(true);
 
 
-        public override void Vibrate(int ms) => Windows
-            .Phone
-            .Devices
-            .Notification
-            .VibrationDevice
-            .GetDefault()
-            .Vibrate(TimeSpan.FromMilliseconds(ms));
+        public override void Vibrate(int ms)
+        {
+            if (!ApiInformation.IsTypePresent("Windows.Phone.Devices.Notification.VibrationDevice"))
+                return;
+
+            Windows
+                .Phone
+                .Devices
+                .Notification
+                .VibrationDevice
+                .GetDefault()?
+                .Vibrate(TimeSpan.FromMilliseconds(ms));
+        }
 
 
         const string BADGE_KEY = "acr.notifications.badge";
