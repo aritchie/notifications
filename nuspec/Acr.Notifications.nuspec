@@ -9,7 +9,6 @@
         <owners>Allan Ritchie</owners>
         <licenseUrl>https://github.com/aritchie/notifications/blob/master/LICENSE.md</licenseUrl>
         <projectUrl>https://github.com/aritchie/notifications</projectUrl>
-        <releaseNotes>https://github.com/aritchie/notifications/blob/master/changelog.md</releaseNotes>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <tags>notifications windows xamarin xam.pcl</tags>
         <releaseNotes>This plugin has been moved to Plugin.Notifications</releaseNotes>

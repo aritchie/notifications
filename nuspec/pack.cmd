@@ -1,4 +1,4 @@
 @echo off
 del *.nupkg
-nuget pack Acr.Notifications.nuspec
+nuget pack Plugin.Notifications.nuspec
 pause
