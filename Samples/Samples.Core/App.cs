@@ -15,6 +15,12 @@ namespace Samples
         public App()
         {
             Notification.DefaultTitle = "Test Title";
+            var btnPermission = new Button {Text = "Request Permission"};
+            btnPermission.Command = new Command(async () =>
+            {
+                var result = await CrossNotifications.Current.RequestPermission();
+                btnPermission.Text = result ? "Permission Granted" : "Permission Denied";
+            });
 
             this.MainPage = new NavigationPage(new ContentPage
             {
@@ -24,6 +30,7 @@ namespace Samples
                     VerticalOptions = LayoutOptions.Center,
                     Children =
                     {
+                        btnPermission,
                         new Button
                         {
                             Text = "Set Badge",

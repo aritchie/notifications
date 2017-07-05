@@ -7,7 +7,6 @@ namespace Plugin.Notifications
 
     public class Notification
     {
-
         public static string DefaultTitle { get; set; }
         public static string DefaultSound { get; set; }
 
