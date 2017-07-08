@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>Plugin.Notifications</id>
-        <version>4.0.0</version>
+        <version>4.0.0-beta1</version>
         <title>ACR Notifications Plugin for Xamarin and Windows</title>
         <description>Local Notifications, Scheduled Notifications, Badges, and Vibration for Xamarin and Windows</description>
         <authors>Allan Ritchie</authors>
