@@ -41,6 +41,12 @@ await CrossNotifications.Current.Send("My Title", "My message for the notificati
 await CrossNotifications.Current.Send("Happy Birthday", "I sent this a long time ago", when = TimeSpan.FromDays(50));
 ```
 
+### Get a list of scheduled notifications
+
+```csharp
+var list = await CrossNotifications.Current.GetScheduledNotifications();
+```
+
 ### Cancel a specific notification
 ```csharp
 var id = await CrossNotifications.Current.Send("Hi", "This is my scheduled notification", when = TimeSpan.FromDays(1));

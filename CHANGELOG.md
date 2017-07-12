@@ -5,6 +5,7 @@
 * [breaking] Most methods are now async to deal with iOS' need to have notifications run on the main thread
 * [feature] package is now NET standard 1.0 compliant
 * [feature] ability to set your own identifier 
+* [feature] get list of scheduled notifications
 * [feature] sound manage is 100x easier now.  explained in readme
 * [feature] macOS support
 
