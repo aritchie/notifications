@@ -1,90 +1,72 @@
 # ACR Notifications Plugin for Xamarin and Windows
 
-Plugin for Easy Cross Platform notifications
-
-[![NuGet](https://img.shields.io/nuget/v/Acr.Notifications.svg?maxAge=2592000)](https://www.nuget.org/packages/Acr.Notifications/)
-[Change Log - July 1, 2017](changelog.md)
-
+---
 
 ## Features
 
 * Local Notifications
-* Scheduled Notifications
 * Sounds
-* Read all Scheduled Notifications
+* Scheduled Notifications
 * Badges
-* Set metadata on each notification for identification
-* Cancel individual or all notifications
-
 
 ## Supported OS
 * iOS 6+
-* macOS
 * Android 4+
 * Universal Windows Platform (Win10/UWP)
-* NET Standard 1.0
+* Portable Class Libraries (Profile 259)
+
 
 ### Installation
 
-Install the nuget package in your platform project as well as your netstandard library.
+Install the nuget package in your platform project as well as your shared library.
 
 
 ### Send a notification
 
 ```csharp
-await CrossNotifications.Current.Send("My Title", "My message for the notification");
+CrossNotifications.Current.Send("My Title", "My message for the notification");
 ```
 
 ### Send a scheduled notification:
 
 ```csharp
-await CrossNotifications.Current.Send("Happy Birthday", "I sent this a long time ago", when = TimeSpan.FromDays(50));
+CrossNotifications.Current.Send("Happy Birthday", "I sent this a long time ago", when = TimeSpan.FromDays(50));
 ```
 
 ### Cancel a specific notification
 ```csharp
-var id = await CrossNotifications.Current.Send("Hi", "This is my scheduled notification", when = TimeSpan.FromDays(1));
-await CrossNotifications.Current.Cancel(id);
+var id = CrossNotifications.Current.Send("Hi", "This is my scheduled notification", when = TimeSpan.FromDays(1));
+CrossNotifications.Current.Cancel(id);
 ```
 
 ### Cancel all scheduled notifications and clear badge:
 
+[warning] This will not cancel future scheduled notifications on Android.  Keep the notification IDs and cancel one-by-one
 ```csharp
 CrossNotifications.Current.CancelAll();
 ```
 
 ### To set a badge:
-
-Setting badges works on all platforms, though only select flavours of Android.  A 3rd party library is used to accomplish this.
-
+Badges work on iOS and Windows, but only certain flavours of Android.  Please take a Xamarin.ShortcutBadger for more info.
 ```csharp
-await CrossNotifications.Current.SetBadge(4);
-await CrossNotifications.Current.GetBadge();
-// 0 clears badge
+CrossNotifications.Current.Badge = 4; // TODO: 0 clears badge
 ```
 
 
 ### Sounds
 
-_In the notification.Sound property - set only the filename without the extension_
+This library only forwards a path through to the native API.  These paths will
+be vastly different between platforms
+
+You can set a default sound:
+```csharp
+Notification.DefaultSound = "path";
+```
 
 #### Android
-* Put the sound in your /Resources/raw/ folder - make sure the file properties is set to _AndroidResource_
-* You can pass the actual full sound path OR just the name... the plugin will figure it out!
+The path will be something like android.resource://!YOUR PACKAGE NAME!/raw/<your file without the extension>";  Go to https://stackoverflow.com/questions/13760168/how-to-set-notification-with-custom-sound-in-android for more info
+Make sure the file is set as an AndroidResource in its file properties.
 
 #### iOS
-* Put the file in your iOS app bundle
-* The file format must be a .caf file (google this to see how to make one) - ie. afconvert -f caff -d aacl@22050 -c 1 sound.aiff soundFileName.caf 
-
-#### UWP
-* Supports aac, flac, m4a, mp3, wav, & wma file formats
-* For desktop v1511, custom audio will not work.  The plugin will ignore the sound config if it sees this.
-* Read the following article for more info: https://blogs.msdn.microsoft.com/tiles_and_toasts/2016/06/18/quickstart-sending-a-toast-notification-with-custom-audio/
-
-
-### FAQ
-* Why are most methods async now?
-* _iOS requires all UI based commands run on the UI thread.  Notifications are part of UIKit and thus have this requirement.  With all of my plugins, I try to manage the thread marshalling for you_
-
-* Why can't I set a string as an identifier
-* _Android needs an integer for how it sets identifiers_
+You must simply add a caf sound to the app bundle and call it with 
+notification.Sound = "soundname.caf";
