@@ -26,7 +26,29 @@ namespace Plugin.Notifications.Infrastructure
 
         public Notification GetById(int id)
         {
-            throw new NotImplementedException();
+            var db = this.conn.Notifications.FirstOrDefault(x => x.Id == id);
+            if (db == null)
+                return null;
+
+            var mds = this.conn
+                .NotificationMetadata
+                .Where(x => x.NotificationId == id)
+                .ToList();
+
+            return new Notification
+            {
+                Id = db.Id,
+                Title = db.Title,
+                Message = db.Message,
+                Sound = db.Sound,
+                Vibrate = db.Vibrate,
+                Date = db.DateScheduled,
+                Metadata = mds
+                    .ToDictionary(
+                        y => y.Key,
+                        y => y.Value
+                    )
+            };
         }
 
 
@@ -54,7 +76,36 @@ namespace Plugin.Notifications.Infrastructure
 
         public void Insert(Notification notification)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                this.conn.BeginTransaction();
+                var db = new DbNotification
+                {
+                    Title = notification.Title,
+                    Message = notification.Message,
+                    Sound = notification.Sound,
+                    Vibrate = notification.Vibrate,
+                    DateScheduled = notification.SendTime
+                };
+                this.conn.Insert(db);
+
+                foreach (var pair in notification.Metadata)
+                {
+                    this.conn.Insert(new DbNotificationMetadata
+                    {
+                        NotificationId = db.Id,
+                        Key = pair.Key,
+                        Value = pair.Value
+                    });
+                }
+                this.conn.Commit();
+            }
+            catch
+            {
+                this.conn.Rollback();
+                throw;
+            }
         }
 
 

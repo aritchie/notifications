@@ -76,8 +76,7 @@ namespace Plugin.Notifications
                 {
                     if (!notification.Sound.Contains("://"))
                     {
-                        notification.Sound =
-                            $"{ContentResolver.SchemeAndroidResource}://{Application.Context.PackageName}/raw/{notification.Sound}";
+                        notification.Sound = $"{ContentResolver.SchemeAndroidResource}://{Application.Context.PackageName}/raw/{notification.Sound}";
                     }
                     var uri = Android.Net.Uri.Parse(notification.Sound);
                     builder.SetSound(uri);
@@ -165,9 +164,8 @@ namespace Plugin.Notifications
         protected virtual void CancelInternal(int notificationId)
         {
             var pending = Helpers.GetNotificationPendingIntent(notificationId);
-
-            
             pending.Cancel();
+
             this.alarmManager.Cancel(pending);
             NotificationManagerCompat
                 .From(Application.Context)
