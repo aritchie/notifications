@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Plugin.Notifications
+namespace Plugin.Notifications.Infrastructure
 {
     public class DbSettings
     {
