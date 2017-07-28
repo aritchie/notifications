@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -12,8 +11,6 @@ namespace Plugin.Notifications
 {
     public class NotificationsImpl : AbstractNotificationsImpl
     {
-        readonly AcrSqliteConnection conn;
-        readonly DbSettings settings;
         readonly AlarmManager alarmManager;
         public static int AppIconResourceId { get; set; }
 
@@ -26,15 +23,7 @@ namespace Plugin.Notifications
 
         public NotificationsImpl()
         {
-            this.conn = new AcrSqliteConnection();
             this.alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
-
-            this.settings = this.conn.Settings.SingleOrDefault();
-            if (this.settings == null)
-            {
-                this.settings = new DbSettings();
-                this.conn.Insert(this.settings);
-            }
         }
 
 
@@ -42,8 +31,8 @@ namespace Plugin.Notifications
         {
             if (notification.Id == null)
             {
-                notification.Id = ++this.settings.CurrentScheduleId;
-                this.conn.Update(this.settings);
+                Services.Repository.CurrentScheduleId++;
+                notification.Id = Services.Repository.CurrentScheduleId;
             }
 
             if (notification.IsScheduled)
@@ -57,56 +46,57 @@ namespace Plugin.Notifications
                     pending
                 );
             }
-            var launchIntent = Application.Context.PackageManager.GetLaunchIntentForPackage(Application.Context.PackageName);
-            launchIntent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
-            foreach (var pair in notification.Metadata)
+            else
             {
-                launchIntent.PutExtra(pair.Key, pair.Value);
-            }
-
-            var builder = new NotificationCompat
-                .Builder(Application.Context)
-                .SetAutoCancel(true)
-                .SetContentTitle(notification.Title)
-                .SetContentText(notification.Message)
-                .SetSmallIcon(AppIconResourceId)
-                .SetContentIntent(TaskStackBuilder
-                    .Create(Application.Context)
-                    .AddNextIntent(launchIntent)
-                    .GetPendingIntent(notification.Id.Value, PendingIntentFlags.OneShot)
-                );
-
-            if (notification.Vibrate)
-            {
-                builder.SetVibrate(new long[] { 500, 500 });
-            }
-
-            if (notification.Sound != null)
-            {
-                if (!notification.Sound.Contains("://"))
+                var launchIntent = Application.Context.PackageManager.GetLaunchIntentForPackage(Application.Context.PackageName);
+                launchIntent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
+                foreach (var pair in notification.Metadata)
                 {
-                    notification.Sound = $"{ContentResolver.SchemeAndroidResource}://{Application.Context.PackageName}/raw/{notification.Sound}";
+                    launchIntent.PutExtra(pair.Key, pair.Value);
                 }
-                var uri = Android.Net.Uri.Parse(notification.Sound);
-                builder.SetSound(uri);
-            }
-            var not = builder.Build();
-            NotificationManagerCompat
-                .From(Application.Context)
-                .Notify(notification.Id.Value, not);
 
+                var builder = new NotificationCompat
+                        .Builder(Application.Context)
+                    .SetAutoCancel(true)
+                    .SetContentTitle(notification.Title)
+                    .SetContentText(notification.Message)
+                    .SetSmallIcon(AppIconResourceId)
+                    .SetContentIntent(TaskStackBuilder
+                        .Create(Application.Context)
+                        .AddNextIntent(launchIntent)
+                        .GetPendingIntent(notification.Id.Value, PendingIntentFlags.OneShot)
+                    );
+
+                if (notification.Vibrate)
+                {
+                    builder.SetVibrate(new long[] {500, 500});
+                }
+
+                if (notification.Sound != null)
+                {
+                    if (!notification.Sound.Contains("://"))
+                    {
+                        notification.Sound = $"{ContentResolver.SchemeAndroidResource}://{Application.Context.PackageName}/raw/{notification.Sound}";
+                    }
+                    var uri = Android.Net.Uri.Parse(notification.Sound);
+                    builder.SetSound(uri);
+                }
+                var not = builder.Build();
+                NotificationManagerCompat
+                    .From(Application.Context)
+                    .Notify(notification.Id.Value, not);
+            }
             return Task.CompletedTask;
         }
 
 
         public override Task CancelAll()
         {
-            var notifications = this.conn.Notifications.ToList();
+            var notifications = Services.Repository.GetScheduled();
             foreach (var notification in notifications)
-                this.CancelInternal(notification.Id);
+                this.CancelInternal(notification.Id.Value);
 
-            this.conn.DeleteAll<DbNotificationMetadata>();
-            this.conn.DeleteAll<DbNotification>();
+            Services.Repository.DeleteAll();
 
             NotificationManagerCompat
                 .From(Application.Context)
@@ -124,35 +114,16 @@ namespace Plugin.Notifications
 
 
         public override Task<IEnumerable<Notification>> GetScheduledNotifications()
-        {
-            var nots = this.conn.Notifications.ToList();
-            var mds = this.conn.NotificationMetadata.ToList();
-            return Task.FromResult(nots.Select(x => new Notification
-            {
-                Id = x.Id,
-                Title = x.Title,
-                Message = x.Message,
-                Sound = x.Sound,
-                Vibrate = x.Vibrate,
-                Date = x.DateScheduled,
-                Metadata = mds
-                    .Where(y => y.NotificationId == x.Id)
-                    .ToDictionary(
-                        y => y.Key,
-                        y => y.Value
-                    )
-            }));
-        }
+            => Task.FromResult(Services.Repository.GetScheduled());
 
 
         public override Task<bool> RequestPermission() => Task.FromResult(true);
-        public override Task<int> GetBadge() => Task.FromResult(this.settings.CurrentBadge);
+        public override Task<int> GetBadge() => Task.FromResult(Services.Repository.CurrentBadge);
         public override Task SetBadge(int value)
         {
             try
             {
-                this.settings.CurrentBadge = value;
-                this.conn.Update(this.settings);
+                Services.Repository.CurrentBadge = value;
                 if (value <= 0)
                 {
                     ME.Leolin.Shortcutbadger.ShortcutBadger.RemoveCount(Application.Context);
@@ -193,8 +164,8 @@ namespace Plugin.Notifications
         protected virtual void CancelInternal(int notificationId)
         {
             var pending = Helpers.GetNotificationPendingIntent(notificationId);
-            this.conn.Notifications.Delete(x => x.Id == notificationId);
             pending.Cancel();
+
             this.alarmManager.Cancel(pending);
             NotificationManagerCompat
                 .From(Application.Context)

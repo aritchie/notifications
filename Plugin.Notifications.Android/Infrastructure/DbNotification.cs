@@ -2,7 +2,7 @@
 using SQLite;
 
 
-namespace Plugin.Notifications
+namespace Plugin.Notifications.Infrastructure
 {
     public class DbNotification
     {
