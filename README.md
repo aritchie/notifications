@@ -3,7 +3,7 @@
 Plugin for Easy Cross Platform notifications
 
 [![NuGet](https://img.shields.io/nuget/v/Acr.Notifications.svg?maxAge=2592000)](https://www.nuget.org/packages/Acr.Notifications/)
-[Change Log - July 11, 2017](changelog.md)
+[Change Log - July 28, 2017](changelog.md)
 
 
 ## Features

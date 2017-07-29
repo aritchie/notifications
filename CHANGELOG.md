@@ -1,5 +1,8 @@
 # CHANGE LOG
 
+## 4.0.1
+* [fix][android] scheduled notification issues
+
 ## 4.0
 * [breaking] Acr.Notifications => Plugin.Notifications
 * [breaking] Most methods are now async to deal with iOS' need to have notifications run on the main thread
