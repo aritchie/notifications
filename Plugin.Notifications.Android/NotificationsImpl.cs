@@ -45,6 +45,7 @@ namespace Plugin.Notifications
                     Convert.ToInt64(triggerMs),
                     pending
                 );
+                Services.Repository.Insert(notification);
             }
             else
             {
