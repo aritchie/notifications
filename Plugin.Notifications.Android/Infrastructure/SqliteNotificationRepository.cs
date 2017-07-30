@@ -81,6 +81,7 @@ namespace Plugin.Notifications.Infrastructure
                 this.conn.BeginTransaction();
                 var db = new DbNotification
                 {
+                    Id = notification.Id.Value,
                     Title = notification.Title,
                     Message = notification.Message,
                     Sound = notification.Sound,

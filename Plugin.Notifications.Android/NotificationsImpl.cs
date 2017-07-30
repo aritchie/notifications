@@ -56,8 +56,7 @@ namespace Plugin.Notifications
                     launchIntent.PutExtra(pair.Key, pair.Value);
                 }
 
-                var builder = new NotificationCompat
-                        .Builder(Application.Context)
+                var builder = new NotificationCompat.Builder(Application.Context)
                     .SetAutoCancel(true)
                     .SetContentTitle(notification.Title)
                     .SetContentText(notification.Message)
