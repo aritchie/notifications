@@ -6,6 +6,7 @@ using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System.Profile;
 using Windows.UI.Notifications;
+using Windows.UI.Xaml;
 using Microsoft.QueryStringDotNET;
 using Microsoft.Toolkit.Uwp.Notifications;
 
@@ -95,10 +96,12 @@ namespace Plugin.Notifications
             if (notification.Date == null && notification.When == null)
             {
                 var toast = new ToastNotification(toastContent.GetXml());
+                //toast.Activated +=
                 this.toastNotifier.Show(toast);
             }
             else
             {
+                //https://msdn.microsoft.com/library/74ba3513-0a52-46a0-8769-ed58abe7c05a
                 var schedule = new ScheduledToastNotification(toastContent.GetXml(), notification.SendTime)
                 {
                     Id = notification.Id.Value.ToString()

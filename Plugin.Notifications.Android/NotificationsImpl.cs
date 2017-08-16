@@ -9,6 +9,7 @@ using Android.Support.V4.App;
 
 namespace Plugin.Notifications
 {
+    //https://stackoverflow.com/questions/6422319/start-service-from-notification
     public class NotificationsImpl : AbstractNotificationsImpl
     {
         readonly AlarmManager alarmManager;

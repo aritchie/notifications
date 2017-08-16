@@ -12,6 +12,14 @@ namespace Plugin.Notifications
     {
         const string NOTIFICATION_ID_KEY = "NotificationID";
 
+        public void Init()
+        {
+            UIApplication.Notifications.ObserveDidFinishLaunching((sender, launchArgs) =>
+            {
+                //launchArgs.Notification
+            });
+        }
+
 
         public override Task Cancel(int notificationId)
         {

@@ -9,6 +9,16 @@ using UserNotifications;
 
 namespace Plugin.Notifications
 {
+    public class EventDelegate : UNUserNotificationCenterDelegate
+    {
+        public override void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
+        {
+            //response.Notification
+            base.DidReceiveNotificationResponse(center, response, completionHandler);
+        }
+    }
+
+
     public class UNNotificationsImpl : AbstractAppleNotificationsImpl
     {
         public override Task CancelAll() => this.Invoke(() =>
@@ -21,6 +31,7 @@ namespace Plugin.Notifications
         public override Task Cancel(int notificationId) => this.Invoke(() =>
         {
             var ids = new [] { notificationId.ToString() };
+
             UNUserNotificationCenter.Current.RemovePendingNotificationRequests(ids);
             UNUserNotificationCenter.Current.RemoveDeliveredNotifications(ids);
         });
