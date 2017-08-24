@@ -45,7 +45,7 @@ namespace Plugin.Notifications
                 InformativeText = notification.Message,
                 SoundName = notification.Sound,
                 DeliveryDate = notification.SendTime.ToNSDate(),
-                UserInfo = notification.Metadata.ToNsDictionary()
+                UserInfo = notification.MetadataToNsDictionary()
             };
             NSUserNotificationCenter
                 .DefaultUserNotificationCenter

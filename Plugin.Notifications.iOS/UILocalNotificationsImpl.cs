@@ -12,13 +12,13 @@ namespace Plugin.Notifications
     {
         const string NOTIFICATION_ID_KEY = "NotificationID";
 
-        public void Init()
-        {
-            UIApplication.Notifications.ObserveDidFinishLaunching((sender, launchArgs) =>
-            {
-                //launchArgs.Notification
-            });
-        }
+        //public void Init()
+        //{
+        //    UIApplication.Notifications.ObserveDidFinishLaunching((sender, launchArgs) =>
+        //    {
+        //        //launchArgs.Notification
+        //    });
+        //}
 
 
         public override Task Cancel(int notificationId)
@@ -49,15 +49,13 @@ namespace Plugin.Notifications
             if (notification.Id == null)
                 notification.GeneratedNotificationId();
 
-            notification.Metadata.Add(NOTIFICATION_ID_KEY, notification.Id.ToString());
-
             var not = new UILocalNotification
             {
                 FireDate = notification.SendTime.ToNSDate(),
                 AlertTitle = notification.Title,
                 AlertBody = notification.Message,
                 SoundName = notification.Sound,
-                UserInfo = notification.Metadata.ToNsDictionary()
+                UserInfo = notification.MetadataToNsDictionary()
             };
             return this.Invoke(() => UIApplication.SharedApplication.ScheduleLocalNotification(not));
         }

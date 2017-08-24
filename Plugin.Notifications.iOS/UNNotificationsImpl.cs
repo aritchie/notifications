@@ -9,14 +9,14 @@ using UserNotifications;
 
 namespace Plugin.Notifications
 {
-    public class EventDelegate : UNUserNotificationCenterDelegate
-    {
-        public override void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
-        {
-            //response.Notification
-            base.DidReceiveNotificationResponse(center, response, completionHandler);
-        }
-    }
+    //public class EventDelegate : UNUserNotificationCenterDelegate
+    //{
+    //    public override void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
+    //    {
+    //        //response.Notification
+    //        base.DidReceiveNotificationResponse(center, response, completionHandler);
+    //    }
+    //}
 
 
     public class UNNotificationsImpl : AbstractAppleNotificationsImpl
@@ -45,7 +45,8 @@ namespace Plugin.Notifications
             var content = new UNMutableNotificationContent
             {
                 Title = notification.Title,
-                Body = notification.Message
+                Body = notification.Message,
+                UserInfo = notification.MetadataToNsDictionary()
             };
             if (!String.IsNullOrWhiteSpace(notification.Sound))
                 content.Sound = UNNotificationSound.GetSound(notification.Sound);

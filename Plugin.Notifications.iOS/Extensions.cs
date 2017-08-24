@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Foundation;
 
@@ -27,12 +26,20 @@ namespace Plugin.Notifications
         }
 
 
-        public static NSDictionary ToNsDictionary(this IDictionary<string, string> dict)
+        public static NSDictionary MetadataToNsDictionary(this Notification notification)
         {
-            var ns = new NSDictionary();
-            foreach (var pair in dict)
-                ns.SetValueForKey(new NSString(pair.Value), new NSString(pair.Key));
-
+            var ns = new NSMutableDictionary();
+            ns.SetValueForKey(
+                new NSString(notification.Id.Value.ToString()),
+                new NSString(NOTIFICATION_ID_KEY)
+            );
+            if (notification.Metadata != null)
+            {
+                foreach (var pair in notification.Metadata)
+                {
+                    ns.SetValueForKey(new NSString(pair.Value), new NSString(pair.Key));
+                }
+            }
             return ns;
         }
 
