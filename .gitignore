@@ -188,3 +188,4 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 /nuspec/*.nupkg
+/.vs/Plugin.Notifications/v15/sqlite3
