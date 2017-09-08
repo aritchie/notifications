@@ -15,7 +15,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
-
+.vs/
 # Roslyn cache directories
 *.ide/
 
@@ -188,3 +188,5 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 /nuspec/*.nupkg
+*.ide
+.vs/Plugin.Notifications/v15/sqlite3/storage.ide
