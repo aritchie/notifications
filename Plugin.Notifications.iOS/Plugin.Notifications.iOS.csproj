@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractAppleNotificationsImpl.cs" />
+    <Compile Include="AcrUserNotificationCenterDelegate.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="NotificationsImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

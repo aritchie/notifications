@@ -12,13 +12,21 @@ namespace Plugin.Notifications
     {
         const string NOTIFICATION_ID_KEY = "NotificationID";
 
-        //public void Init()
-        //{
-        //    UIApplication.Notifications.ObserveDidFinishLaunching((sender, launchArgs) =>
-        //    {
-        //        //launchArgs.Notification
-        //    });
-        //}
+
+        public UILocalNotificationsImpl()
+        {
+            UIApplication
+                .Notifications
+                .ObserveDidFinishLaunching((sender, launchArgs) =>
+                {
+                    var native = launchArgs.Notification.Object as UILocalNotification;
+                    if (native != null)
+                    {
+                        var notification = this.FromNative(native);
+                        this.OnSelected(notification);
+                    }
+                });
+        }
 
 
         public override Task Cancel(int notificationId)

@@ -60,6 +60,7 @@
     <Compile Include="..\Plugin.Notifications.iOS\Extensions.cs">
       <Link>Extensions.cs</Link>
     </Compile>
+    <Compile Include="AcrUserNotificationDelegate.cs" />
     <Compile Include="NotificationsImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

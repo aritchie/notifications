@@ -51,6 +51,7 @@
     <Compile Include="Helpers.cs" />
     <Compile Include="Infrastructure\SqliteNotificationRepository.cs" />
     <Compile Include="INotificationRepository.cs" />
+    <Compile Include="NotificationActionService.cs" />
     <Compile Include="NotificationsImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services.cs" />

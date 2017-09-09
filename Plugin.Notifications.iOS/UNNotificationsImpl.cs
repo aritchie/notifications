@@ -9,18 +9,20 @@ using UserNotifications;
 
 namespace Plugin.Notifications
 {
-    //public class EventDelegate : UNUserNotificationCenterDelegate
-    //{
-    //    public override void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
-    //    {
-    //        //response.Notification
-    //        base.DidReceiveNotificationResponse(center, response, completionHandler);
-    //    }
-    //}
-
-
     public class UNNotificationsImpl : AbstractAppleNotificationsImpl
     {
+        public UNNotificationsImpl()
+        {
+            UNUserNotificationCenter
+                .Current
+                .Delegate = new AcrUserNotificationCenterDelegate(response =>
+                {
+                    var notification = this.FromNative(response.Notification.Request);
+                    this.OnSelected(notification);
+                });
+        }
+
+
         public override Task CancelAll() => this.Invoke(() =>
         {
             UNUserNotificationCenter.Current.RemoveAllPendingNotificationRequests();

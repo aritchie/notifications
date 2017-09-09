@@ -8,13 +8,19 @@ namespace Plugin.Notifications
     public interface INotifications
     {
         /// <summary>
+        /// Fires when a notification selection or action is performed
+        /// </summary>
+        event EventHandler<Notification> Selected;
+
+
+        /// <summary>
         /// This is required on iOS to trigger permission request
         /// </summary>
         Task<bool> RequestPermission();
 
 
         /// <summary>
-        ///
+        /// Get scheduled notifications
         /// </summary>
         /// <returns></returns>
         Task<IEnumerable<Notification>> GetScheduledNotifications();
@@ -43,13 +49,13 @@ namespace Plugin.Notifications
 
 
         /// <summary>
-        /// Get or set the current badge count
+        /// Get the current badge count
         /// </summary>
         Task<int> GetBadge();
 
 
         /// <summary>
-        ///
+        /// Set the current badge
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>

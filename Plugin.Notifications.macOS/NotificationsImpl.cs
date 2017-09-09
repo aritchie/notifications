@@ -13,6 +13,7 @@ namespace Plugin.Notifications
         public override Task CancelAll() => this.Invoke(() =>
         {
             var dunc = NSUserNotificationCenter.DefaultUserNotificationCenter;
+            dunc.Delegate
             foreach (var native in dunc.ScheduledNotifications)
                 dunc.RemoveScheduledNotification(native);
 

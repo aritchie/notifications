@@ -8,6 +8,7 @@ namespace Plugin.Notifications
 
     public abstract class AbstractNotificationsImpl : INotifications
     {
+        public event EventHandler<Notification> Selected;
         public abstract Task Cancel(int notificationId);
         public abstract Task Send(Notification notification);
         public abstract Task<IEnumerable<Notification>> GetScheduledNotifications();
@@ -25,5 +26,9 @@ namespace Plugin.Notifications
                 await this.Cancel(notification.Id.Value);
             }
         }
+
+
+        protected virtual void OnSelected(Notification notification)
+            => this.Selected?.Invoke(this, notification);
     }
 }
