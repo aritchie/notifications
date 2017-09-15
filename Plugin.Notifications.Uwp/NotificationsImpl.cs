@@ -96,7 +96,7 @@ namespace Plugin.Notifications
             if (notification.Date == null && notification.When == null)
             {
                 var toast = new ToastNotification(toastContent.GetXml());
-                toast.Activated += (sender, args) => this.OnSelected(notification);
+                toast.Activated += (sender, args) => this.OnActivated(notification);
                 this.toastNotifier.Show(toast);
             }
             else
