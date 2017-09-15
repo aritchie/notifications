@@ -18,7 +18,7 @@ namespace Plugin.Notifications
                 .Delegate = new AcrUserNotificationCenterDelegate(response =>
                 {
                     var notification = this.FromNative(response.Notification.Request);
-                    this.OnSelected(notification);
+                    this.OnActivated(notification);
                 });
         }
 

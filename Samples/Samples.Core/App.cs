@@ -92,6 +92,16 @@ namespace Samples
         }
 
 
+        protected override void OnStart()
+        {
+            CrossNotifications.Current.Activated += (sender, notification) =>
+            {
+                Debug.WriteLine($"Notification Activated - {notification.Id} - {notification.Title}");
+            };
+            base.OnStart();
+        }
+
+
         protected override void OnResume()
         {
             base.OnResume();

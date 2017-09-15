@@ -11,7 +11,12 @@ namespace Plugin.Notifications
     {
         public override IBinder OnBind(Intent intent)
         {
-            throw new NotImplementedException();
+            if (intent.HasExtra(Constants.ACTION_KEY))
+            {
+                var notificationId = intent.GetIntExtra(Constants.NOTIFICATION_ID, 0);
+                ((NotificationsImpl)CrossNotifications.Current).TriggerNotification(notificationId);
+            }
+            return null;
         }
     }
 }

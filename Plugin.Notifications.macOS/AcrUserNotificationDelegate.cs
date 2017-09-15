@@ -15,10 +15,10 @@ namespace Plugin.Notifications
         }
 
 
-        public override void DidDeliverNotification(NSUserNotificationCenter center, NSUserNotification notification)
+        public override void DidActivateNotification(NSUserNotificationCenter center, NSUserNotification notification)
         {
-
-            base.DidDeliverNotification(center, notification);
+            this.action(notification);
+            base.DidActivateNotification(center, notification);
         }
     }
 }

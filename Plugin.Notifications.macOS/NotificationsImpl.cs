@@ -13,7 +13,11 @@ namespace Plugin.Notifications
         public override Task CancelAll() => this.Invoke(() =>
         {
             var dunc = NSUserNotificationCenter.DefaultUserNotificationCenter;
-            dunc.Delegate
+            dunc.Delegate = new AcrUserNotificationDelegate(native =>
+            {
+                var notification = this.FromNative(native);
+                this.OnActivated(notification);
+            });
             foreach (var native in dunc.ScheduledNotifications)
                 dunc.RemoveScheduledNotification(native);
 
@@ -84,15 +88,7 @@ namespace Plugin.Notifications
                 var natives = NSUserNotificationCenter
                     .DefaultUserNotificationCenter
                     .ScheduledNotifications
-                    .Select(x => new Notification
-                    {
-                        Id = this.ToNotificationId(x.Identifier),
-                        Title = x.Title,
-                        Message = x.InformativeText,
-                        Sound = x.SoundName,
-                        Date = x.DeliveryDate.ToDateTime(),
-                        Metadata = x.UserInfo.FromNsDictionary()
-                    });
+                    .Select(this.FromNative);
 
                 tcs.TrySetResult(natives);
             });
@@ -111,6 +107,16 @@ namespace Plugin.Notifications
             return i;
         }
 
+
+        protected virtual Notification FromNative(NSUserNotification x) => new Notification
+        {
+            Id = this.ToNotificationId(x.Identifier),
+            Title = x.Title,
+            Message = x.InformativeText,
+            Sound = x.SoundName,
+            Date = x.DeliveryDate.ToDateTime(),
+            Metadata = x.UserInfo.FromNsDictionary()
+        };
 
         protected async Task Invoke(Action action)
         {

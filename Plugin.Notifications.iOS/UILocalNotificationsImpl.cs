@@ -23,7 +23,7 @@ namespace Plugin.Notifications
                     if (native != null)
                     {
                         var notification = this.FromNative(native);
-                        this.OnSelected(notification);
+                        this.OnActivated(notification);
                     }
                 });
         }

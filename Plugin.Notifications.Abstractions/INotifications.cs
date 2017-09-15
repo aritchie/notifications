@@ -8,9 +8,9 @@ namespace Plugin.Notifications
     public interface INotifications
     {
         /// <summary>
-        /// Fires when a notification selection or action is performed
+        /// Fires when a notification activated
         /// </summary>
-        event EventHandler<Notification> Selected;
+        event EventHandler<Notification> Activated;
 
 
         /// <summary>

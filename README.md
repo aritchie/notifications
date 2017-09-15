@@ -69,6 +69,9 @@ await CrossNotifications.Current.GetBadge();
 // 0 clears badge
 ```
 
+### Listen for Event Activations
+
+TODO
 
 ### Sounds
 

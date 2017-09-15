@@ -1,5 +1,10 @@
 # CHANGE LOG
 
+## 5.0.0
+* [feature] Notification events!
+* [feature] Control the notification icon used in Android ()
+* [fix][android] cancelling a single notification would not remove it from the schedule database
+
 ## 4.0.2
 * [fix][android] scheduled notification issues
 

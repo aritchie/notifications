@@ -10,11 +10,11 @@ namespace Plugin.Notifications
         public override void OnReceive(Context context, Intent intent)
         {
             var notificationId = intent.NotificationId();
-            var notification = Services.Repository.GetById(notificationId);
+            var notification = AndroidConfig.Repository.GetById(notificationId);
             if (notification == null)
                 return;
 
-            Services.Repository.Delete(notificationId);
+            AndroidConfig.Repository.Delete(notificationId);
 
             // resend without schedule so it goes through normal mechanism
             notification.When = null;
