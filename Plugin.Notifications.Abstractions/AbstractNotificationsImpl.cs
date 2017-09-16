@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 namespace Plugin.Notifications
 {
 
-    public abstract class AbstractNotificationsImpl : INotifications
+    public abstract class AbstractNotificationsImpl : INotifications, IDisposable
     {
+        ~AbstractNotificationsImpl() => this.Dispose(false);
+
+
         public event EventHandler<Notification> Activated;
         public abstract Task Cancel(int notificationId);
         public abstract Task Send(Notification notification);
@@ -30,5 +33,11 @@ namespace Plugin.Notifications
 
         protected virtual void OnActivated(Notification notification)
             => this.Activated?.Invoke(this, notification);
+
+
+        public void Dispose() => this.Dispose(true);
+        protected virtual void Dispose(bool disposing)
+        {
+        }
     }
 }

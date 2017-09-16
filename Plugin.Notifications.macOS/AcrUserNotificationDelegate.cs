@@ -18,7 +18,6 @@ namespace Plugin.Notifications
         public override void DidActivateNotification(NSUserNotificationCenter center, NSUserNotification notification)
         {
             this.action(notification);
-            base.DidActivateNotification(center, notification);
         }
     }
 }

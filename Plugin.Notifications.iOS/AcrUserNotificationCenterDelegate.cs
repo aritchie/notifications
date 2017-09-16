@@ -18,7 +18,6 @@ namespace Plugin.Notifications
         public override void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
         {
             this.action(response);
-            base.DidReceiveNotificationResponse(center, response, completionHandler);
         }
     }
 }

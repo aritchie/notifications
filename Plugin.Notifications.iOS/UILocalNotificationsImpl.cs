@@ -11,11 +11,12 @@ namespace Plugin.Notifications
     public class UILocalNotificationsImpl : AbstractAppleNotificationsImpl
     {
         const string NOTIFICATION_ID_KEY = "NotificationID";
+        readonly IDisposable dispose;
 
 
         public UILocalNotificationsImpl()
         {
-            UIApplication
+            this.dispose = UIApplication
                 .Notifications
                 .ObserveDidFinishLaunching((sender, launchArgs) =>
                 {
@@ -111,6 +112,13 @@ namespace Plugin.Notifications
             }
 
             return plugin;
+        }
+
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            this.dispose.Dispose();
         }
     }
 }

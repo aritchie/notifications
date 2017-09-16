@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Diagnostics;
 using Foundation;
+using Plugin.Notifications;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
 
-namespace Samples.iOS {
-
+namespace Samples.iOS
+{
     [Register("AppDelegate")]
-    public partial class AppDelegate : FormsApplicationDelegate {
-
-        public override bool FinishedLaunching(UIApplication app, NSDictionary options) {
+    public partial class AppDelegate : FormsApplicationDelegate
+    {
+        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        {
             Forms.Init();
             this.LoadApplication(new App());
 
@@ -19,11 +21,13 @@ namespace Samples.iOS {
         }
 
 
-        public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification) {
+        public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
+        {
             Debug.WriteLine("Location Notification: {0}:{1}", notification.AlertAction, notification.AlertBody);
             //Debug.WriteLine("Location Notification: " + notification.AlertBody);
 
-            if (UIApplication.SharedApplication.ApplicationState == UIApplicationState.Active) {
+            if (UIApplication.SharedApplication.ApplicationState == UIApplicationState.Active)
+            {
                 new UIAlertView(notification.AlertAction, notification.AlertBody, null, "OK", null).Show();
 
                 //var alert = UIAlertController.Create(notification.AlertAction, notification.AlertBody, UIAlertControllerStyle.Alert);
@@ -32,7 +36,8 @@ namespace Samples.iOS {
         }
 
 
-        public override void HandleAction(UIApplication application, string actionIdentifier, NSDictionary remoteNotificationInfo, Action completionHandler) {
+        public override void HandleAction(UIApplication application, string actionIdentifier, NSDictionary remoteNotificationInfo, Action completionHandler)
+        {
             if (UIApplication.SharedApplication.ApplicationState == UIApplicationState.Active)
                 new UIAlertView("Notification Action", actionIdentifier, null, "OK", null).Show();
             else

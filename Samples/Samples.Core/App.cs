@@ -56,7 +56,7 @@ namespace Samples
                         },
                         new Button
                         {
-                            Text = "Multiple Timed Messages (10 messages x 5 seconds apart)",
+                            Text = "Send 10 messages x 5 seconds",
                             Command = new Command(() =>
                             {
                                 CrossNotifications.Current.Send(new Notification
@@ -94,11 +94,11 @@ namespace Samples
 
         protected override void OnStart()
         {
+            base.OnStart();
             CrossNotifications.Current.Activated += (sender, notification) =>
             {
                 Debug.WriteLine($"Notification Activated - {notification.Id} - {notification.Title}");
             };
-            base.OnStart();
         }
 
 
