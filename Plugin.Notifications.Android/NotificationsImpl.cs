@@ -10,7 +10,7 @@ using Android.Support.V4.App;
 namespace Plugin.Notifications
 {
     //https://stackoverflow.com/questions/6422319/start-service-from-notification
-    public class NotificationsImpl : AbstractNotificationsImpl
+    public class NotificationsImpl : AbstractNotificationsImpl, IAndroidNotificationReceiver
     {
         readonly AlarmManager alarmManager;
 
@@ -152,13 +152,27 @@ namespace Plugin.Notifications
         }
 
 
-        internal void TriggerNotification(int id)
+        public void TriggerNotification(int id)
         {
             var notification = AndroidConfig.Repository.GetById(id);
             if (notification != null)
                 this.OnActivated(notification);
         }
 
+
+        public void TriggerScheduledNotification(int notificationId)
+        {
+            var notification = AndroidConfig.Repository.GetById(notificationId);
+            if (notification == null)
+                return;
+
+            AndroidConfig.Repository.Delete(notificationId);
+
+            // resend without schedule so it goes through normal mechanism
+            notification.When = null;
+            notification.Date = null;
+            this.Send(notification);
+        }
 
         protected virtual long GetEpochMills(DateTime sendTime)
         {

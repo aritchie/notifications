@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="IAndroidNotificationReceiver.cs" />
     <Compile Include="Infrastructure\AcrSqliteConnection.cs" />
     <Compile Include="AlarmBroadcastReceiver.cs" />
     <Compile Include="Infrastructure\DbNotification.cs" />

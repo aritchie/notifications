@@ -10,16 +10,7 @@ namespace Plugin.Notifications
         public override void OnReceive(Context context, Intent intent)
         {
             var notificationId = intent.NotificationId();
-            var notification = AndroidConfig.Repository.GetById(notificationId);
-            if (notification == null)
-                return;
-
-            AndroidConfig.Repository.Delete(notificationId);
-
-            // resend without schedule so it goes through normal mechanism
-            notification.When = null;
-            notification.Date = null;
-            CrossNotifications.Current.Send(notification);
+            (CrossNotifications.Current as IAndroidNotificationReceiver)?.TriggerScheduledNotification(notificationId);
         }
     }
 }

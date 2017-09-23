@@ -14,7 +14,7 @@ namespace Plugin.Notifications
             if (intent.HasExtra(Constants.ACTION_KEY))
             {
                 var notificationId = intent.GetIntExtra(Constants.NOTIFICATION_ID, 0);
-                ((NotificationsImpl)CrossNotifications.Current).TriggerNotification(notificationId);
+                (CrossNotifications.Current as IAndroidNotificationReceiver)?.TriggerNotification(notificationId);
             }
             return null;
         }
