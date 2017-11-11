@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "UAP,Version=v10.0.10240": {
+    "UAP,Version=v10.0.10586": {
       "Microsoft.CSharp/4.0.1": {
         "type": "package",
         "dependencies": {
@@ -2445,11 +2445,12 @@
       },
       "Plugin.Notifications.Uwp/1.0.0": {
         "type": "project",
-        "framework": "Unsupported,Version=v0.0",
+        "framework": "UAP,Version=v10.0.10586",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
           "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
           "NETStandard.Library": "1.6.1",
+          "Plugin.Notifications.Abstractions": "1.0.0",
           "QueryString.NET": "1.0.0"
         }
       },
@@ -2464,7 +2465,7 @@
         }
       }
     },
-    "UAP,Version=v10.0.10240/win10-arm": {
+    "UAP,Version=v10.0.10586/win10-arm": {
       "Microsoft.CSharp/4.0.1": {
         "type": "package",
         "dependencies": {
@@ -4938,11 +4939,12 @@
       },
       "Plugin.Notifications.Uwp/1.0.0": {
         "type": "project",
-        "framework": "Unsupported,Version=v0.0",
+        "framework": "UAP,Version=v10.0.10586",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
           "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
           "NETStandard.Library": "1.6.1",
+          "Plugin.Notifications.Abstractions": "1.0.0",
           "QueryString.NET": "1.0.0"
         }
       },
@@ -4957,7 +4959,7 @@
         }
       }
     },
-    "UAP,Version=v10.0.10240/win10-arm-aot": {
+    "UAP,Version=v10.0.10586/win10-arm-aot": {
       "Microsoft.CSharp/4.0.1": {
         "type": "package",
         "dependencies": {
@@ -7467,11 +7469,12 @@
       },
       "Plugin.Notifications.Uwp/1.0.0": {
         "type": "project",
-        "framework": "Unsupported,Version=v0.0",
+        "framework": "UAP,Version=v10.0.10586",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
           "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
           "NETStandard.Library": "1.6.1",
+          "Plugin.Notifications.Abstractions": "1.0.0",
           "QueryString.NET": "1.0.0"
         }
       },
@@ -7486,7 +7489,7 @@
         }
       }
     },
-    "UAP,Version=v10.0.10240/win10-x64": {
+    "UAP,Version=v10.0.10586/win10-x64": {
       "Microsoft.CSharp/4.0.1": {
         "type": "package",
         "dependencies": {
@@ -9969,11 +9972,12 @@
       },
       "Plugin.Notifications.Uwp/1.0.0": {
         "type": "project",
-        "framework": "Unsupported,Version=v0.0",
+        "framework": "UAP,Version=v10.0.10586",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
           "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
           "NETStandard.Library": "1.6.1",
+          "Plugin.Notifications.Abstractions": "1.0.0",
           "QueryString.NET": "1.0.0"
         }
       },
@@ -9988,7 +9992,7 @@
         }
       }
     },
-    "UAP,Version=v10.0.10240/win10-x64-aot": {
+    "UAP,Version=v10.0.10586/win10-x64-aot": {
       "Microsoft.CSharp/4.0.1": {
         "type": "package",
         "dependencies": {
@@ -12507,11 +12511,12 @@
       },
       "Plugin.Notifications.Uwp/1.0.0": {
         "type": "project",
-        "framework": "Unsupported,Version=v0.0",
+        "framework": "UAP,Version=v10.0.10586",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
           "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
           "NETStandard.Library": "1.6.1",
+          "Plugin.Notifications.Abstractions": "1.0.0",
           "QueryString.NET": "1.0.0"
         }
       },
@@ -12526,7 +12531,7 @@
         }
       }
     },
-    "UAP,Version=v10.0.10240/win10-x86": {
+    "UAP,Version=v10.0.10586/win10-x86": {
       "Microsoft.CSharp/4.0.1": {
         "type": "package",
         "dependencies": {
@@ -15009,11 +15014,12 @@
       },
       "Plugin.Notifications.Uwp/1.0.0": {
         "type": "project",
-        "framework": "Unsupported,Version=v0.0",
+        "framework": "UAP,Version=v10.0.10586",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
           "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
           "NETStandard.Library": "1.6.1",
+          "Plugin.Notifications.Abstractions": "1.0.0",
           "QueryString.NET": "1.0.0"
         }
       },
@@ -15028,7 +15034,7 @@
         }
       }
     },
-    "UAP,Version=v10.0.10240/win10-x86-aot": {
+    "UAP,Version=v10.0.10586/win10-x86-aot": {
       "Microsoft.CSharp/4.0.1": {
         "type": "package",
         "dependencies": {
@@ -17547,11 +17553,12 @@
       },
       "Plugin.Notifications.Uwp/1.0.0": {
         "type": "project",
-        "framework": "Unsupported,Version=v0.0",
+        "framework": "UAP,Version=v10.0.10586",
         "dependencies": {
           "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
           "Microsoft.Toolkit.Uwp.Notifications": "1.4.1",
           "NETStandard.Library": "1.6.1",
+          "Plugin.Notifications.Abstractions": "1.0.0",
           "QueryString.NET": "1.0.0"
         }
       },
@@ -26393,7 +26400,7 @@
     "": [
       "Xamarin.Forms >= 2.3.5.239-pre3"
     ],
-    "UAP,Version=v10.0.10240": []
+    "UAP,Version=v10.0.10586": []
   },
   "packageFolders": {
     "C:\\Users\\allan\\.nuget\\packages\\": {}
@@ -26413,12 +26420,10 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Users\\allan\\Dropbox\\nuget": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://www.myget.org/F/signalr-alpha/api/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "uap10.0.10240": {
+        "uap10.0.10586": {
           "projectReferences": {
             "C:\\dev\\acr\\notifications\\Plugin.Notifications.Abstractions\\Plugin.Notifications.Abstractions.csproj": {
               "projectPath": "C:\\dev\\acr\\notifications\\Plugin.Notifications.Abstractions\\Plugin.Notifications.Abstractions.csproj"
@@ -26437,7 +26442,7 @@
       "Xamarin.Forms": "2.3.5.239-pre3"
     },
     "frameworks": {
-      "uap10.0.10240": {}
+      "uap10.0.10586": {}
     },
     "runtimes": {
       "win10-arm": {
@@ -26459,70 +26464,5 @@
         "#import": []
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1201",
-      "level": "Error",
-      "message": "Project Plugin.Notifications.Uwp is not compatible with uap10.0.10240 (UAP,Version=v10.0.10240). Project Plugin.Notifications.Uwp supports: uap10.0.10586 (UAP,Version=v10.0.10586)",
-      "libraryId": "Plugin.Notifications.Uwp",
-      "targetGraphs": [
-        "UAP,Version=v10.0.10240"
-      ]
-    },
-    {
-      "code": "NU1201",
-      "level": "Error",
-      "message": "Project Plugin.Notifications.Uwp is not compatible with uap10.0.10240 (UAP,Version=v10.0.10240) / win10-arm. Project Plugin.Notifications.Uwp supports: uap10.0.10586 (UAP,Version=v10.0.10586)",
-      "libraryId": "Plugin.Notifications.Uwp",
-      "targetGraphs": [
-        "UAP,Version=v10.0.10240/win10-arm"
-      ]
-    },
-    {
-      "code": "NU1201",
-      "level": "Error",
-      "message": "Project Plugin.Notifications.Uwp is not compatible with uap10.0.10240 (UAP,Version=v10.0.10240) / win10-arm-aot. Project Plugin.Notifications.Uwp supports: uap10.0.10586 (UAP,Version=v10.0.10586)",
-      "libraryId": "Plugin.Notifications.Uwp",
-      "targetGraphs": [
-        "UAP,Version=v10.0.10240/win10-arm-aot"
-      ]
-    },
-    {
-      "code": "NU1201",
-      "level": "Error",
-      "message": "Project Plugin.Notifications.Uwp is not compatible with uap10.0.10240 (UAP,Version=v10.0.10240) / win10-x64. Project Plugin.Notifications.Uwp supports: uap10.0.10586 (UAP,Version=v10.0.10586)",
-      "libraryId": "Plugin.Notifications.Uwp",
-      "targetGraphs": [
-        "UAP,Version=v10.0.10240/win10-x64"
-      ]
-    },
-    {
-      "code": "NU1201",
-      "level": "Error",
-      "message": "Project Plugin.Notifications.Uwp is not compatible with uap10.0.10240 (UAP,Version=v10.0.10240) / win10-x64-aot. Project Plugin.Notifications.Uwp supports: uap10.0.10586 (UAP,Version=v10.0.10586)",
-      "libraryId": "Plugin.Notifications.Uwp",
-      "targetGraphs": [
-        "UAP,Version=v10.0.10240/win10-x64-aot"
-      ]
-    },
-    {
-      "code": "NU1201",
-      "level": "Error",
-      "message": "Project Plugin.Notifications.Uwp is not compatible with uap10.0.10240 (UAP,Version=v10.0.10240) / win10-x86. Project Plugin.Notifications.Uwp supports: uap10.0.10586 (UAP,Version=v10.0.10586)",
-      "libraryId": "Plugin.Notifications.Uwp",
-      "targetGraphs": [
-        "UAP,Version=v10.0.10240/win10-x86"
-      ]
-    },
-    {
-      "code": "NU1201",
-      "level": "Error",
-      "message": "Project Plugin.Notifications.Uwp is not compatible with uap10.0.10240 (UAP,Version=v10.0.10240) / win10-x86-aot. Project Plugin.Notifications.Uwp supports: uap10.0.10586 (UAP,Version=v10.0.10586)",
-      "libraryId": "Plugin.Notifications.Uwp",
-      "targetGraphs": [
-        "UAP,Version=v10.0.10240/win10-x86-aot"
-      ]
-    }
-  ]
+  }
 }

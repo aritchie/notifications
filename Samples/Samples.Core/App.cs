@@ -78,6 +78,28 @@ namespace Samples
                         },
                         new Button
                         {
+                            Text = "(Date) Send 10 messages x 5 seconds",
+                            Command = new Command(() =>
+                            {
+                                CrossNotifications.Current.Send(new Notification
+                                {
+                                    Title = "Samples",
+                                    Message = "Starting Sample Schedule Notifications"
+                                });
+                                for (var i = 1; i < 11; i++)
+                                {
+                                    var seconds = i * 5;
+                                    var id = CrossNotifications.Current.Send(new Notification
+                                    {
+                                        Message = $"Message {i}",
+                                        Date = DateTime.Now.AddSeconds(seconds)
+                                    });
+                                    Debug.WriteLine($"Notification ID: {id}");
+                                }
+                            })
+                        },
+                        new Button
+                        {
                             Text = "Cancel All Notifications",
                             Command = new Command(() => CrossNotifications.Current.CancelAll())
                         },

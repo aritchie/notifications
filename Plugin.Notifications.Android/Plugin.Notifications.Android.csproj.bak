@@ -10,12 +10,12 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Plugin.Notifications</RootNamespace>
-    <AssemblyName>Plugin.Notifications.Android</AssemblyName>
+    <AssemblyName>Plugin.Notifications</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,13 +43,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
+    <Compile Include="IAndroidNotificationReceiver.cs" />
+    <Compile Include="Infrastructure\AcrSqliteConnection.cs" />
     <Compile Include="AlarmBroadcastReceiver.cs" />
+    <Compile Include="Infrastructure\DbNotification.cs" />
+    <Compile Include="Infrastructure\DbNotificationMetadata.cs" />
+    <Compile Include="Infrastructure\DbSettings.cs" />
     <Compile Include="Helpers.cs" />
-    <Compile Include="NotificationSettings.cs" />
+    <Compile Include="Infrastructure\SqliteNotificationRepository.cs" />
+    <Compile Include="INotificationRepository.cs" />
+    <Compile Include="NotificationActionService.cs" />
     <Compile Include="NotificationsImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AndroidConfig.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="NETStandard.Library">
+      <Version>1.6.1</Version>
+    </PackageReference>
+    <PackageReference Include="sqlite-net-pcl">
+      <Version>1.3.3</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Android.ShortcutBadger">
       <Version>1.1.809</Version>
     </PackageReference>
@@ -65,7 +80,7 @@
   </ItemGroup>
   <Import Project="..\Plugin.Notifications.Shared\Plugin.Notifications.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

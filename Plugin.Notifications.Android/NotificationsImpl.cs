@@ -174,6 +174,7 @@ namespace Plugin.Notifications
             this.Send(notification);
         }
 
+
         protected virtual long GetEpochMills(DateTime sendTime)
         {
             var utc = sendTime.ToUniversalTime();
