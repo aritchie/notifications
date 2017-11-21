@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="2.4.0.91020" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Plugin.Notifications.Abstractions\Plugin.Notifications.Abstractions.csproj" />
     <ProjectReference Include="..\..\Plugin.Notifications\Plugin.Notifications.csproj" />
   </ItemGroup>
