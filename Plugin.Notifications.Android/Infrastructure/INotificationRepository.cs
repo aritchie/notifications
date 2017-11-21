@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace Plugin.Notifications.Data
+namespace Plugin.Notifications.Infrastructure
 {
     public interface INotificationRepository
     {

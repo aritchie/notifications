@@ -47,6 +47,12 @@
     <Compile Include="IAndroidNotificationReceiver.cs" />
     <Compile Include="AlarmBroadcastReceiver.cs" />
     <Compile Include="Helpers.cs" />
+    <Compile Include="Infrastructure\AcrSqliteConnection.cs" />
+    <Compile Include="Infrastructure\DbNotification.cs" />
+    <Compile Include="Infrastructure\DbNotificationMetadata.cs" />
+    <Compile Include="Infrastructure\DbSettings.cs" />
+    <Compile Include="Infrastructure\INotificationRepository.cs" />
+    <Compile Include="Infrastructure\SqliteNotificationRepository.cs" />
     <Compile Include="NotificationActionService.cs" />
     <Compile Include="NotificationsImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,7 +60,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NETStandard.Library">
-      <Version>1.6.1</Version>
+      <Version>2.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="sqlite-net-pcl">
+      <Version>1.4.118</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.ShortcutBadger">
       <Version>1.1.982</Version>
@@ -67,10 +76,6 @@
     <ProjectReference Include="..\Plugin.Notifications.Abstractions\Plugin.Notifications.Abstractions.csproj">
       <Project>{1ed7f929-0eaa-44f2-8b08-38414080e3e3}</Project>
       <Name>Plugin.Notifications.Abstractions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Plugin.Notifications.Data\Plugin.Notifications.Data.csproj">
-      <Project>{64eb334e-7739-4780-849c-423ad48d8e85}</Project>
-      <Name>Plugin.Notifications.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\Plugin.Notifications.Shared\Plugin.Notifications.Shared.projitems" Label="Shared" />

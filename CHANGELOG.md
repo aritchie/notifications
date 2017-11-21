@@ -4,7 +4,7 @@
 * [feature] .NET Standard 2.0 (and latest android support libs)
 * [feature] Notification events!
 * [feature] Control the notification icon used in Android
-* [feature] Decoupled data store for android
+* [fix][ios] Metadata wasn't being sent
 * [fix][android] cancelling a single notification would not remove it from the schedule database
 
 ## 4.0.2

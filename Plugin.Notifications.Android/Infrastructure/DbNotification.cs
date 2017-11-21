@@ -1,10 +1,12 @@
 ﻿using System;
+using SQLite;
 
 
-namespace Plugin.Notifications.Data.EfCore
+namespace Plugin.Notifications.Infrastructure
 {
     public class DbNotification
     {
+        [PrimaryKey]
         public int Id { get; set; }
 
         public string Title { get; set; }

@@ -3,7 +3,7 @@ using System.IO;
 using SQLite;
 
 
-namespace Plugin.Notifications.Data.Sqlite
+namespace Plugin.Notifications.Infrastructure
 {
     public class AcrSqliteConnection : SQLiteConnectionWithLock
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace Plugin.Notifications.Data.Sqlite
+namespace Plugin.Notifications.Infrastructure
 {
     public class SqliteNotificationRepository : INotificationRepository
     {

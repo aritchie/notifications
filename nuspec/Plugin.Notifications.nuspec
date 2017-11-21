@@ -13,8 +13,8 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <tags>notifications windows xamarin xam.pcl</tags>
         <dependencies>
-            <!--<dependency id="sqlite-net-pcl" version="[1.3.3, 2)" />-->
             <group targetFramework="MonoAndroid80">
+                <dependency id="sqlite-net-pcl" version="[1.4.118, 2)" />
                 <dependency id="Xamarin.Android.ShortcutBadger" version="[1.1.809, 2)" />
                 <dependency id="Xamarin.Android.Support.v4" version="[26.1.0.1, 27)" />
             </group>
