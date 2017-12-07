@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>Plugin.Notifications</id>
-        <version>5.0.0-beta1</version>
+        <version>5.0.0-beta2</version>
         <title>ACR Notifications Plugin for Xamarin and Windows</title>
         <description>Local Notifications, Scheduled Notifications, Badges, and Vibration for Xamarin and Windows</description>
         <authors>Allan Ritchie</authors>
@@ -13,10 +13,26 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <tags>notifications windows xamarin xam.pcl</tags>
         <dependencies>
+
+            <group targetFramework="MonoAndroid10">
+                <dependency id="sqlite-net-pcl" version="[1.4.118, 2)" />
+                <dependency id="Xamarin.Android.ShortcutBadger" version="[1.1.809, 2)" />
+                <dependency id="Xamarin.Android.Support.Design" version="[23.3.0, 24)" />
+            </group>
+            <group targetFramework="MonoAndroid70">
+                <dependency id="sqlite-net-pcl" version="[1.4.118, 2)" />
+                <dependency id="Xamarin.Android.ShortcutBadger" version="[1.1.809, 2)" />
+                <dependency id="Xamarin.Android.Support.Design" version="[25.4.0.2,)" />
+            </group>
+            <group targetFramework="MonoAndroid71">
+                <dependency id="sqlite-net-pcl" version="[1.4.118, 2)" />
+                <dependency id="Xamarin.Android.ShortcutBadger" version="[1.1.809, 2)" />
+                <dependency id="Xamarin.Android.Support.v4" version="[25.4.0.2,)" />
+            </group>
             <group targetFramework="MonoAndroid80">
                 <dependency id="sqlite-net-pcl" version="[1.4.118, 2)" />
                 <dependency id="Xamarin.Android.ShortcutBadger" version="[1.1.809, 2)" />
-                <dependency id="Xamarin.Android.Support.v4" version="[26.1.0.1, 27)" />
+                <dependency id="Xamarin.Android.Support.v4" version="[26.1.0.1,)" />
             </group>
             <group targetFramework="uap10.0">
                 <dependency id="Microsoft.Toolkit.Uwp.Notifications" version="[1.4.1, 2)" />
@@ -29,13 +45,13 @@
         <file src="..\Plugin.Notifications\bin\Release\netstandard2.0\Plugin.Notifications.*" target="lib\netstandard2.0\" />
 
         <!-- android -->
-        <file src="..\Plugin.Notifications.Android\bin\Release\Plugin.Notifications.*" target="lib\MonoAndroid80\" />
+        <file src="..\Plugin.Notifications.Android\bin\Release\Plugin.Notifications.*" target="lib\MonoAndroid10\" />
 
         <!-- ios -->
         <file src="..\Plugin.Notifications.iOS\bin\Release\Plugin.Notifications.*" target="lib\Xamarin.iOS10\" />
 
         <!-- macOS -->
-        <file src="..\Plugin.Notifications.macOS\bin\Release\Plugin.Notifications.*" target="lib\Xamarin.Mac20\" />
+        <!--<file src="..\Plugin.Notifications.macOS\bin\Release\Plugin.Notifications.*" target="lib\Xamarin.Mac20\" />-->
 
         <!-- uwp -->
         <file src="..\Plugin.Notifications.Uwp\bin\Release\Plugin.Notifications.*" target="lib\uap10\" />
