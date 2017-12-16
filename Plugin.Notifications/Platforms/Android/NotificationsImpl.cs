@@ -5,6 +5,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Support.V4.App;
+using TaskStackBuilder = Android.Support.V4.App.TaskStackBuilder;
 
 
 namespace Plugin.Notifications
@@ -63,7 +64,7 @@ namespace Plugin.Notifications
                     .SetContentIntent(TaskStackBuilder
                         .Create(Application.Context)
                         .AddNextIntent(launchIntent)
-                        .GetPendingIntent(notification.Id.Value, PendingIntentFlags.OneShot)
+                        .GetPendingIntent(notification.Id.Value, (int)PendingIntentFlags.OneShot)
                     );
 
                 if (notification.Vibrate)

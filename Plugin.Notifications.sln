@@ -17,8 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{612C7282-D40A-40A3-9A6B-EFCFB979DE84}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Uwp", "Samples\Samples.Uwp\Samples.Uwp.csproj", "{D27B7763-76AE-459A-8BA9-4079E3773E59}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plugin.Notifications", "Plugin.Notifications\Plugin.Notifications.csproj", "{5F6F3BA3-74C7-451A-AEAF-D9569A934CBB}"
@@ -329,12 +327,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{548B2E19-CE1B-4908-9D08-85C8F037439C} = {612C7282-D40A-40A3-9A6B-EFCFB979DE84}
-		{9D4985B3-5448-442B-9261-45851898001D} = {612C7282-D40A-40A3-9A6B-EFCFB979DE84}
-		{D27B7763-76AE-459A-8BA9-4079E3773E59} = {612C7282-D40A-40A3-9A6B-EFCFB979DE84}
-		{86CED844-9019-4AF5-9467-252A106551D1} = {612C7282-D40A-40A3-9A6B-EFCFB979DE84}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6FE03B64-B823-4218-A9C9-60E41E959458}
