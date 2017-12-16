@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Plugin.Notifications.Abstractions\Plugin.Notifications.Abstractions.csproj" />
     <ProjectReference Include="..\..\Plugin.Notifications\Plugin.Notifications.csproj" />
   </ItemGroup>
 

@@ -185,13 +185,9 @@
     <AndroidResource Include="Resources\values-v21\style.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Plugin.Notifications.Abstractions\Plugin.Notifications.Abstractions.csproj">
-      <Project>{1ed7f929-0eaa-44f2-8b08-38414080e3e3}</Project>
-      <Name>Plugin.Notifications.Abstractions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Plugin.Notifications.Android\Plugin.Notifications.Android.csproj">
-      <Project>{fa2bb1e3-55eb-4d1b-93ad-644513196c7e}</Project>
-      <Name>Plugin.Notifications.Android</Name>
+    <ProjectReference Include="..\..\Plugin.Notifications\Plugin.Notifications.csproj">
+      <Project>{5f6f3ba3-74c7-451a-aeaf-d9569a934cbb}</Project>
+      <Name>Plugin.Notifications</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samples.Core\Samples.Core.csproj">
       <Project>{86ced844-9019-4af5-9467-252a106551d1}</Project>
