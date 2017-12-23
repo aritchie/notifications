@@ -43,13 +43,13 @@ namespace Plugin.Notifications
             }
             else
             {
-                var launchIntent = new Intent(Application.Context, typeof(NotificationActionService));
-                launchIntent.PutExtra("acrnotification", "0");
-                //var launchIntent = Application
-                //    .Context
-                //    .PackageManager
-                //    .GetLaunchIntentForPackage(Application.Context.PackageName);
-                //launchIntent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
+                //var launchIntent = new Intent(Application.Context, typeof(NotificationActionService));
+                //launchIntent.PutExtra("acrnotification", "0");
+                var launchIntent = Application
+                    .Context
+                    .PackageManager
+                    .GetLaunchIntentForPackage(Application.Context.PackageName)
+                    .SetFlags(AndroidConfig.LaunchIntentFlags);
 
                 foreach (var pair in notification.Metadata)
                 {
