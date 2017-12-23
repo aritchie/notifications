@@ -6,7 +6,6 @@ using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System.Profile;
 using Windows.UI.Notifications;
-using Windows.UI.Xaml;
 using Microsoft.QueryStringDotNET;
 using Microsoft.Toolkit.Uwp.Notifications;
 
@@ -145,16 +144,16 @@ namespace Plugin.Notifications
 
         public override void Vibrate(int ms)
         {
-            if (!ApiInformation.IsTypePresent("Windows.Phone.Devices.Notification.VibrationDevice"))
-                return;
+            //if (!ApiInformation.IsTypePresent("Windows.Phone.Devices.Notification.VibrationDevice"))
+            //    return;
 
-            Windows
-                .Phone
-                .Devices
-                .Notification
-                .VibrationDevice
-                .GetDefault()?
-                .Vibrate(TimeSpan.FromMilliseconds(ms));
+            //Windows
+            //    .Phone
+            //    .Devices
+            //    .Notification
+            //    .VibrationDevice
+            //    .GetDefault()?
+            //    .Vibrate(TimeSpan.FromMilliseconds(ms));
         }
 
 
