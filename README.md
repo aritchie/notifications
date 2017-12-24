@@ -1,9 +1,9 @@
-# ACR Notifications Plugin for Xamarin and Windows
+# <img src="icon.png" width="71" height="71"/> ACR Notifications Plugin for Xamarin and Windows
 
 Plugin for Easy Cross Platform notifications
 
 [![NuGet](https://img.shields.io/nuget/v/Acr.Notifications.svg?maxAge=2592000)](https://www.nuget.org/packages/Acr.Notifications/)
-[Change Log - July 28, 2017](changelog.md)
+[Change Log - December 28, 2017](changelog.md)
 
 
 ## Features
@@ -97,3 +97,7 @@ _In the notification.Sound property - set only the filename without the extensio
 
 * Why can't I set a string as an identifier
 * _Android needs an integer for how it sets identifiers_
+
+## Contributors
+
+* **[Jelle Damen](https://twitter.com/JelleDamen)** for the wonderful icons

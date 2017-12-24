@@ -9,6 +9,7 @@
         <PackageLicenseUrl>https://github.com/aritchie/notifications/blob/master/LICENSE.md</PackageLicenseUrl>
         <tags>notifications windows xamarin xam.pcl plugin</tags>
         <PackageReleaseNotes>https://github.com/aritchie/notifications/blob/master/docs/changelog.md</PackageReleaseNotes>
+        <PackageIconUrl>https://github.com/aritchie/notifications/raw/master/icon.png</PackageIconUrl>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
