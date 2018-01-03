@@ -15,7 +15,7 @@ namespace Plugin.Notifications
                 if (current == null)
                     throw new ArgumentException("[Plugin.Notifications] Platform implementation not found.  Did you reference the nuget package in your main project as well?");
 #else
-                current = current ?? new NotificationsImpl();
+                current = current ?? NotificationsImplFactory.GetImplementation();
 #endif
                 return current;
             }
