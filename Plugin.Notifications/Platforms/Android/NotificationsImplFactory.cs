@@ -1,6 +1,4 @@
-﻿using Android.Content;
-
-namespace Plugin.Notifications
+﻿namespace Plugin.Notifications
 {
     public class NotificationsImplFactory
     {
