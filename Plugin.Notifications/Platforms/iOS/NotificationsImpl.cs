@@ -14,10 +14,11 @@ namespace Plugin.Notifications
 
         public NotificationsImpl()
         {
-            if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
-                this.impl = new UNNotificationsImpl();
-            else
-                this.impl = new UILocalNotificationsImpl();
+            this.impl = UIDevice.CurrentDevice.CheckSystemVersion(10, 0)
+                ? (INotifications)new UNNotificationsImpl()
+                : (INotifications)new UILocalNotificationsImpl();
+
+            this.impl.Activated += (sender, notification) => this.OnActivated(notification);
         }
 
 
