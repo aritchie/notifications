@@ -7,6 +7,7 @@
         <PackageProjectUrl>https://github.com/aritchie/notifications</PackageProjectUrl>
         <Authors>Allan Ritchie</Authors>
         <PackageLicenseUrl>https://github.com/aritchie/notifications/blob/master/LICENSE.md</PackageLicenseUrl>
+        <Version>5.0.0-beta3</Version>
         <tags>notifications windows xamarin xam.pcl plugin</tags>
         <PackageReleaseNotes>https://github.com/aritchie/notifications/blob/master/docs/changelog.md</PackageReleaseNotes>
         <PackageIconUrl>https://github.com/aritchie/notifications/raw/master/icon.png</PackageIconUrl>
