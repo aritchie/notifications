@@ -3,7 +3,7 @@
 Plugin for Easy Cross Platform notifications
 
 [![NuGet](https://img.shields.io/nuget/v/Acr.Notifications.svg?maxAge=2592000)](https://www.nuget.org/packages/Acr.Notifications/)
-[Change Log - December 28, 2017](changelog.md)
+[Change Log - January 4, 2018](changelog.md)
 
 
 ## Features
@@ -22,7 +22,7 @@ Plugin for Easy Cross Platform notifications
 * macOS
 * Android 4+
 * Universal Windows Platform (Win10/UWP)
-* NET Standard 1.0
+* NET Standard 2.0
 
 ### Installation
 
@@ -71,7 +71,15 @@ await CrossNotifications.Current.GetBadge();
 
 ### Listen for Event Activations
 
-TODO
+You can have your app listen for taps on notifications.  You should install this hook in the startup of your application.
+Such as App.cs in Xamarin.Forms, AppDelegate on iOS or your launch activity/application in Android
+
+```csharp
+CrossNotifications.Current.Activated += (sender, notification) => {
+    // work with notification
+};
+```
+
 
 ### Sounds
 
