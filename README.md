@@ -74,6 +74,8 @@ await CrossNotifications.Current.GetBadge();
 You can have your app listen for taps on notifications.  You should install this hook in the startup of your application.
 Such as App.cs in Xamarin.Forms, AppDelegate on iOS or your launch activity/application in Android
 
+PLEASE NOTE: Activated does not work on scheduled notifications on UWP
+
 ```csharp
 CrossNotifications.Current.Activated += (sender, notification) => {
     // work with notification
@@ -84,11 +86,13 @@ CrossNotifications.Current.Activated += (sender, notification) => {
 ### Sounds
 
 _In the notification.Sound property - set only the filename without the extension_
+You can also set Notification.DefaultSound (static) to a default config value
 
 #### Android
 * Put the sound in your /Resources/raw/ folder - make sure the file properties is set to _AndroidResource_
 * You can pass the actual full sound path OR just the name... the plugin will figure it out!
-
+* You can set your launch activity flags using AndroidConfig.LaunchActivityFlags = ActivityFlags.NewTask | ActivityFlags.ClearTask (or whatever you want)
+* 
 #### iOS
 * Put the file in your iOS app bundle
 * The file format must be a .caf file (google this to see how to make one) - ie. afconvert -f caff -d aacl@22050 -c 1 sound.aiff soundFileName.caf 
