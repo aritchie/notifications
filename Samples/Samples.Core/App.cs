@@ -117,9 +117,10 @@ namespace Samples
         protected override void OnStart()
         {
             base.OnStart();
-            CrossNotifications.Current.Activated += (sender, notification) =>
+            CrossNotifications.Current.Activated += async (sender, notification) =>
             {
                 Debug.WriteLine($"Notification Activated - {notification.Id} - {notification.Title}");
+                await this.MainPage.DisplayAlert("Received Notification", notification.Message, "OK");
             };
         }
 

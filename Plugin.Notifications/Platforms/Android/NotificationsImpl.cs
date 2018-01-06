@@ -12,6 +12,12 @@ namespace Plugin.Notifications
 {
     public class NotificationsImpl : AbstractNotificationsImpl, IAndroidNotificationReceiver
     {
+        public NotificationsImpl()
+        {
+            NotificationBroadcastReceiver.Register();
+        }
+
+
         public override Task Send(Notification notification)
         {
             if (notification.Id == null)
@@ -35,25 +41,46 @@ namespace Plugin.Notifications
             }
             else
             {
+                /*
+                      Intent stopIntent = new Intent(this, typeof(DownloadsBroadcastReceiver));
+                        stopIntent.PutExtra("action", "actionName");
+                        PendingIntent stopPi = PendingIntent.GetBroadcast(this, 4, stopIntent, PendingIntentFlags.UpdateCurrent);
+                        Intent intent = new Intent(this, typeof(MainActivity));
+                        TaskStackBuilder stackBuilder = TaskStackBuilder.Create(this);
+                        stackBuilder.AddParentStack(Java.Lang.Class.FromType(typeof(MainActivity)));
+                        stackBuilder.AddNextIntent(intent);
+                        PendingIntent resultPendingIntent = stackBuilder.GetPendingIntent(0, PendingIntentFlags.UpdateCurrent);
+                        Notification.Action pauseAction = new Notification.Action.Builder(Resource.Drawable.Pause, "WSTRZYMAJ", stopPi).Build();
+                        notificationBuilder = new Notification.Builder(this)
+                            .SetSmallIcon(Resource.Drawable.Icon)
+                            .SetContentIntent(resultPendingIntent)
+                            .SetContentTitle(title)
+                            .SetContentText(content)
+                            .AddAction(pauseAction);
+                        var notificationManager = (NotificationManager)GetSystemService(NotificationService);
+                        notificationManager.Notify(uniqueNumber, notificationBuilder.Build());
+                 */
                 var launchIntent = Application
                     .Context
                     .PackageManager
                     .GetLaunchIntentForPackage(Application.Context.PackageName)
+                    .SetAction(Constants.ACTION_KEY)
                     .SetFlags(AndroidConfig.LaunchActivityFlags);
 
                 foreach (var pair in notification.Metadata)
                     launchIntent.PutExtra(pair.Key, pair.Value);
+
+                var pendingIntent = TaskStackBuilder
+                    .Create(Application.Context)
+                    .AddNextIntent(launchIntent)
+                    .GetPendingIntent(notification.Id.Value, (int)(PendingIntentFlags.OneShot | PendingIntentFlags.CancelCurrent));
 
                 var builder = new NotificationCompat.Builder(Application.Context)
                     .SetAutoCancel(true)
                     .SetContentTitle(notification.Title)
                     .SetContentText(notification.Message)
                     .SetSmallIcon(AndroidConfig.AppIconResourceId)
-                    .SetContentIntent(TaskStackBuilder
-                        .Create(Application.Context)
-                        .AddNextIntent(launchIntent)
-                        .GetPendingIntent(notification.Id.Value, (int)PendingIntentFlags.OneShot)
-                    );
+                    .SetContentIntent(pendingIntent);
 
                 if (notification.Vibrate)
                     builder.SetVibrate(new long[] {500, 500});
