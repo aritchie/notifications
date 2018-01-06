@@ -10,17 +10,8 @@ using TaskStackBuilder = Android.Support.V4.App.TaskStackBuilder;
 
 namespace Plugin.Notifications
 {
-    //https://stackoverflow.com/questions/6422319/start-service-from-notification
     public class NotificationsImpl : AbstractNotificationsImpl, IAndroidNotificationReceiver
     {
-        readonly AlarmManager alarmManager;
-
-        public NotificationsImpl()
-        {
-            this.alarmManager = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
-        }
-
-
         public override Task Send(Notification notification)
         {
             if (notification.Id == null)
@@ -34,7 +25,8 @@ namespace Plugin.Notifications
                 var triggerMs = this.GetEpochMills(notification.SendTime);
                 var pending = notification.ToPendingIntent(notification.Id.Value);
 
-                this.alarmManager.Set(
+                var alarmMgr = (AlarmManager) Application.Context.GetSystemService(Context.AlarmService);
+                alarmMgr.Set(
                     AlarmType.RtcWakeup,
                     Convert.ToInt64(triggerMs),
                     pending
@@ -43,18 +35,14 @@ namespace Plugin.Notifications
             }
             else
             {
-                //var launchIntent = new Intent(Application.Context, typeof(NotificationActionService));
-                //launchIntent.PutExtra("acrnotification", "0");
                 var launchIntent = Application
                     .Context
                     .PackageManager
                     .GetLaunchIntentForPackage(Application.Context.PackageName)
-                    .SetFlags(AndroidConfig.LaunchIntentFlags);
+                    .SetFlags(AndroidConfig.LaunchActivityFlags);
 
                 foreach (var pair in notification.Metadata)
-                {
                     launchIntent.PutExtra(pair.Key, pair.Value);
-                }
 
                 var builder = new NotificationCompat.Builder(Application.Context)
                     .SetAutoCancel(true)
@@ -68,16 +56,13 @@ namespace Plugin.Notifications
                     );
 
                 if (notification.Vibrate)
-                {
                     builder.SetVibrate(new long[] {500, 500});
-                }
 
                 if (notification.Sound != null)
                 {
                     if (!notification.Sound.Contains("://"))
-                    {
                         notification.Sound = $"{ContentResolver.SchemeAndroidResource}://{Application.Context.PackageName}/raw/{notification.Sound}";
-                    }
+
                     var uri = Android.Net.Uri.Parse(notification.Sound);
                     builder.SetSound(uri);
                 }
@@ -190,7 +175,9 @@ namespace Plugin.Notifications
             var pending = Helpers.GetNotificationPendingIntent(notificationId);
             pending.Cancel();
 
-            this.alarmManager.Cancel(pending);
+            var alarmMgr = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
+            alarmMgr.Cancel(pending);
+
             NotificationManagerCompat
                 .From(Application.Context)
                 .Cancel(notificationId);

@@ -10,7 +10,7 @@ namespace Plugin.Notifications
     {
         public static int AppIconResourceId { get; set; } = GetResourceIdByName("icon");
         public static INotificationRepository Repository { get; set; } = new SqliteNotificationRepository();
-        public static ActivityFlags LaunchIntentFlags { get; set; } = ActivityFlags.NewTask | ActivityFlags.ClearTask;
+        public static ActivityFlags LaunchActivityFlags { get; set; } = ActivityFlags.NewTask | ActivityFlags.ClearTask;
 
 
         public static int GetResourceIdByName(string iconName) => Application

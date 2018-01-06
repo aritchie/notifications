@@ -1,22 +1,19 @@
 ﻿using System;
-using Android.App;
 using Android.Content;
-using Android.OS;
 
 
 namespace Plugin.Notifications
 {
-    [Service]
-    public class NotificationActionService : Service
+    [BroadcastReceiver]
+    public class NotificationActionService : BroadcastReceiver
     {
-        public override IBinder OnBind(Intent intent)
+        public override void OnReceive(Context context, Intent intent)
         {
             if (intent.HasExtra(Constants.ACTION_KEY))
             {
                 var notificationId = intent.GetIntExtra(Constants.NOTIFICATION_ID, 0);
                 (CrossNotifications.Current as IAndroidNotificationReceiver)?.TriggerNotification(notificationId);
             }
-            return null;
         }
     }
 }
