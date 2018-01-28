@@ -2,15 +2,18 @@
 
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0;MonoAndroid70;MonoAndroid80;Xamarin.iOS10;Xamarin.Mac20;uap10.0;portable-net45+win8+wpa81+wp8</TargetFrameworks>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageProjectUrl>https://github.com/aritchie/notifications</PackageProjectUrl>
-        <Authors>Allan Ritchie</Authors>
-        <PackageLicenseUrl>https://github.com/aritchie/notifications/blob/master/LICENSE.md</PackageLicenseUrl>
+        <Authors>aritchie</Authors>
+        <Company />
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <Description>Local Notifications, Scheduled Notifications, Badges, and Vibration for Xamarin and Windows</Description>
+        <Product>ACR Notifications Plugin for Xamarin and Windows</Product>
         <Version>5.0.0-beta3</Version>
-        <tags>notifications windows xamarin xam.pcl plugin</tags>
-        <PackageReleaseNotes>https://github.com/aritchie/notifications/blob/master/docs/changelog.md</PackageReleaseNotes>
+        <PackageProjectUrl>https://github.com/aritchie/notifications</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/aritchie/notifications/blob/master/LICENSE.md</PackageLicenseUrl>
         <PackageIconUrl>https://github.com/aritchie/notifications/raw/master/icon.png</PackageIconUrl>
+        <PackageReleaseNotes>https://github.com/aritchie/notifications/blob/master/docs/changelog.md</PackageReleaseNotes>
+        <PackageTags>notifications windows xamarin xam.pcl plugin</PackageTags>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
