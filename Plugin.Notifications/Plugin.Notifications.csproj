@@ -1,14 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;MonoAndroid70;MonoAndroid80;Xamarin.iOS10;Xamarin.Mac20;uap10.0;portable-net45+win8+wpa81+wp8</TargetFrameworks>
+        <TargetFrameworks></TargetFrameworks>
+        <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard1.0;netstandard2.0;MonoAndroid70;MonoAndroid80;Xamarin.Mac20;Xamarin.iOS10;portable-net45+win8+wpa81+wp8;uap10.0</TargetFrameworks>
+        <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard1.0;netstandard2.0;MonoAndroid70;MonoAndroid80;Xamarin.Mac20;Xamarin.iOS10;portable-net45+win8+wpa81+wp8</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Authors>aritchie</Authors>
         <Company />
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
         <Description>Local Notifications, Scheduled Notifications, Badges, and Vibration for Xamarin and Windows</Description>
         <Product>ACR Notifications Plugin for Xamarin and Windows</Product>
-        <Version>5.0.0-beta3</Version>
+        <Version>5.0.0-beta4</Version>
         <PackageProjectUrl>https://github.com/aritchie/notifications</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/aritchie/notifications/blob/master/LICENSE.md</PackageLicenseUrl>
         <PackageIconUrl>https://github.com/aritchie/notifications/raw/master/icon.png</PackageIconUrl>
@@ -16,7 +17,7 @@
         <PackageTags>notifications windows xamarin xam.pcl plugin</PackageTags>
     </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <PropertyGroup Condition=" '$(TargetFramework)' == 'portable-net45+win8+wpa81+wp8' OR '$(TargetFramework)' == 'netstandard1.0' OR '$(TargetFramework)' == 'netstandard2.0' ">
         <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
         <DefineConstants>$(DefineConstants);NETSTANDARD;BAIT</DefineConstants>
         <Product>Plugin.Notifications - .NET Standard 2</Product>
@@ -48,17 +49,16 @@
     <ItemGroup>
         <Compile Remove="Platforms\**\*.cs" />
         <None Include="Platforms\**\*.cs" />
-        <PackageReference Include="MSBuild.Sdk.Extras" Version="1.1.0" PrivateAssets="all" />
+        <PackageReference Include="MSBuild.Sdk.Extras" Version="1.2.2" PrivateAssets="all" />
     </ItemGroup>
 
-    <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'portable-net45+win8+wpa81+wp8' ">
+    <ItemGroup Condition=" '$(TargetFramework)' == 'portable-net45+win8+wpa81+wp8' OR '$(TargetFramework)' == 'netstandard1.0' OR '$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'portable-net45+win8+wpa81+wp8' ">
         <Compile Include="Platforms\Shared\**\*.cs" />
     </ItemGroup>
 
     <ItemGroup Condition=" '$(TargetFramework)' == 'MonoAndroid70' ">
         <Compile Include="Platforms\Shared\**\*.cs" />
         <Compile Include="Platforms\Android\**\*.cs" />
-        <PackageReference Include="NETStandard.Library" Version="2.0.1" />
         <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
         <PackageReference Include="Xamarin.Android.ShortcutBadger" Version="1.1.982" />
         <PackageReference Include="Xamarin.Android.Support.v4" Version="25.4.0.2" />
@@ -67,7 +67,6 @@
     <ItemGroup Condition=" '$(TargetFramework)' == 'MonoAndroid80' ">
         <Compile Include="Platforms\Shared\**\*.cs" />
         <Compile Include="Platforms\Android\**\*.cs" />
-        <PackageReference Include="NETStandard.Library" Version="2.0.1" />
         <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
         <PackageReference Include="Xamarin.Android.ShortcutBadger" Version="1.1.982" />
         <PackageReference Include="Xamarin.Android.Support.v4" Version="26.1.0.1" />
@@ -77,14 +76,12 @@
         <Compile Include="Platforms\Apple\**\*.cs" />
         <Compile Include="Platforms\Shared\**\*.cs" />
         <Compile Include="Platforms\ios\**\*.cs" />
-        <PackageReference Include="NETStandard.Library" Version="2.0.1" />
     </ItemGroup>
 
     <ItemGroup Condition=" '$(TargetFramework)' == 'Xamarin.Mac20' ">
         <Compile Include="Platforms\Apple\**\*.cs" />
         <Compile Include="Platforms\Shared\**\*.cs" />
         <Compile Include="Platforms\macOS\**\*.cs" />
-        <PackageReference Include="NETStandard.Library" Version="2.0.1" />
     </ItemGroup>
 
     <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">
