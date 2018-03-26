@@ -17,10 +17,10 @@
         <PackageTags>notifications windows xamarin xam.pcl plugin</PackageTags>
     </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(TargetFramework)' == 'portable-net45+win8+wpa81+wp8' OR '$(TargetFramework)' == 'netstandard1.0' OR '$(TargetFramework)' == 'netstandard2.0' ">
+    <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.0' OR '$(TargetFramework)' == 'netstandard2.0' ">
         <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
         <DefineConstants>$(DefineConstants);NETSTANDARD;BAIT</DefineConstants>
-        <Product>Plugin.Notifications - .NET Standard 2</Product>
+        <Product>Plugin.Notifications - .NET Standard</Product>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(TargetFramework)' == 'portable-net45+win8+wpa81+wp8' ">
