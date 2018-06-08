@@ -11,6 +11,7 @@ namespace Plugin.Notifications
 {
     public class NotificationsImpl : AbstractNotificationsImpl
     {
+        private int? priority = null;
         readonly AlarmManager alarmManager;
         public static int AppIconResourceId { get; set; }
 
@@ -61,6 +62,7 @@ namespace Plugin.Notifications
                     .SetContentTitle(notification.Title)
                     .SetContentText(notification.Message)
                     .SetSmallIcon(AppIconResourceId)
+                    .SetPriority(priority.HasValue ? priority.Value : NotificationCompat.PriorityDefault)
                     .SetContentIntent(TaskStackBuilder
                         .Create(Application.Context)
                         .AddNextIntent(launchIntent)
@@ -149,6 +151,11 @@ namespace Plugin.Notifications
 
                 vibrate.Vibrate(ms);
             }
+        }
+
+        public override void SetPriority(int priority)
+        {
+            this.priority = priority;
         }
 
 

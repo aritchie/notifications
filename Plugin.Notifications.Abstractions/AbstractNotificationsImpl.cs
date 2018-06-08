@@ -7,7 +7,7 @@ namespace Plugin.Notifications
 {
 
     public abstract class AbstractNotificationsImpl : INotifications
-    {
+    {        
         public abstract Task Cancel(int notificationId);
         public abstract Task Send(Notification notification);
         public abstract Task<IEnumerable<Notification>> GetScheduledNotifications();
@@ -24,6 +24,11 @@ namespace Plugin.Notifications
             {
                 await this.Cancel(notification.Id.Value);
             }
+        }
+
+        public virtual void SetPriority(int priority)
+        {
+            // left empty by design since this is really only for android
         }
     }
 }

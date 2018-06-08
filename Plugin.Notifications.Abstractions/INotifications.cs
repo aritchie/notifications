@@ -61,5 +61,11 @@ namespace Plugin.Notifications
         /// </summary>
         /// <param name="ms"></param>
         void Vibrate(int ms = 300);
+
+        /// <summary>
+        /// The priority of the notification. Only applies to Android
+        /// </summary>
+        /// <param name="priority"></param>
+        void SetPriority(int priority);
     }
 }
