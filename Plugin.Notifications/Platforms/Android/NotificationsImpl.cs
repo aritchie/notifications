@@ -182,8 +182,7 @@ namespace Plugin.Notifications
             AndroidConfig.Repository.Delete(notificationId);
 
             // resend without schedule so it goes through normal mechanism
-            notification.When = null;
-            notification.Date = null;
+            notification.ScheduledDate = null;
             this.Send(notification);
         }
 

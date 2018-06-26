@@ -120,7 +120,7 @@ namespace Plugin.Notifications
                 Title = native.Content.Title,
                 Message = native.Content.Body,
                 Sound = native.Content.Sound?.ToString(),
-                Date = date,
+                ScheduledDate = date,
                 Metadata = native.Content.UserInfo.FromNsDictionary()
             };
 

@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Plugin.Notifications.Platforms.Android
+namespace Plugin.Notifications
 {
     public static partial class CrossNotifications
     {

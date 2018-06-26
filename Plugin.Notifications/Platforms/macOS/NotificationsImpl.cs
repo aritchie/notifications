@@ -116,7 +116,7 @@ namespace Plugin.Notifications
             Title = x.Title,
             Message = x.InformativeText,
             Sound = x.SoundName,
-            Date = x.DeliveryDate.ToDateTime(),
+            ScheduledDate = x.DeliveryDate.ToDateTime(),
             Metadata = x.UserInfo.FromNsDictionary()
         };
 
