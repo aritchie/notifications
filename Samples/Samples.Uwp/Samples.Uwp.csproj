@@ -123,6 +123,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Plugin.Notifications\Plugin.Notifications.csproj">
+      <Project>{5f6f3ba3-74c7-451a-aeaf-d9569a934cbb}</Project>
+      <Name>Plugin.Notifications</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samples.Core\Samples.Core.csproj">
       <Project>{86ced844-9019-4af5-9467-252a106551d1}</Project>
       <Name>Samples.Core</Name>
