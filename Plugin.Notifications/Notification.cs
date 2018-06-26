@@ -17,40 +17,13 @@ namespace Plugin.Notifications
         public string Sound { get; set; } = DefaultSound;
         public IDictionary<string, string> Metadata { get; set; } = new Dictionary<string, string>();
 
-
-        public Notification SetMetadata(string key, string value)
-        {
-            this.Metadata.Add(key, value);
-            return this;
-        }
-
-
         /// <summary>
         /// Only works with Android
         /// </summary>
         public bool Vibrate { get; set; }
+        public DateTime? ScheduledDate { get; set; }
 
-        public TimeSpan? When { get; set; }
-        public DateTime? Date { get; set; }
-
-        public bool IsScheduled => this.Date != null || this.When != null;
-
-
-        public DateTime SendTime
-        {
-            get
-            {
-                if (this.Date != null)
-                    return this.Date.Value;
-
-                var dt = DateTime.Now;
-                if (this.When != null)
-                    dt = dt.Add(this.When.Value);
-
-                return dt;
-            }
-        }
-
+        public bool IsScheduled => this.ScheduledDate != null;
         /*
          * TODO: Repeat Intervals
 if (notification.Interval != NotificationInterval.None) {

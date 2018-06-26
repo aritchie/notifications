@@ -50,7 +50,7 @@ namespace Samples
                                     Title = "HELLO!",
                                     Message = "Hello from the ACR Sample Notification App",
                                     Vibrate = true,
-                                    When = TimeSpan.FromSeconds(10)
+                                    ScheduledDate = DateTime.Now.AddSeconds(10)
                                 })
                             )
                         },
@@ -70,7 +70,7 @@ namespace Samples
                                     var id = CrossNotifications.Current.Send(new Notification
                                     {
                                         Message = $"Message {i}",
-                                        When = TimeSpan.FromSeconds(seconds)
+                                        ScheduledDate = DateTime.Now.AddSeconds(seconds)
                                     });
                                     Debug.WriteLine($"Notification ID: {id}");
                                 }
@@ -92,7 +92,7 @@ namespace Samples
                                     var id = CrossNotifications.Current.Send(new Notification
                                     {
                                         Message = $"Message {i}",
-                                        Date = DateTime.Now.AddSeconds(seconds)
+                                        ScheduledDate = DateTime.Now.AddSeconds(seconds)
                                     });
                                     Debug.WriteLine($"Notification ID: {id}");
                                 }

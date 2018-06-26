@@ -6,7 +6,7 @@ using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System.Profile;
 using Windows.UI.Notifications;
-using Microsoft.QueryStringDotNET;
+//using Microsoft.QueryStringDotNET;
 using Microsoft.Toolkit.Uwp.Notifications;
 
 
@@ -92,7 +92,8 @@ namespace Plugin.Notifications
                 };
             }
 
-            if (notification.Date == null && notification.When == null)
+
+            if (notification.ScheduledDate == null)
             {
                 var toast = new ToastNotification(toastContent.GetXml());
                 toast.Activated += (sender, args) => this.OnActivated(notification);
@@ -101,7 +102,7 @@ namespace Plugin.Notifications
             else
             {
                 //https://msdn.microsoft.com/library/74ba3513-0a52-46a0-8769-ed58abe7c05a
-                var schedule = new ScheduledToastNotification(toastContent.GetXml(), notification.SendTime)
+                var schedule = new ScheduledToastNotification(toastContent.GetXml(), notification.ScheduledDate.Value)
                 {
                     Id = notification.Id.Value.ToString()
                 };
@@ -190,23 +191,24 @@ namespace Plugin.Notifications
 
         protected virtual string ToQueryString(IDictionary<string, string> dict)
         {
-            var qs = new QueryString();
-            foreach (var pair in dict)
-                qs.Add(pair.Key, pair.Value);
+            //var qs = new QueryString();
+            //foreach (var pair in dict)
+            //    qs.Add(pair.Key, pair.Value);
 
-            var r = qs.ToString();
-            return r;
+            //var r = qs.ToString();
+            //return r;
+            return String.Empty;
         }
 
 
         protected virtual IDictionary<string, string> FromQueryString(string queryString)
         {
             var dict = new Dictionary<string, string>();
-            var qs = QueryString.Parse(queryString);
-            foreach (var pair in qs)
-            {
-                dict.Add(pair.Name, pair.Value);
-            }
+            //var qs = QueryString.Parse(queryString);
+            //foreach (var pair in qs)
+            //{
+            //    dict.Add(pair.Name, pair.Value);
+            //}
             return dict;
         }
 

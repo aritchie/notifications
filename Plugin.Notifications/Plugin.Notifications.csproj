@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks></TargetFrameworks>
-        <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard1.0;netstandard2.0;MonoAndroid70;MonoAndroid80;Xamarin.Mac20;Xamarin.iOS10;portable-net45+win8+wpa81+wp8;uap10.0</TargetFrameworks>
-        <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard1.0;netstandard2.0;MonoAndroid70;MonoAndroid80;Xamarin.Mac20;Xamarin.iOS10;portable-net45+win8+wpa81+wp8</TargetFrameworks>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.0;MonoAndroid80;Xamarin.Mac20;Xamarin.iOS10;uap10.0</TargetFrameworks>
+        <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard2.0;MonoAndroid80;Xamarin.Mac20;Xamarin.iOS10</TargetFrameworks>
+        <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
         <Authors>aritchie</Authors>
         <Company />
         <Description>Local Notifications, Scheduled Notifications, Badges, and Vibration for Xamarin and Windows</Description>
         <Product>ACR Notifications Plugin for Xamarin and Windows</Product>
-        <Version>5.0.0-beta4</Version>
+        <Version>5.0.0</Version>
+        <Product>$(AssemblyName) ($(TargetFramework))</Product>
         <PackageProjectUrl>https://github.com/aritchie/notifications</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/aritchie/notifications/blob/master/LICENSE.md</PackageLicenseUrl>
         <PackageIconUrl>https://github.com/aritchie/notifications/raw/master/icon.png</PackageIconUrl>
@@ -17,84 +17,38 @@
         <PackageTags>notifications windows xamarin xam.pcl plugin</PackageTags>
     </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.0' OR '$(TargetFramework)' == 'netstandard2.0' ">
-        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
-        <DefineConstants>$(DefineConstants);NETSTANDARD;BAIT</DefineConstants>
-        <Product>Plugin.Notifications - .NET Standard</Product>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(TargetFramework)' == 'portable-net45+win8+wpa81+wp8' ">
-        <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
-        <DefineConstants>$(DefineConstants);PCL;BAIT</DefineConstants>
-        <Product>Plugin.Notifications - PCL</Product>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(TargetFramework)' == 'MonoAndroid70' OR  '$(TargetFramework)' == 'MonoAndroid80' ">
-        <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
-        <Product>Plugin.Notifications - Android</Product>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(TargetFramework)' == 'Xamarin.iOS10' ">
-        <DefineConstants>$(DefineConstants);__IOS__</DefineConstants>
-        <Product>Plugin.Notifications - iOS</Product>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">
+    <PropertyGroup Condition=" $(TargetFramework.StartsWith('uap')) ">
         <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
         <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
-        <DefineConstants>$(DefineConstants);WINDOWS_UWP</DefineConstants>
-        <Product>Plugin.Notifications - UWP</Product>
     </PropertyGroup>
 
     <ItemGroup>
         <Compile Remove="Platforms\**\*.cs" />
         <None Include="Platforms\**\*.cs" />
-        <PackageReference Include="MSBuild.Sdk.Extras" Version="1.2.2" PrivateAssets="all" />
+        <PackageReference Include="MSBuild.Sdk.Extras" Version="1.5.4" PrivateAssets="all" />
     </ItemGroup>
 
-    <ItemGroup Condition=" '$(TargetFramework)' == 'portable-net45+win8+wpa81+wp8' OR '$(TargetFramework)' == 'netstandard1.0' OR '$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'portable-net45+win8+wpa81+wp8' ">
-        <Compile Include="Platforms\Shared\**\*.cs" />
-    </ItemGroup>
-
-    <ItemGroup Condition=" '$(TargetFramework)' == 'MonoAndroid70' ">
-        <Compile Include="Platforms\Shared\**\*.cs" />
-        <Compile Include="Platforms\Android\**\*.cs" />
-        <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
-        <PackageReference Include="Xamarin.Android.ShortcutBadger" Version="1.1.982" />
-        <PackageReference Include="Xamarin.Android.Support.v4" Version="25.4.0.2" />
-    </ItemGroup>
-
-    <ItemGroup Condition=" '$(TargetFramework)' == 'MonoAndroid80' ">
-        <Compile Include="Platforms\Shared\**\*.cs" />
+    <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
         <Compile Include="Platforms\Android\**\*.cs" />
         <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
         <PackageReference Include="Xamarin.Android.ShortcutBadger" Version="1.1.982" />
         <PackageReference Include="Xamarin.Android.Support.v4" Version="26.1.0.1" />
     </ItemGroup>
 
-    <ItemGroup Condition=" '$(TargetFramework)' == 'Xamarin.iOS10' ">
+    <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
         <Compile Include="Platforms\Apple\**\*.cs" />
-        <Compile Include="Platforms\Shared\**\*.cs" />
         <Compile Include="Platforms\ios\**\*.cs" />
     </ItemGroup>
 
-    <ItemGroup Condition=" '$(TargetFramework)' == 'Xamarin.Mac20' ">
+    <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.Mac')) ">
         <Compile Include="Platforms\Apple\**\*.cs" />
-        <Compile Include="Platforms\Shared\**\*.cs" />
         <Compile Include="Platforms\macOS\**\*.cs" />
     </ItemGroup>
 
-    <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">
-        <Compile Include="Platforms\Shared\**\*.cs" />
+    <ItemGroup Condition=" $(TargetFramework.StartsWith('uap')) ">
         <Compile Include="Platforms\Uwp\**\*.cs" />
-
-        <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.5" />
-        <PackageReference Include="Microsoft.Win32.Primitives" Version="4.3.0" />
-        <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0" />
-        <PackageReference Include="System.Net.NameResolution" Version="4.3.0" />
-        <PackageReference Include="System.Net.Sockets" Version="4.1.0" />
-        <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="2.1.1" />
-        <PackageReference Include="QueryString.NET" Version="1.0.0" />
+        <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="3.0.0" />
+        <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.8" />
         <EmbeddedResource Include="Platforms\Uwp\Plugin.Notifications.rd.xml" />
     </ItemGroup>
 

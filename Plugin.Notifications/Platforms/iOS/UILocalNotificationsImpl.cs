@@ -60,12 +60,14 @@ namespace Plugin.Notifications
 
             var not = new UILocalNotification
             {
-                FireDate = notification.SendTime.ToNSDate(),
                 AlertTitle = notification.Title,
                 AlertBody = notification.Message,
                 SoundName = notification.Sound,
                 UserInfo = notification.MetadataToNsDictionary()
             };
+            if (notification.ScheduledDate != null)
+                not.FireDate = notification.ScheduledDate.Value.ToNSDate();
+
             return this.Invoke(() => UIApplication.SharedApplication.ScheduleLocalNotification(not));
         }
 
@@ -101,7 +103,7 @@ namespace Plugin.Notifications
                 Title = native.AlertTitle,
                 Message = native.AlertBody,
                 Sound = native.SoundName,
-                Date = native.FireDate.ToDateTime(),
+                ScheduledDate = native.FireDate.ToDateTime(),
                 Metadata = native.UserInfo.FromNsDictionary()
             };
 

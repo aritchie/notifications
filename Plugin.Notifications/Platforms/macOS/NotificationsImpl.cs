@@ -49,9 +49,11 @@ namespace Plugin.Notifications
                 Title = notification.Title,
                 InformativeText = notification.Message,
                 SoundName = notification.Sound,
-                DeliveryDate = notification.SendTime.ToNSDate(),
                 UserInfo = notification.MetadataToNsDictionary()
             };
+            if (notification.ScheduledDate != null)
+                native.DeliveryDate = notification.ScheduledDate.Value.ToNSDate();
+
             NSUserNotificationCenter
                 .DefaultUserNotificationCenter
                 .ScheduleNotification(native);

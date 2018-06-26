@@ -28,7 +28,7 @@ namespace Plugin.Notifications
 
             if (notification.IsScheduled)
             {
-                var triggerMs = this.GetEpochMills(notification.SendTime);
+                var triggerMs = this.GetEpochMills(notification.ScheduledDate.Value);
                 var pending = notification.ToPendingIntent(notification.Id.Value);
 
                 var alarmMgr = (AlarmManager) Application.Context.GetSystemService(Context.AlarmService);

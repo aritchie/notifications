@@ -41,7 +41,7 @@ namespace Plugin.Notifications.Infrastructure
                 Message = db.Message,
                 Sound = db.Sound,
                 Vibrate = db.Vibrate,
-                Date = db.DateScheduled,
+                ScheduledDate = db.DateScheduled,
                 Metadata = mds
                     .ToDictionary(
                         y => y.Key,
@@ -62,7 +62,7 @@ namespace Plugin.Notifications.Infrastructure
                 Message = x.Message,
                 Sound = x.Sound,
                 Vibrate = x.Vibrate,
-                Date = x.DateScheduled,
+                ScheduledDate = x.DateScheduled,
                 Metadata = mds
                     .Where(y => y.NotificationId == x.Id)
                     .ToDictionary(
@@ -86,7 +86,7 @@ namespace Plugin.Notifications.Infrastructure
                     Message = notification.Message,
                     Sound = notification.Sound,
                     Vibrate = notification.Vibrate,
-                    DateScheduled = notification.SendTime
+                    DateScheduled = notification.ScheduledDate
                 };
                 this.conn.Insert(db);
 

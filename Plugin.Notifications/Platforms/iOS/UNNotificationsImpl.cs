@@ -53,7 +53,7 @@ namespace Plugin.Notifications
             if (!String.IsNullOrWhiteSpace(notification.Sound))
                 content.Sound = UNNotificationSound.GetSound(notification.Sound);
 
-            var dt = notification.SendTime;
+            var dt = notification.ScheduledDate ?? DateTime.Now;
             var request = UNNotificationRequest.FromIdentifier(
                 notification.Id.Value.ToString(),
                 content,

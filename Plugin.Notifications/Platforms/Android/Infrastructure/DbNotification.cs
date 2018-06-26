@@ -14,6 +14,6 @@ namespace Plugin.Notifications.Infrastructure
         public string Sound { get; set; }
         public bool Vibrate { get; set; }
 
-        public DateTime DateScheduled { get; set; }
+        public DateTime? DateScheduled { get; set; }
     }
 }
