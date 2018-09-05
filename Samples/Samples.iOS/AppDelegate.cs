@@ -28,7 +28,7 @@ namespace Samples.iOS
 
             if (UIApplication.SharedApplication.ApplicationState == UIApplicationState.Active)
             {
-                new UIAlertView(notification.AlertAction, notification.AlertBody, null, "OK", null).Show();
+                //new UIAlertView(notification.AlertAction, notification.AlertBody, null, "OK", null).Show();
 
                 //var alert = UIAlertController.Create(notification.AlertAction, notification.AlertBody, UIAlertControllerStyle.Alert);
                 //UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(alert, true, null);
@@ -38,10 +38,10 @@ namespace Samples.iOS
 
         public override void HandleAction(UIApplication application, string actionIdentifier, NSDictionary remoteNotificationInfo, Action completionHandler)
         {
-            if (UIApplication.SharedApplication.ApplicationState == UIApplicationState.Active)
-                new UIAlertView("Notification Action", actionIdentifier, null, "OK", null).Show();
-            else
-                Console.WriteLine("Notification Action {0}", actionIdentifier);
+            //if (UIApplication.SharedApplication.ApplicationState == UIApplicationState.Active)
+            //    new UIAlertView("Notification Action", actionIdentifier, null, "OK", null).Show();
+            //else
+            //    Console.WriteLine("Notification Action {0}", actionIdentifier);
 
             base.HandleAction(application, actionIdentifier, remoteNotificationInfo, completionHandler);
         }
