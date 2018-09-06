@@ -26,13 +26,11 @@ namespace Plugin.Notifications
         }
 
 
-        public override Task Cancel(int notificationId)
+        public override Task Cancel(string notificationId)
         {
-            var id = notificationId.ToString();
-
             var notification = this.toastNotifier
                 .GetScheduledToastNotifications()
-                .FirstOrDefault(x => x.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
+                .FirstOrDefault(x => x.Id.Equals(notificationId, StringComparison.OrdinalIgnoreCase));
 
             if (notification == null)
                 return Task.FromResult(false);

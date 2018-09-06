@@ -1,7 +1,7 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/1.6.47">
+﻿<Project Sdk="MSBuild.Sdk.Extras/1.6.52">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;MonoAndroid80;Xamarin.Mac20;Xamarin.iOS10;uap10.0</TargetFrameworks>
+        <TargetFrameworks>netstandard2.0;MonoAndroid81;Xamarin.Mac20;Xamarin.iOS10;uap10.0</TargetFrameworks>
         <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
         <Authors>aritchie</Authors>
         <Company />
@@ -65,7 +65,7 @@
 
     <ItemGroup Condition=" $(TargetFramework.StartsWith('uap')) ">
         <Compile Include="Platforms\Uwp\**\*.cs" />
-        <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="3.0.0" />
+        <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="4.0.0" />
         <EmbeddedResource Include="Platforms\Uwp\Plugin.Notifications.rd.xml" />
         <PackageReference Include="Plugin.Geofencing" Version="3.0.0-beta2" />
     </ItemGroup>

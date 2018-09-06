@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" package="com.acrapps.Notifications" android:versionCode="1" android:versionName="1.0">
-	<uses-sdk android:minSdkVersion="15" />
+	<uses-sdk android:minSdkVersion="15" android:targetSdkVersion="27" />
 	<uses-permission android:name="android.permission.VIBRATE" />
 	<application android:label="Notifications" android:icon="@drawable/icon" android:theme="@style/MyTheme"></application>
 </manifest>

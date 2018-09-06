@@ -7,6 +7,8 @@ namespace Plugin.Notifications
 {
     public interface INotifications
     {
+        // TODO: register actions
+        // TODO: need activated with action
         /// <summary>
         /// Fires when a notification activated
         /// </summary>
@@ -37,7 +39,7 @@ namespace Plugin.Notifications
         /// </summary>
         /// <param name="notificationId"></param>
         /// <returns>Returns true if message found and cancelled successfully</returns>
-        Task Cancel(int notificationId);
+        Task Cancel(string notificationId);
 
 
         /// <summary>
@@ -49,19 +51,9 @@ namespace Plugin.Notifications
 
 
         /// <summary>
-        /// Get the current badge count
+        /// Get/Set the current badge count
         /// </summary>
-        Task<int> GetBadge();
-
-
-        /// <summary>
-        /// Set the current badge
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        Task SetBadge(int value);
-
-
+        int Badge { get; set; }
         /// <summary>
         /// Vibrate the device
         /// </summary>

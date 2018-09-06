@@ -29,10 +29,6 @@ namespace Plugin.Notifications
         public static NSDictionary MetadataToNsDictionary(this Notification notification)
         {
             var ns = new NSMutableDictionary();
-            ns.SetValueForKey(
-                new NSString(notification.Id.Value.ToString()),
-                new NSString(NOTIFICATION_ID_KEY)
-            );
             if (notification.Metadata != null)
             {
                 foreach (var pair in notification.Metadata)
@@ -41,29 +37,6 @@ namespace Plugin.Notifications
                 }
             }
             return ns;
-        }
-
-
-        const string NOTIFICATION_ID_KEY = "notificationid";
-        static readonly object syncLock = new object();
-        public static int GeneratedNotificationId(this Notification notification)
-        {
-            var id = 0;
-            var p = NSUserDefaults.StandardUserDefaults;
-
-            lock (syncLock)
-            {
-                var value = p.ValueForKey(new NSString(NOTIFICATION_ID_KEY));
-                if (value != null)
-                    id = (int)p.IntForKey(NOTIFICATION_ID_KEY);
-
-                id++;
-                p.SetInt(id, NOTIFICATION_ID_KEY);
-                p.Synchronize();
-
-                notification.Id = id;
-            }
-            return id;
         }
 
 
