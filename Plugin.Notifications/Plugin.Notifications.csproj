@@ -1,8 +1,8 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras/1.6.52">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;MonoAndroid81;Xamarin.Mac20;Xamarin.iOS10;uap10.0</TargetFrameworks>
-        <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
+        <TargetFrameworks>netstandard2.0;MonoAndroid81;Xamarin.iOS10;uap10.0</TargetFrameworks>
+        <!--<TargetFrameworks>netstandard2.0;MonoAndroid81;Xamarin.Mac20;Xamarin.iOS10;uap10.0</TargetFrameworks>-->
         <Authors>aritchie</Authors>
         <Company />
         <Description>Local Notifications, Scheduled Notifications, Badges, and Vibration for Xamarin and Windows</Description>
@@ -24,14 +24,14 @@
         <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     </PropertyGroup>
 
-
-    <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <DebugType>full</DebugType>
         <DebugSymbols>true</DebugSymbols>
     </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)'=='Release' ">
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
         <DebugType>pdbonly</DebugType>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <PropertyGroup Condition=" $(TargetFramework.StartsWith('uap')) ">

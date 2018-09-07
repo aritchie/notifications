@@ -23,9 +23,7 @@ namespace Plugin.Notifications
         {
             var notifications = await this.GetScheduledNotifications();
             foreach (var notification in notifications)
-            {
-                await this.Cancel(notification.Id.Value);
-            }
+                await this.Cancel(notification.Id).ConfigureAwait(false);
         }
 
 

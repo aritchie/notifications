@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Foundation;
-using UIKit;
 using AudioToolbox;
+using UIKit;
 using UserNotifications;
 
 
 namespace Plugin.Notifications
 {
-
     public class NotificationsImpl : AbstractNotificationsImpl
     {
         public NotificationsImpl()
@@ -19,7 +17,7 @@ namespace Plugin.Notifications
                 .Current
                 .Delegate = new AcrUserNotificationCenterDelegate(response =>
                 {
-                    var notification = this.FromNative(response.Notification.Request);
+                    var notification = response.Notification.Request.FromNative();
                     this.OnActivated(notification);
                 });
         }
@@ -52,19 +50,10 @@ namespace Plugin.Notifications
             if (!String.IsNullOrWhiteSpace(notification.Sound))
                 content.Sound = UNNotificationSound.GetSound(notification.Sound);
 
-            var dt = notification.ScheduledDate ?? DateTime.Now;
             var request = UNNotificationRequest.FromIdentifier(
                 notification.Id ,
                 content,
-                UNCalendarNotificationTrigger.CreateTrigger(new NSDateComponents
-                {
-                    Year = dt.Year,
-                    Month = dt.Month,
-                    Day = dt.Day,
-                    Hour = dt.Hour,
-                    Minute = dt.Minute,
-                    Second = dt.Second
-                }, false)
+                notification.Trigger.ToNative()
             );
             await UNUserNotificationCenter.Current.AddNotificationRequestAsync(request);
         });
@@ -73,11 +62,12 @@ namespace Plugin.Notifications
         public override Task<IEnumerable<Notification>> GetScheduledNotifications()
         {
             var tcs = new TaskCompletionSource<IEnumerable<Notification>>();
-            UIApplication.SharedApplication.InvokeOnMainThread(async () =>
+            UIApplication.SharedApplication.BeginInvokeOnMainThread(async () =>
             {
                 var requests = await UNUserNotificationCenter
                     .Current
                     .GetPendingNotificationRequestsAsync();
+
                 var notifications = requests.Select(this.FromNative);
                 tcs.TrySetResult(notifications);
             });
@@ -101,30 +91,7 @@ namespace Plugin.Notifications
         }
 
 
-        protected virtual Notification FromNative(UNNotificationRequest native)
-        {
-            var date =
-                (native.Trigger as UNCalendarNotificationTrigger)?
-                    .DateComponents?
-                    .Date?
-                    .ToDateTime()
-                ?? DateTime.Now;
-
-            var plugin = new Notification
-            {
-                Id = native.Identifier,
-                Title = native.Content.Title,
-                Message = native.Content.Body,
-                Sound = native.Content.Sound?.ToString(),
-                ScheduledDate = date,
-                Metadata = native.Content.UserInfo.FromNsDictionary()
-            };
-
-            return plugin;
-        }
-
-
-        public int Badge
+        public override int Badge
         {
             get
             {
@@ -142,5 +109,25 @@ namespace Plugin.Notifications
 
 
         public override void Vibrate(int ms) => SystemSound.Vibrate.PlaySystemSound();
+
+
+        protected Task Invoke(Action action)
+        {
+            var tcs = new TaskCompletionSource<object>();
+            var app = UIApplication.SharedApplication;
+            app.BeginInvokeOnMainThread(() =>
+            {
+                try
+                {
+                    action();
+                    tcs.TrySetResult(null);
+                }
+                catch (Exception ex)
+                {
+                    tcs.TrySetException(ex);
+                }
+            });
+            return tcs.Task;
+        }
     }
 }

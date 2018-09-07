@@ -8,6 +8,7 @@ using Windows.System.Profile;
 using Windows.UI.Notifications;
 //using Microsoft.QueryStringDotNET;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Plugin.Geofencing;
 
 
 namespace Plugin.Notifications
@@ -15,14 +16,25 @@ namespace Plugin.Notifications
     //https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/07/08/quickstart-sending-a-local-toast-notification-and-handling-activations-from-it-windows-10/
     public class NotificationsImpl : AbstractNotificationsImpl
     {
+        readonly IGeofenceManager geofenceManager;
         readonly BadgeUpdater badgeUpdater;
         readonly ToastNotifier toastNotifier;
 
 
-        public NotificationsImpl()
+        public NotificationsImpl(IGeofenceManager geofenceManager = null)
         {
+            this.geofenceManager = geofenceManager ?? CrossGeofences.Current;
             this.badgeUpdater = BadgeUpdateManager.CreateBadgeUpdaterForApplication();
             this.toastNotifier = ToastNotificationManager.CreateToastNotifier();
+
+            this.geofenceManager.RegionStatusChanged += this.OnRegionStatusChanged;
+        }
+
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            this.geofenceManager.RegionStatusChanged -= this.OnRegionStatusChanged;
         }
 
 
@@ -40,9 +52,9 @@ namespace Plugin.Notifications
         }
 
 
-        public override async Task CancelAll()
+        public override Task CancelAll()
         {
-            await this.SetBadge(0);
+            this.Badge = 0;
 
             var list = this.toastNotifier
                 .GetScheduledToastNotifications()
@@ -50,17 +62,16 @@ namespace Plugin.Notifications
 
             foreach (var item in list)
                 this.toastNotifier.RemoveFromSchedule(item);
+
+            return Task.CompletedTask;
         }
 
 
         public override Task Send(Notification notification)
         {
-            if (notification.Id == null)
-                notification.Id = this.GetNotificationId();
-
             var toastContent = new ToastContent
             {
-                Launch = this.ToQueryString(notification.Metadata),
+                //Launch = this.ToQueryString(notification.Metadata),
                 Visual = new ToastVisual
                 {
                     BindingGeneric = new ToastBindingGeneric
@@ -91,39 +102,21 @@ namespace Plugin.Notifications
             }
 
 
-            if (notification.ScheduledDate == null)
-            {
-                var toast = new ToastNotification(toastContent.GetXml());
-                toast.Activated += (sender, args) => this.OnActivated(notification);
-                this.toastNotifier.Show(toast);
-            }
-            else
-            {
-                //https://msdn.microsoft.com/library/74ba3513-0a52-46a0-8769-ed58abe7c05a
-                var schedule = new ScheduledToastNotification(toastContent.GetXml(), notification.ScheduledDate.Value)
-                {
-                    Id = notification.Id.Value.ToString()
-                };
-                this.toastNotifier.AddToSchedule(schedule);
-            }
-            return Task.CompletedTask;
-        }
-
-
-        public override Task<int> GetBadge() => Task.FromResult(this.CurrentBadge);
-
-
-        public override Task SetBadge(int value)
-        {
-            this.CurrentBadge = value;
-            if (value == 0)
-            {
-                this.badgeUpdater.Clear();
-            }
-            else
-            {
-                this.badgeUpdater.Update(new BadgeNotification(new BadgeNumericContent((uint)value).GetXml()));
-            }
+            //if (notification.ScheduledDate == null)
+            //{
+            //    var toast = new ToastNotification(toastContent.GetXml());
+            //    toast.Activated += (sender, args) => this.OnActivated(notification);
+            //    this.toastNotifier.Show(toast);
+            //}
+            //else
+            //{
+            //    //https://msdn.microsoft.com/library/74ba3513-0a52-46a0-8769-ed58abe7c05a
+            //    //var schedule = new ScheduledToastNotification(toastContent.GetXml(), notification.ScheduledDate.Value)
+            //    //{
+            //    //    Id = notification.Id
+            //    //};
+            //    this.toastNotifier.AddToSchedule(schedule);
+            //}
             return Task.CompletedTask;
         }
 
@@ -157,7 +150,7 @@ namespace Plugin.Notifications
 
 
         const string BADGE_KEY = "acr.notifications.badge";
-        protected int CurrentBadge
+        public override int Badge
         {
             get
             {
@@ -172,18 +165,9 @@ namespace Plugin.Notifications
         }
 
 
-        const string CFG_KEY = "acr.notifications";
-        protected virtual int GetNotificationId()
+        void OnRegionStatusChanged(object sender, GeofenceStatusChangedEventArgs e)
         {
-            var id = 0;
-            var s = ApplicationData.Current.LocalSettings.Values;
-            if (s.ContainsKey(CFG_KEY))
-            {
-                id = Int32.Parse((string)s[CFG_KEY]);
-            }
-            id++;
-            s[CFG_KEY] = id.ToString();
-            return id;
+
         }
 
 
@@ -201,7 +185,7 @@ namespace Plugin.Notifications
 
         protected virtual IDictionary<string, string> FromQueryString(string queryString)
         {
-            var dict = new Dictionary<string, string>();
+            var dict = new Dictionary <string, string>();
             //var qs = QueryString.Parse(queryString);
             //foreach (var pair in qs)
             //{

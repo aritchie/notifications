@@ -1,14 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace Samples
 {
-    public class MainViewModel
+    public class MainViewModel : ViewModel
     {
     }
 }
 /*
+             CrossNotifications.Current.Activated += async (sender, notification) =>
+            {
+                Debug.WriteLine($"Notification Activated - {notification.Id} - {notification.Title}");
+                await this.MainPage.DisplayAlert("Received Notification", notification.Message, "OK");
+            };
+
+
 Children =          Notification.DefaultTitle = "Test Title";
             var btnPermission = new Button {Text = "Request Permission"};
             btnPermission.Command = new Command(async () =>

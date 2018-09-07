@@ -18,25 +18,19 @@ namespace Plugin.Notifications
         }
 
 
-        static NotificationBroadcastReceiver instance;
-        public static void Register()
+        public static NotificationBroadcastReceiver Register()
         {
-            if (instance != null)
-                return;
-
             var filter = new IntentFilter();
             //filter.AddAction($"{Application.Context.PackageName}.{Constants.ACTION_KEY}");
             filter.AddAction(Constants.ACTION_KEY);
-            instance = new NotificationBroadcastReceiver();
+            var instance = new NotificationBroadcastReceiver();
             Application.Context.RegisterReceiver(instance, filter);
+            return instance;
         }
 
 
-        public static void UnRegister()
+        public static void UnRegister(NotificationBroadcastReceiver instance)
         {
-            if (instance == null)
-                return;
-
             Application.Context.UnregisterReceiver(instance);
             instance = null;
         }

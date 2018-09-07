@@ -9,16 +9,20 @@ Plugin for Easy Cross Platform notifications
 ## Features
 
 * Local Notifications
-* Scheduled Notifications
+* Triggers
+    * Time Interval Based
+    * Geofence Location Based
+    * Calendar Based (Specific Date, Day of Week, Week of Year)
 * Sounds
-* Read all Scheduled Notifications
+* Read All Scheduled Notifications
 * Badges
-* Set metadata on each notification for identification
-* Cancel individual or all notifications
+* Vibrate Device (Android & iOS only)
+* Set payload on notification for additional data
+* Cancel specific or all notifications
 
 
 ## Supported OS
-* iOS 6+
+* iOS 9+
 * macOS
 * Android 4+
 * Universal Windows Platform (Win10/UWP)

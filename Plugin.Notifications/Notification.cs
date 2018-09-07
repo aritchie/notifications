@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 
 namespace Plugin.Notifications
@@ -14,21 +13,35 @@ namespace Plugin.Notifications
         public string Id { get; set; }
         public string Title { get; set; } = DefaultTitle;
         public string Message { get; set; }
+
+
+        ///// <summary>
+        ///// Set the image resource (Android & UWP only)
+        ///// </summary>
+        //public string Image { get; set; }
+
+
+        /// <summary>
+        /// Play a sound from the native platform
+        /// </summary>
         public string Sound { get; set; } = DefaultSound;
-        public IDictionary<string, string> Metadata { get; set; } = new Dictionary<string, string>();
+
+
+        /// <summary>
+        /// The notification trigger to use - leaving this null will use a non-repeating immediate trigger
+        /// </summary>
+        public INotificationTrigger Trigger { get; set; }
+
+
+        /// <summary>
+        /// Additional data you can add to your notification
+        /// </summary>
+        public string Payload { get; set; }
+
 
         /// <summary>
         /// Only works with Android
         /// </summary>
         public bool Vibrate { get; set; }
-        public DateTime? ScheduledDate { get; set; }
-
-        public bool IsScheduled => this.ScheduledDate != null;
-        /*
-         * TODO: Repeat Intervals
-if (notification.Interval != NotificationInterval.None) {
-				not.RepeatInterval = notification.Interval == NotificationInterval.Weekly ? NSCalendarUnit.Week : NSCalendarUnit.Day;
-			}
-         */
     }
 }
