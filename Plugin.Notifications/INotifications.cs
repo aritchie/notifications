@@ -22,10 +22,10 @@ namespace Plugin.Notifications
 
 
         /// <summary>
-        /// Get scheduled notifications
+        /// Get all pending notifications
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<Notification>> GetScheduledNotifications();
+        Task<IEnumerable<Notification>> GetPendingNotifications();
 
 
         /// <summary>

@@ -45,14 +45,6 @@
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All" />
     </ItemGroup>
 
-    <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
-        <Compile Include="Platforms\Android\**\*.cs" />
-        <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
-        <PackageReference Include="Xamarin.Android.ShortcutBadger" Version="1.1.982" />
-        <PackageReference Include="Xamarin.Android.Support.v4" Version="27.0.2.1" />
-        <PackageReference Include="Plugin.Geofencing" Version="3.0.0-beta2" />
-    </ItemGroup>
-
     <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
         <Compile Include="Platforms\Apple\**\*.cs" />
         <Compile Include="Platforms\ios\**\*.cs" />
@@ -63,10 +55,21 @@
         <Compile Include="Platforms\macOS\**\*.cs" />
     </ItemGroup>
 
+    <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+        <Compile Include="Platforms\Android\**\*.cs" />
+        <Compile Include="Platforms\Shared\**\*.cs" />
+        <PackageReference Include="Xamarin.Android.ShortcutBadger" Version="1.1.982" />
+        <PackageReference Include="Xamarin.Android.Support.v4" Version="27.0.2.1" />
+        <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
+        <PackageReference Include="Plugin.Geofencing" Version="3.0.0-beta2" />
+    </ItemGroup>
+
     <ItemGroup Condition=" $(TargetFramework.StartsWith('uap')) ">
         <Compile Include="Platforms\Uwp\**\*.cs" />
-        <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="4.0.0" />
+        <Compile Include="Platforms\Shared\**\*.cs" />
         <EmbeddedResource Include="Platforms\Uwp\Plugin.Notifications.rd.xml" />
+        <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="4.0.0" />
+        <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
         <PackageReference Include="Plugin.Geofencing" Version="3.0.0-beta2" />
     </ItemGroup>
 

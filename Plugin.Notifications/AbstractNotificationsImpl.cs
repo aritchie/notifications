@@ -14,14 +14,14 @@ namespace Plugin.Notifications
         public event EventHandler<Notification> Activated;
         public abstract Task Cancel(string notificationId);
         public abstract Task Send(Notification notification);
-        public abstract Task<IEnumerable<Notification>> GetScheduledNotifications();
+        public abstract Task<IEnumerable<Notification>> GetPendingNotifications();
         public abstract Task<bool> RequestPermission();
         public abstract void Vibrate(int ms);
         public abstract int Badge { get; set; }
 
         public virtual async Task CancelAll()
         {
-            var notifications = await this.GetScheduledNotifications();
+            var notifications = await this.GetPendingNotifications();
             foreach (var notification in notifications)
                 await this.Cancel(notification.Id).ConfigureAwait(false);
         }
