@@ -9,11 +9,14 @@ namespace Plugin.Notifications.Data
     {
         public PluginSqliteConnection() :
             base(new SQLiteConnectionString(
-#if DEBUG
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "notifications.db"),
-#else
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "notifications.db"),
+                Path.Combine(
+#if __ANDROID__
+                    Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+#elif WINDOWS_UWP
+                    Windows.Storage.ApplicationData.Current.LocalFolder.Path,
 #endif
+                    "acrnotifications.db"
+                ),
                 true
             ), SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex | SQLiteOpenFlags.ReadWrite)
         {

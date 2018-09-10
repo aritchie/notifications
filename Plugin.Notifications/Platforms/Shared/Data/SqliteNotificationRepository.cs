@@ -52,7 +52,7 @@ namespace Plugin.Notifications.Data
         });
 
 
-        public void Delete(int id)
+        public void Delete(string id)
             => this.conn.Notifications.Delete(x => x.Id == id);
 
 
