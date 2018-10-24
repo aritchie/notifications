@@ -2,24 +2,34 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Plugin.Geofencing;
+using Plugin.Jobs;
 using Plugin.Notifications.Data;
 
 
 namespace Plugin.Notifications
 {
-    public abstract class AbstractPlatformNotificationImpl : AbstractNotificationsImpl
+    public abstract class AbstractPlatformNotificationManagerImpl : AbstractNotificationManagerImpl
     {
         readonly IGeofenceManager geofenceMgr;
         readonly INotificationRepository repository;
 
 
-        protected AbstractPlatformNotificationImpl(IGeofenceManager geofenceMgr,
-                                                   INotificationRepository repository)
+        protected AbstractPlatformNotificationManagerImpl(IGeofenceManager geofenceMgr,
+                                                          IJobManager jobManager,
+                                                          INotificationRepository repository)
         {
             this.geofenceMgr = geofenceMgr ?? CrossGeofences.Current;
             this.repository = repository ?? new SqliteNotificationRepository();
 
-            this.geofenceMgr.RegionStatusChanged += (sender, args) => { };
+            this.geofenceMgr.RegionStatusChanged += (sender, args) =>
+            {
+                var notification = repository.GetById(args.Region.Identifier);
+
+            };
+            (jobManager ?? CrossJobs.Current).Schedule(new JobInfo
+            {
+
+            });
         }
 
 
@@ -57,7 +67,7 @@ namespace Plugin.Notifications
         }
 
 
-        public int Badge { get; set; }
+        public override int Badge { get; set; }
 
 
         protected virtual void OnPostNotificationFired(Notification fired)

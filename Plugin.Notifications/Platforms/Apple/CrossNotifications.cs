@@ -7,7 +7,7 @@ namespace Plugin.Notifications
     {
         static CrossNotifications()
         {
-            Current = new NotificationsImpl();
+            Current = new NotificationManagerImpl();
         }
     }
 }

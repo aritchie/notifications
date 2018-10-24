@@ -8,7 +8,7 @@ using Foundation;
 
 namespace Plugin.Notifications
 {
-    public class NotificationsImpl : AbstractNotificationsImpl
+    public class NotificationManagerImpl : AbstractNotificationManagerImpl
     {
         public override Task CancelAll() => this.Invoke(() =>
         {
@@ -25,7 +25,7 @@ namespace Plugin.Notifications
         });
 
 
-        public override Task Cancel(int notificationId) => this.Invoke(() =>
+        public override Task Cancel(string notificationId) => this.Invoke(() =>
         {
             var dnc = NSUserNotificationCenter.DefaultUserNotificationCenter;
             var native = dnc.ScheduledNotifications.FirstOrDefault(x => x.Identifier == notificationId.ToString());
@@ -40,19 +40,19 @@ namespace Plugin.Notifications
 
         public override Task Send(Notification notification) => this.Invoke(() =>
         {
-            if (notification.Id == null)
-                notification.GeneratedNotificationId();
+            //if (notification.Id == null)
+            //    notification.GeneratedNotificationId();
 
             var native = new NSUserNotification
             {
-                Identifier = notification.Id.Value.ToString(),
+                //Identifier = notification.Id.Value.ToString(),
                 Title = notification.Title,
                 InformativeText = notification.Message,
                 SoundName = notification.Sound,
                 UserInfo = notification.MetadataToNsDictionary()
             };
-            if (notification.ScheduledDate != null)
-                native.DeliveryDate = notification.ScheduledDate.Value.ToNSDate();
+            //if (notification.ScheduledDate != null)
+            //    native.DeliveryDate = notification.ScheduledDate.Value.ToNSDate();
 
             NSUserNotificationCenter
                 .DefaultUserNotificationCenter
@@ -60,21 +60,22 @@ namespace Plugin.Notifications
         });
 
 
-        public override async Task<int> GetBadge()
-        {
-            var tcs = new TaskCompletionSource<int>();
-            NSApplication.SharedApplication.InvokeOnMainThread(() =>
-            {
-                Int32.TryParse(NSApplication.SharedApplication.DockTile.BadgeLabel, out var i);
-                tcs.TrySetResult(i);
-            });
-            return await tcs.Task;
-        }
+        //public override int Badge
+        //{
+        //    get
+        //    var tcs = new TaskCompletionSource<int>();
+        //    NSApplication.SharedApplication.InvokeOnMainThread(() =>
+        //    {
+        //        Int32.TryParse(NSApplication.SharedApplication.DockTile.BadgeLabel, out var i);
+        //        tcs.TrySetResult(i);
+        //    });
+        //    return await tcs.Task;
+        //}
 
 
-        public override Task SetBadge(int value) => this.Invoke(() =>
-            NSApplication.SharedApplication.DockTile.BadgeLabel = value.ToString()
-        );
+        //public override Task SetBadge(int value) => this.Invoke(() =>
+        //    NSApplication.SharedApplication.DockTile.BadgeLabel = value.ToString()
+        //);
 
 
         public override void Vibrate(int ms)
@@ -82,7 +83,7 @@ namespace Plugin.Notifications
         }
 
 
-        public override Task<IEnumerable<Notification>> GetScheduledNotifications()
+        public override Task<IEnumerable<Notification>> GetPendingNotifications()
         {
             var tcs = new TaskCompletionSource<IEnumerable<Notification>>();
             NSApplication.SharedApplication.InvokeOnMainThread(() =>
@@ -112,12 +113,12 @@ namespace Plugin.Notifications
 
         protected virtual Notification FromNative(NSUserNotification x) => new Notification
         {
-            Id = this.ToNotificationId(x.Identifier),
+            //Id = this.ToNotificationId(x.Identifier),
             Title = x.Title,
             Message = x.InformativeText,
-            Sound = x.SoundName,
-            ScheduledDate = x.DeliveryDate.ToDateTime(),
-            Metadata = x.UserInfo.FromNsDictionary()
+            Sound = x.SoundName
+            //ScheduledDate = x.DeliveryDate.ToDateTime(),
+            //Metadata = x.UserInfo.FromNsDictionary()
         };
 
         protected async Task Invoke(Action action)

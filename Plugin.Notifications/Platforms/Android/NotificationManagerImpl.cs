@@ -1,37 +1,21 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Support.V4.App;
 using Plugin.Geofencing;
-using Plugin.Permissions.Abstractions;
-using TaskStackBuilder = Android.Support.V4.App.TaskStackBuilder;
+using Plugin.Jobs;
+using Plugin.Notifications.Data;
 
 
 namespace Plugin.Notifications
 {
-    public class NotificationsImpl : AbstractNotificationsImpl, IAndroidNotificationReceiver
+    public class NotificationManagerImpl : AbstractPlatformNotificationManagerImpl
     {
-        readonly IGeofenceManager geofenceManager;
-        readonly NotificationBroadcastReceiver receiver;
-
-
-        public NotificationsImpl(IGeofenceManager geofenceManager = null)
-        {
-            this.geofenceManager = geofenceManager ?? CrossGeofences.Current;
-            this.geofenceManager.RegionStatusChanged += this.OnRegionStatusChanged;
-            this.receiver = NotificationBroadcastReceiver.Register();
-        }
-
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-            NotificationBroadcastReceiver.UnRegister(this.receiver);
-            this.geofenceManager.RegionStatusChanged -= this.OnRegionStatusChanged;
-        }
+        public NotificationManagerImpl(IGeofenceManager geofenceManager = null,
+                                       IJobManager jobManager = null,
+                                       INotificationRepository repository = null)
+            : base(geofenceManager, jobManager, repository) {}
 
 
         public override Task Send(Notification notification)
@@ -114,15 +98,15 @@ namespace Plugin.Notifications
 
         public override Task CancelAll()
         {
-            var notifications = AndroidConfig.Repository.GetScheduled();
+            //var notifications = AndroidConfig.Repository.GetScheduled();
             //foreach (var notification in notifications)
             //    this.CancelInternal(notification.Id.Value);
 
-            AndroidConfig.Repository.DeleteAll();
+            //AndroidConfig.Repository.DeleteAll();
 
-            NotificationManagerCompat
-                .From(Application.Context)
-                .CancelAll();
+            //NotificationManagerCompat
+            //    .From(MediaTypeNames.Application.Context)
+            //    .CancelAll();
 
             return Task.CompletedTask;
         }
@@ -136,27 +120,24 @@ namespace Plugin.Notifications
         }
 
 
-        public override Task<IEnumerable<Notification>> GetScheduledNotifications()
-            => Task.FromResult(AndroidConfig.Repository.GetScheduled());
-
-
         public override Task<bool> RequestPermission() => Task.FromResult(true);
 
 
         public override int Badge
         {
-            get => AndroidConfig.Repository.CurrentBadge;
+            //get => AndroidConfig.Repository.CurrentBadge;
+            get => 0;
             set
             {
-                AndroidConfig.Repository.CurrentBadge = value;
-                if (value <= 0)
-                {
-                    ME.Leolin.Shortcutbadger.ShortcutBadger.RemoveCount(Application.Context);
-                }
-                else
-                {
-                    ME.Leolin.Shortcutbadger.ShortcutBadger.ApplyCount(Application.Context, value);
-                }
+                //AndroidConfig.Repository.CurrentBadge = value;
+                //if (value <= 0)
+                //{
+                //    ME.Leolin.Shortcutbadger.ShortcutBadger.RemoveCount(MediaTypeNames.Application.Context);
+                //}
+                //else
+                //{
+                //    ME.Leolin.Shortcutbadger.ShortcutBadger.ApplyCount(MediaTypeNames.Application.Context, value);
+                //}
             }
         }
 
@@ -173,74 +154,30 @@ namespace Plugin.Notifications
         }
 
 
-        public void TriggerNotification(int id)
-        {
-            var notification = AndroidConfig.Repository.GetById(id);
-            if (notification != null)
-                this.OnActivated(notification);
-        }
 
+        //async Task RegisterTrigger(Notification notification)
+        //{
+        //    if (notification.Trigger is LocationNotificationTrigger cast1)
+        //    {
+        //        var status = await this.geofenceManager.RequestPermission().ConfigureAwait(false);
+        //        if (status != PermissionStatus.Granted)
+        //            throw new ArgumentException("");
 
-        public void TriggerScheduledNotification(int notificationId)
-        {
-            var notification = AndroidConfig.Repository.GetById(notificationId);
-            if (notification == null)
-                return;
+        //        this.geofenceManager.StartMonitoring(new GeofenceRegion(
+        //            notification.Id,
+        //            new Position(cast1.GpsLatitude, cast1.GpsLongitude),
+        //            Distance.FromMeters(cast1.RadiusInMeters))
+        //        );
+        //    }
+        //    else if (notification.Trigger is CalendarNotificationTrigger cast2)
+        //    {
 
-            AndroidConfig.Repository.Delete(notificationId);
+        //    }
+        //    else if (notification.Trigger is TimeIntervalNotificationTrigger cast3)
+        //    {
 
-            // resend without schedule so it goes through normal mechanism
-            //notification.ScheduledDate = null;
-            this.Send(notification);
-        }
-
-
-        protected virtual long GetEpochMills(DateTime sendTime)
-        {
-            var utc = sendTime.ToUniversalTime();
-            var epochDiff = (new DateTime(1970, 1, 1) - DateTime.MinValue).TotalSeconds;
-            var utcAlarmTimeInMillis = utc.AddSeconds(-epochDiff).Ticks / 10000;
-            return utcAlarmTimeInMillis;
-        }
-
-
-        protected virtual void CancelInternal(int notificationId)
-        {
-            var pending = Helpers.GetNotificationPendingIntent(notificationId);
-            pending.Cancel();
-
-            var alarmMgr = (AlarmManager)Application.Context.GetSystemService(Context.AlarmService);
-            alarmMgr.Cancel(pending);
-
-            NotificationManagerCompat
-                .From(Application.Context)
-                .Cancel(notificationId);
-        }
-
-
-        async Task RegisterTrigger(Notification notification)
-        {
-            if (notification.Trigger is LocationNotificationTrigger cast1)
-            {
-                var status = await this.geofenceManager.RequestPermission().ConfigureAwait(false);
-                if (status != PermissionStatus.Granted)
-                    throw new ArgumentException("");
-
-                this.geofenceManager.StartMonitoring(new GeofenceRegion(
-                    notification.Id,
-                    new Position(cast1.GpsLatitude, cast1.GpsLongitude),
-                    Distance.FromMeters(cast1.RadiusInMeters))
-                );
-            }
-            else if (notification.Trigger is CalendarNotificationTrigger cast2)
-            {
-
-            }
-            else if (notification.Trigger is TimeIntervalNotificationTrigger cast3)
-            {
-
-            }
-        }
+        //    }
+        //}
 
 
         void OnRegionStatusChanged(object sender, GeofenceStatusChangedEventArgs args)

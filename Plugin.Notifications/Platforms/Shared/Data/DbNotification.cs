@@ -20,6 +20,8 @@ namespace Plugin.Notifications.Data
 
         public double? TimeIntervalMs { get; set; }
 
+        public bool NotifyOnEntry { get; set; }
+        public bool NotifyOnExit { get; set; }
         public double? LocationCenterGpsLatitude { get; set; }
         public double? LocationCenterGpsLongitude { get; set; }
         public double? LocationRadiusInMeters { get; set; }

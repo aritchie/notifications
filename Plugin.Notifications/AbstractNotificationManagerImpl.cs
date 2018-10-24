@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 namespace Plugin.Notifications
 {
 
-    public abstract class AbstractNotificationsImpl : INotifications, IDisposable
+    public abstract class AbstractNotificationManagerImpl : INotificationManager, IDisposable
     {
-        ~AbstractNotificationsImpl() => this.Dispose(false);
+        ~AbstractNotificationManagerImpl() => this.Dispose(false);
 
 
         public event EventHandler<Notification> Activated;
@@ -18,6 +18,7 @@ namespace Plugin.Notifications
         public abstract Task<bool> RequestPermission();
         public abstract void Vibrate(int ms);
         public abstract int Badge { get; set; }
+
 
         public virtual async Task CancelAll()
         {

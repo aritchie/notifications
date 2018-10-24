@@ -9,9 +9,9 @@ using UserNotifications;
 
 namespace Plugin.Notifications
 {
-    public class NotificationsImpl : AbstractNotificationsImpl
+    public class NotificationManagerImpl : AbstractNotificationManagerImpl
     {
-        public NotificationsImpl()
+        public NotificationManagerImpl()
         {
             UNUserNotificationCenter
                 .Current
@@ -59,7 +59,7 @@ namespace Plugin.Notifications
         });
 
 
-        public override Task<IEnumerable<Notification>> GetScheduledNotifications()
+        public override Task<IEnumerable<Notification>> GetPendingNotifications()
         {
             var tcs = new TaskCompletionSource<IEnumerable<Notification>>();
             UIApplication.SharedApplication.BeginInvokeOnMainThread(async () =>

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Plugin.Notifications
 {
-    public interface INotifications
+    public interface INotificationManager
     {
         // TODO: register actions
         // TODO: need activated with action

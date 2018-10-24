@@ -6,8 +6,8 @@ namespace Plugin.Notifications
 
     public static partial class CrossNotifications
     {
-        static INotifications current;
-        public static INotifications Current
+        static INotificationManager current;
+        public static INotificationManager Current
         {
             get
             {
