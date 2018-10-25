@@ -7,10 +7,10 @@
 
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.0.1" />
-    <PackageReference Include="Prism.Autofac.Forms" Version="7.0.0.396" />
-    <PackageReference Include="ReactiveUI" Version="8.7.2" />
-    <PackageReference Include="ReactiveUI.Fody" Version="8.7.2" />
-    <PackageReference Include="Xamarin.Forms" Version="3.1.0.697729" />
+    <PackageReference Include="Prism.Autofac.Forms" Version="7.1.0.431" />
+    <PackageReference Include="ReactiveUI" Version="9.0.1" />
+    <PackageReference Include="ReactiveUI.Fody" Version="9.0.1" />
+    <PackageReference Include="Xamarin.Forms" Version="3.3.0.912540" />
   </ItemGroup>
 
   <ItemGroup>
