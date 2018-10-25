@@ -24,30 +24,5 @@ namespace Plugin.Notifications
             var date = NSDate.FromTimeIntervalSinceReferenceDate((utcDateTime - reference).TotalSeconds);
             return date;
         }
-
-
-        public static NSDictionary MetadataToNsDictionary(this Notification notification)
-        {
-            var ns = new NSMutableDictionary();
-            if (notification.Metadata != null)
-            {
-                foreach (var pair in notification.Metadata)
-                {
-                    ns.SetValueForKey(new NSString(pair.Value), new NSString(pair.Key));
-                }
-            }
-            return ns;
-        }
-
-
-        public static IDictionary<string, string> FromNsDictionary(this NSDictionary ns)
-        {
-            var dict = new Dictionary<string, string>();
-            if (ns != null)
-                foreach (var pair in ns)
-                    dict.Add(pair.Key.ToString(), pair.Value.ToString());
-
-            return dict;
-        }
     }
 }

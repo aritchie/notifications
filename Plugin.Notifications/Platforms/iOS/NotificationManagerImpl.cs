@@ -44,8 +44,8 @@ namespace Plugin.Notifications
             var content = new UNMutableNotificationContent
             {
                 Title = notification.Title,
-                Body = notification.Message,
-                UserInfo = notification.MetadataToNsDictionary()
+                Body = notification.Message
+                // UserInfo = notification.MetadataToNsDictionary()
             };
             if (!String.IsNullOrWhiteSpace(notification.Sound))
                 content.Sound = UNNotificationSound.GetSound(notification.Sound);
@@ -64,12 +64,20 @@ namespace Plugin.Notifications
             var tcs = new TaskCompletionSource<IEnumerable<Notification>>();
             UIApplication.SharedApplication.BeginInvokeOnMainThread(async () =>
             {
-                var requests = await UNUserNotificationCenter
-                    .Current
-                    .GetPendingNotificationRequestsAsync();
-
-                var notifications = requests.Select(this.FromNative);
-                tcs.TrySetResult(notifications);
+                try
+                {
+                    // var requests = await UNUserNotificationCenter
+                    //                     .Current
+                    //                     .GetPendingNotificationRequestsAsync();
+                    //
+                    // var notifications = requests.Select(this.FromNative);
+                    // tcs.TrySetResult(notifications);
+                    tcs.TrySetResult(null);
+                }
+                catch (Exception ex)
+                {
+                    tcs.TrySetException(ex);
+                }
             });
             return tcs.Task;
         }

@@ -49,7 +49,7 @@ namespace Plugin.Notifications
                 Title = notification.Title,
                 InformativeText = notification.Message,
                 SoundName = notification.Sound,
-                UserInfo = notification.MetadataToNsDictionary()
+                // UserInfo = notification.MetadataToNsDictionary()
             };
             //if (notification.ScheduledDate != null)
             //    native.DeliveryDate = notification.ScheduledDate.Value.ToNSDate();
@@ -82,6 +82,8 @@ namespace Plugin.Notifications
         {
         }
 
+        
+        public override int Badge { get; set; }
 
         public override Task<IEnumerable<Notification>> GetPendingNotifications()
         {

@@ -17,8 +17,9 @@ namespace Plugin.Notifications.Data
 #endif
                     "acrnotifications.db"
                 ),
-                true
-            ), SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex | SQLiteOpenFlags.ReadWrite)
+                true,
+                null
+            ), SQLiteOpenFlags.Create | SQLiteOpenFlags.FullMutex | SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.PrivateCache)
         {
             this.CreateTable<DbNotification>();
         }

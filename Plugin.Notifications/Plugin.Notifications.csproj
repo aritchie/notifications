@@ -1,8 +1,8 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/1.6.52">
+﻿<Project Sdk="MSBuild.Sdk.Extras/1.6.55">
 
     <PropertyGroup>
-        <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.0;MonoAndroid80;Xamarin.iOS10;Xamarin.Mac20;uap10.0.16299</TargetFrameworks>
-        <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard2.0;MonoAndroid80;Xamarin.iOS10;Xamarin.Mac20</TargetFrameworks>
+        <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.0;MonoAndroid81;Xamarin.iOS10;Xamarin.Mac20;uap10.0.16299</TargetFrameworks>
+        <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard2.0;MonoAndroid81;Xamarin.iOS10;Xamarin.Mac20</TargetFrameworks>
         <Authors>aritchie</Authors>
         <Company />
         <Description>Local Notifications, Scheduled Notifications, Badges, and Vibration for Xamarin and Windows</Description>
@@ -57,6 +57,8 @@
 
     <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
         <Compile Include="Platforms\Android\**\*.cs" />
+        <!--<PackageReference Include="Xamarin.Android.ShortcutBadger" Version="1.1.809" />-->
+        <PackageReference Include="Xamarin.Android.Support.Compat" Version="27.0.2.1" />
     </ItemGroup>
 
     <ItemGroup Condition=" $(TargetFramework.StartsWith('uap')) ">
