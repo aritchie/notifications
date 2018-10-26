@@ -46,5 +46,15 @@
 	<string>LaunchScreen</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>GEOFENCING</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>GEOFENCING</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>GEOFENCING</string>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>location</string>
+    </array>
 </dict>
 </plist>
