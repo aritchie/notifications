@@ -2,6 +2,7 @@
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Plugin.Permissions;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
@@ -10,7 +11,8 @@ namespace Samples.Droid
 {
     [Activity(
         Label = "Notifications Sample",
-        Icon = "@drawable/icon",
+        Icon = "@mipmap/icon",
+        Theme = "@style/MainTheme",
         MainLauncher = true,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation
     )]
@@ -23,8 +25,12 @@ namespace Samples.Droid
             this.LoadApplication(new App());
 
             FormsAppCompatActivity.ToolbarResource = Resource.Layout.Toolbar;
-            FormsAppCompatActivity.TabLayoutResource = Resource.Layout.TabLayout;
+            FormsAppCompatActivity.TabLayoutResource = Resource.Layout.Tabbar;
         }
+        
+         
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+            => PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults); 
     }
 }
 

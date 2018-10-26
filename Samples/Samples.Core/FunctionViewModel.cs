@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 
 
 namespace Samples
 {
-    public class MainViewModel : ViewModel
+    public class FunctionViewModel : ViewModel
     {
     }
 }

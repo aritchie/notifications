@@ -4,9 +4,9 @@ using Xamarin.Forms;
 
 namespace Samples
 {
-	public partial class CalendarTriggerPage : ContentPage
+	public partial class PendingListPage : ContentPage
 	{
-		public CalendarTriggerPage ()
+		public PendingListPage()
 		{
 			this.InitializeComponent();
 		}
