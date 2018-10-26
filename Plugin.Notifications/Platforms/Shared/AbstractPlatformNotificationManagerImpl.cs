@@ -24,14 +24,18 @@ namespace Plugin.Notifications
             this.geofenceMgr.RegionStatusChanged += (sender, args) =>
             {
                 var notification = repository.GetById(args.Region.Identifier);
-
+                if (notification != null)
+                    this.NativeSend(notification);
             };
-            (jobManager ?? CrossJobs.Current).Schedule(new JobInfo
-            {
-
-            });
+            // (jobManager ?? CrossJobs.Current).Schedule(new JobInfo
+            // {
+            //     
+            // });
         }
 
+
+        protected abstract void NativeSend(Notification notification);
+        
 
         public override Task<IEnumerable<Notification>> GetPendingNotifications()
             => Task.FromResult(this.repository.GetPending());

@@ -17,24 +17,10 @@ namespace Plugin.Notifications
                                        INotificationRepository repository = null)
             : base(geofenceManager, jobManager, repository) {}
 
-
-        public override Task Send(Notification notification)
+        
+        protected override void NativeSend(Notification notification)
         {
-            //if (notification.IsScheduled)
-            //{
-            //    var triggerMs = this.GetEpochMills(notification.ScheduledDate.Value);
-            //    var pending = notification.ToPendingIntent(notification.Id.Value);
 
-            //    var alarmMgr = (AlarmManager) Application.Context.GetSystemService(Context.AlarmService);
-            //    alarmMgr.Set(
-            //        AlarmType.RtcWakeup,
-            //        Convert.ToInt64(triggerMs),
-            //        pending
-            //    );
-            //    AndroidConfig.Repository.Insert(notification);
-            //}
-            //else
-            //{
             //    /*
             //          Intent stopIntent = new Intent(this, typeof(DownloadsBroadcastReceiver));
             //            stopIntent.PutExtra("action", "actionName");
@@ -92,31 +78,6 @@ namespace Plugin.Notifications
             //        .From(Application.Context)
             //        .Notify(notification.Id.Value, not);
             //}
-            return Task.CompletedTask;
-        }
-
-
-        public override Task CancelAll()
-        {
-            //var notifications = AndroidConfig.Repository.GetScheduled();
-            //foreach (var notification in notifications)
-            //    this.CancelInternal(notification.Id.Value);
-
-            //AndroidConfig.Repository.DeleteAll();
-
-            //NotificationManagerCompat
-            //    .From(MediaTypeNames.Application.Context)
-            //    .CancelAll();
-
-            return Task.CompletedTask;
-        }
-
-
-        public override async Task Cancel(string notificationId)
-        {
-            //AndroidConfig.Repository.Delete(notificationId);
-            //this.CancelInternal(notificationId);
-            //return Task.FromResult(true);
         }
 
 
@@ -150,39 +111,7 @@ namespace Plugin.Notifications
                     return;
 
                 vibrate.Vibrate(ms);
-            }
-        }
-
-
-
-        //async Task RegisterTrigger(Notification notification)
-        //{
-        //    if (notification.Trigger is LocationNotificationTrigger cast1)
-        //    {
-        //        var status = await this.geofenceManager.RequestPermission().ConfigureAwait(false);
-        //        if (status != PermissionStatus.Granted)
-        //            throw new ArgumentException("");
-
-        //        this.geofenceManager.StartMonitoring(new GeofenceRegion(
-        //            notification.Id,
-        //            new Position(cast1.GpsLatitude, cast1.GpsLongitude),
-        //            Distance.FromMeters(cast1.RadiusInMeters))
-        //        );
-        //    }
-        //    else if (notification.Trigger is CalendarNotificationTrigger cast2)
-        //    {
-
-        //    }
-        //    else if (notification.Trigger is TimeIntervalNotificationTrigger cast3)
-        //    {
-
-        //    }
-        //}
-
-
-        void OnRegionStatusChanged(object sender, GeofenceStatusChangedEventArgs args)
-        {
-            // TODO find all incompleted notifications for this region
+            }   
         }
     }
 }

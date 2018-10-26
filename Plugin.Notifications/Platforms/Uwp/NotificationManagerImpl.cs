@@ -22,9 +22,9 @@ namespace Plugin.Notifications
             this.badgeUpdater = BadgeUpdateManager.CreateBadgeUpdaterForApplication();
             this.toastNotifier = ToastNotificationManager.CreateToastNotifier();
         }
+        
 
-
-        public override Task Send(Notification notification)
+        protected override void NativeSend(Notification notification)
         {
             var toastContent = new ToastContent
             {
@@ -58,20 +58,10 @@ namespace Plugin.Notifications
                 };
             }
 
-            return Task.CompletedTask;
+            return Task.CompletedTask;            
         }
 
-
-        public override Task<IEnumerable<Notification>> GetPendingNotifications()
-        {
-            var list = this.toastNotifier
-                .GetScheduledToastNotifications()
-                .Select(x => new Notification());
-
-            return Task.FromResult(list);
-        }
-
-
+        
         public override Task<bool> RequestPermission() => Task.FromResult(true);
 
 
