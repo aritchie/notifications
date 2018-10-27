@@ -24,25 +24,25 @@ namespace Plugin.Notifications
         protected override void NativeSend(Notification notification)
         {
 
-            //    /*
-            //          Intent stopIntent = new Intent(this, typeof(DownloadsBroadcastReceiver));
-            //            stopIntent.PutExtra("action", "actionName");
-            //            PendingIntent stopPi = PendingIntent.GetBroadcast(this, 4, stopIntent, PendingIntentFlags.UpdateCurrent);
-            //            Intent intent = new Intent(this, typeof(MainActivity));
-            //            TaskStackBuilder stackBuilder = TaskStackBuilder.Create(this);
-            //            stackBuilder.AddParentStack(Java.Lang.Class.FromType(typeof(MainActivity)));
-            //            stackBuilder.AddNextIntent(intent);
-            //            PendingIntent resultPendingIntent = stackBuilder.GetPendingIntent(0, PendingIntentFlags.UpdateCurrent);
-            //            Notification.Action pauseAction = new Notification.Action.Builder(Resource.Drawable.Pause, "WSTRZYMAJ", stopPi).Build();
-            //            notificationBuilder = new Notification.Builder(this)
-            //                .SetSmallIcon(Resource.Drawable.Icon)
-            //                .SetContentIntent(resultPendingIntent)
-            //                .SetContentTitle(title)
-            //                .SetContentText(content)
-            //                .AddAction(pauseAction);
-            //            var notificationManager = (NotificationManager)GetSystemService(NotificationService);
-            //            notificationManager.Notify(uniqueNumber, notificationBuilder.Build());
-            //     */
+/*
+Intent stopIntent = new Intent(this, typeof(DownloadsBroadcastReceiver));
+stopIntent.PutExtra("action", "actionName");
+PendingIntent stopPi = PendingIntent.GetBroadcast(this, 4, stopIntent, PendingIntentFlags.UpdateCurrent);
+Intent intent = new Intent(this, typeof(MainActivity));
+TaskStackBuilder stackBuilder = TaskStackBuilder.Create(this);
+stackBuilder.AddParentStack(Java.Lang.Class.FromType(typeof(MainActivity)));
+stackBuilder.AddNextIntent(intent);
+PendingIntent resultPendingIntent = stackBuilder.GetPendingIntent(0, PendingIntentFlags.UpdateCurrent);
+Notification.Action pauseAction = new Notification.Action.Builder(Resource.Drawable.Pause, "WSTRZYMAJ", stopPi).Build();
+notificationBuilder = new Notification.Builder(this)
+    .SetSmallIcon(Resource.Drawable.Icon)
+    .SetContentIntent(resultPendingIntent)
+    .SetContentTitle(title)
+    .SetContentText(content)
+    .AddAction(pauseAction);
+var notificationManager = (NotificationManager)GetSystemService(NotificationService);
+notificationManager.Notify(uniqueNumber, notificationBuilder.Build());
+*/
             var launchIntent = Application
                 .Context
                 .PackageManager
@@ -68,6 +68,10 @@ namespace Plugin.Notifications
                 .SetSmallIcon(smallIconResourceId)
                 .SetContentIntent(pendingIntent);
 
+            // TODO
+            //if ((int)Build.VERSION.SdkInt >= 21 && notification.Android.Color != null)
+            //    builder.SetColor(notification.Android.Color.Value)
+
             if (notification.Android.Priority != null)
                 builder.SetPriority(notification.Android.Priority.Value);
 
@@ -82,10 +86,33 @@ namespace Plugin.Notifications
                 var uri = Android.Net.Uri.Parse(notification.Sound);
                 builder.SetSound(uri);
             }
-            var not = builder.Build();
-            NotificationManagerCompat
-                .From(Application.Context)
-                .Notify(0, not); // TODO: id
+
+            if ((int)Build.VERSION.SdkInt >= 26)
+            {
+                var channelId = notification.Android.ChannelId;
+                var manager = NotificationManager.FromContext(Application.Context);
+                if (manager.GetNotificationChannel(channelId) == null)
+                {
+                    var channel = new NotificationChannel(
+                        channelId,
+                        notification.Android.Channel,
+                        notification.Android.NotificationImportance.ToNative()
+                    );
+                    var d = notification.Android.ChannelDescription;
+                    if (!d.IsEmpty())
+                        channel.Description = d;
+
+                    manager.CreateNotificationChannel(channel);
+                }
+                builder.SetChannelId(channelId);
+                // TODO: id
+                manager.Notify(0, builder.Build());
+            }
+            else
+            {
+                // TODO: id
+                NotificationManagerCompat.From(Application.Context).Notify(0, builder.Build());
+            }
         }
 
 
