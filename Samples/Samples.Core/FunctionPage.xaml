@@ -3,6 +3,18 @@
              x:Class="Samples.FunctionPage"
              Title="Functions">
     <ContentPage.Content>
-        <Label Text="TODO: Functions" />
+        <StackLayout>
+            <Label Text="Badge" />
+            <Entry Text="{Binding Badge}"
+                   Keyboard="Numeric"
+                   MaxLength="2" />
+
+            <Button Text="Request Permissions (iOS only)"
+                    Command="{Binding PermissionCheck}"
+                    IsVisible="{Binding IsIos}" />
+
+            <Button Text="Vibrate" Command="{Binding Vibrate}" />
+            <Button Text="Send Test" Command="{Binding SendTest}" />
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

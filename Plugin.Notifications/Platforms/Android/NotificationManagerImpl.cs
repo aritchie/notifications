@@ -1,11 +1,14 @@
 using System;
 using System.Threading.Tasks;
+using Acr;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Support.V4.App;
 using Plugin.Geofencing;
 using Plugin.Jobs;
 using Plugin.Notifications.Data;
+using TaskStackBuilder = Android.App.TaskStackBuilder;
 
 
 namespace Plugin.Notifications
@@ -17,7 +20,7 @@ namespace Plugin.Notifications
                                        INotificationRepository repository = null)
             : base(geofenceManager, jobManager, repository) {}
 
-        
+
         protected override void NativeSend(Notification notification)
         {
 
@@ -40,44 +43,46 @@ namespace Plugin.Notifications
             //            var notificationManager = (NotificationManager)GetSystemService(NotificationService);
             //            notificationManager.Notify(uniqueNumber, notificationBuilder.Build());
             //     */
-            //    var launchIntent = Application
-            //        .Context
-            //        .PackageManager
-            //        .GetLaunchIntentForPackage(Application.Context.PackageName)
-            //        .SetAction(Constants.ACTION_KEY)
-            //        .SetFlags(AndroidConfig.LaunchActivityFlags);
+            var launchIntent = Application
+                .Context
+                .PackageManager
+                .GetLaunchIntentForPackage(Application.Context.PackageName)
+                .SetFlags(notification.Android.LaunchActivityFlags.ToNative());
 
-            //    foreach (var pair in notification.Metadata)
-            //        launchIntent.PutExtra(pair.Key, pair.Value);
+            if (!notification.Payload.IsEmpty())
+                launchIntent.PutExtra("Payload", notification.Payload);
 
-            //    var pendingIntent = TaskStackBuilder
-            //        .Create(Application.Context)
-            //        .AddNextIntent(launchIntent)
-            //        .GetPendingIntent(notification.Id.Value, (int)(PendingIntentFlags.OneShot | PendingIntentFlags.CancelCurrent));
+            var pendingIntent = TaskStackBuilder
+                .Create(Application.Context)
+                .AddNextIntent(launchIntent)
+                .GetPendingIntent(0, PendingIntentFlags.OneShot | PendingIntentFlags.CancelCurrent);// TODO
 
-            //    var builder = new NotificationCompat.Builder(Application.Context)
-            //        .SetAutoCancel(true)
-            //        .SetContentTitle(notification.Title)
-            //        .SetContentText(notification.Message)
-            //        .SetSmallIcon(AndroidConfig.AppIconResourceId)
-            //        .SetContentIntent(pendingIntent);
+            var smallIconResourceId = notification.Android.SmallIconResourceName.IsEmpty()
+                ? Helpers.AppIconResourceId
+                : Helpers.GetResourceIdByName(notification.Android.SmallIconResourceName);
 
-            //    if (notification.Vibrate)
-            //        builder.SetVibrate(new long[] {500, 500});
+            var builder = new NotificationCompat.Builder(Application.Context)
+                .SetAutoCancel(true)
+                .SetContentTitle(notification.Title)
+                .SetContentText(notification.Message)
+                .SetSmallIcon(smallIconResourceId)
+                .SetContentIntent(pendingIntent);
 
-            //    if (notification.Sound != null)
-            //    {
-            //        if (!notification.Sound.Contains("://"))
-            //            notification.Sound = $"{ContentResolver.SchemeAndroidResource}://{Application.Context.PackageName}/raw/{notification.Sound}";
+            if (notification.Android.Vibrate)
+                builder.SetVibrate(new long[] { 500, 500 });
 
-            //        var uri = Android.Net.Uri.Parse(notification.Sound);
-            //        builder.SetSound(uri);
-            //    }
-            //    var not = builder.Build();
-            //    NotificationManagerCompat
-            //        .From(Application.Context)
-            //        .Notify(notification.Id.Value, not);
-            //}
+            if (notification.Sound != null)
+            {
+                if (!notification.Sound.Contains("://"))
+                    notification.Sound = $"{ContentResolver.SchemeAndroidResource}://{Application.Context.PackageName}/raw/{notification.Sound}";
+
+                var uri = Android.Net.Uri.Parse(notification.Sound);
+                builder.SetSound(uri);
+            }
+            var not = builder.Build();
+            NotificationManagerCompat
+                .From(Application.Context)
+                .Notify(0, not); // TODO: id
         }
 
 
@@ -111,7 +116,7 @@ namespace Plugin.Notifications
                     return;
 
                 vibrate.Vibrate(ms);
-            }   
+            }
         }
     }
 }

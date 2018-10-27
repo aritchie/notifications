@@ -5,7 +5,7 @@ using Plugin.Jobs;
 using Plugin.Notifications.Data;
 
 
-namespace Plugin.Notifications.Platforms.Shared
+namespace Plugin.Notifications
 {
     public class NotificationJob : IJob
     {
@@ -19,6 +19,15 @@ namespace Plugin.Notifications.Platforms.Shared
             var pending = this.repository.GetPending();
 
             // TODO: calculate next notification date for each being sent
+
+            //if (fired.Trigger is TimeIntervalNotificationTrigger interval)
+            //{
+
+            //}
+            //else if (fired.Trigger is CalendarNotificationTrigger calendar)
+            //{
+            //    // what if this was a specific date, I don't want to resend
+            //}
         }
     }
 }

@@ -30,5 +30,7 @@ namespace Plugin.Notifications.Data
         public int? CalendarWeekOfYear { get; set; }
         public int? CalendarDayOfWeek { get; set; }
         public int? CalendarTimeOfDayMs { get; set; }
+
+        public DateTime? NextExecutionDate { get; set; }
     }
 }

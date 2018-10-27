@@ -5,6 +5,8 @@
              Title="Calendar">
     <ContentPage.Content>
         <StackLayout>
+            <Entry Text="{Binding Title}" Placeholder="Title" />
+            <Entry Text="{Binding Message}" Placeholder="Message" />
             <DatePicker Date="{Binding Date}" />
             <TimePicker Time="{Binding Time}" />
             <Button Text="Create" Command="{Binding Create}" />

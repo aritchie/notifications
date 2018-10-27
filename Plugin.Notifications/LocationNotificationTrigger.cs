@@ -17,6 +17,8 @@ namespace Plugin.Notifications
         public double RadiusInMeters { get; }
         public double GpsLatitude { get; }
         public double GpsLongitude { get; }
+        public bool NotifyOnEntry { get; set; }
+        public bool NotifyOnExit { get; set; }
         public bool Repeats { get; }
     }
 }

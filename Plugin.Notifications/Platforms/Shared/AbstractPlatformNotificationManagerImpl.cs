@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Plugin.Geofencing;
 using Plugin.Jobs;
 using Plugin.Notifications.Data;
+using Plugin.Permissions.Abstractions;
 
 
 namespace Plugin.Notifications
@@ -23,19 +24,24 @@ namespace Plugin.Notifications
 
             this.geofenceMgr.RegionStatusChanged += (sender, args) =>
             {
-                var notification = repository.GetById(args.Region.Identifier);
+                var notification = this.repository.GetById(args.Region.Identifier);
                 if (notification != null)
+                {
                     this.NativeSend(notification);
+                    if (!notification.Trigger.Repeats)
+                        this.repository.Delete(notification.Id);
+                }
             };
-            // (jobManager ?? CrossJobs.Current).Schedule(new JobInfo
-            // {
-            //     
-            // });
+            (jobManager ?? CrossJobs.Current).Schedule(new JobInfo
+            {
+                Name = nameof(NotificationJob),
+                Type = typeof(NotificationJob)
+            });
         }
 
 
         protected abstract void NativeSend(Notification notification);
-        
+
 
         public override Task<IEnumerable<Notification>> GetPendingNotifications()
             => Task.FromResult(this.repository.GetPending());
@@ -57,40 +63,33 @@ namespace Plugin.Notifications
 
         public override async Task Send(Notification notification)
         {
+            if (notification.Trigger == null)
+            {
+                this.NativeSend(notification);
+                return; // if no trigger, ship it now
+            }
+
             this.repository.Insert(notification);
             if (notification.Trigger is LocationNotificationTrigger lt)
             {
                 var permission = await this.geofenceMgr.RequestPermission().ConfigureAwait(false);
+                if (permission != PermissionStatus.Granted)
+                    throw new ArgumentException("Permission request failed - " + permission);
 
                 this.geofenceMgr.StartMonitoring(new GeofenceRegion(
                     notification.Id,
                     new Position(lt.GpsLatitude, lt.GpsLongitude),
                     Distance.FromMeters(lt.RadiusInMeters)
-                ));
+                )
+                {
+                    NotifyOnEntry = lt.NotifyOnEntry,
+                    NotifyOnExit = lt.NotifyOnExit,
+                    SingleUse = !lt.Repeats
+                });
             }
-        }
-
-
-        public override int Badge { get; set; }
-
-
-        protected virtual void OnPostNotificationFired(Notification fired)
-        {
-            if (!fired.Trigger.Repeats)
+            else
             {
-                this.repository.Delete(fired.Id);
-                this.geofenceMgr.StopMonitoring(fired.Id);
-                return;
-            }
-
-            // if time based, calc next fire date and update record
-            if (fired.Trigger is TimeIntervalNotificationTrigger interval)
-            {
-
-            }
-            else if (fired.Trigger is CalendarNotificationTrigger calendar)
-            {
-                // what if this was a specific date, I don't want to resend
+                // TODO: calculate next execution date
             }
         }
     }

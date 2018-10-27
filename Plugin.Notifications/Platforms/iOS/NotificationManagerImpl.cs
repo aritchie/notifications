@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AudioToolbox;
+using Foundation;
 using UIKit;
 using UserNotifications;
 
@@ -13,6 +14,24 @@ namespace Plugin.Notifications
     {
         public NotificationManagerImpl()
         {
+            //UNUserNotificationCenter.Current.SetNotificationCategories(
+            //    UNNotificationCategory.FromIdentifier(
+            //        "",
+            //        new UNNotificationAction[]
+            //        {
+            //            UNNotificationAction.FromIdentifier(
+            //                "id",
+            //                "title",
+            //                UNNotificationActionOptions.AuthenticationRequired
+            //            )
+            //        },
+            //        new string[] { "" },
+            //        "hiddenPreviewsBodyPlaceholder",
+            //        new NSString(""),
+            //        UNNotificationCategoryOptions.None
+            //    )
+            //);
+
             UNUserNotificationCenter
                 .Current
                 .Delegate = new AcrUserNotificationCenterDelegate(response =>
@@ -44,9 +63,15 @@ namespace Plugin.Notifications
             var content = new UNMutableNotificationContent
             {
                 Title = notification.Title,
-                Body = notification.Message
-                // UserInfo = notification.MetadataToNsDictionary()
+                Body = notification.Message,
+                //Badge=
+                //LaunchImageName = ""
+                //Subtitle = ""
             };
+            //UNNotificationAttachment.FromIdentifier("", NSUrl.FromString(""), new UNNotificationAttachmentOptions().)
+            if (!String.IsNullOrWhiteSpace(notification.Payload))
+                content.UserInfo.SetValueForKey(new NSString(notification.Payload), new NSString("Payload"));
+
             if (!String.IsNullOrWhiteSpace(notification.Sound))
                 content.Sound = UNNotificationSound.GetSound(notification.Sound);
 
@@ -66,11 +91,11 @@ namespace Plugin.Notifications
             {
                 try
                 {
-                    // var requests = await UNUserNotificationCenter
-                    //                     .Current
-                    //                     .GetPendingNotificationRequestsAsync();
-                    //
-                    // var notifications = requests.Select(this.FromNative);
+                    var requests = await UNUserNotificationCenter
+                        .Current
+                        .GetPendingNotificationRequestsAsync();
+
+                    //var notifications = requests.Select(x => this.FromNative(x));
                     // tcs.TrySetResult(notifications);
                     tcs.TrySetResult(null);
                 }

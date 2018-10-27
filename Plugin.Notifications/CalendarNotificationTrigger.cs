@@ -27,8 +27,5 @@ namespace Plugin.Notifications
                 ),
                 TimeOfDay = dateTime.TimeOfDay
             }, false);
-
-        public static CalendarNotificationTrigger CreateNow() => CreateFromSpecificDateTime(DateTime.Now);
-
     }
 }

@@ -21,8 +21,8 @@ namespace Plugin.Notifications.Data
                 Id = db.Id,
                 Title = db.Title,
                 Message = db.Message,
-                Sound = db.Sound,
-                Vibrate = db.Vibrate
+                Sound = db.Sound
+                //Vibrate = db.Vibrate
             };
         }
 
@@ -36,8 +36,8 @@ namespace Plugin.Notifications.Data
                 Id = x.Id,
                 Title = x.Title,
                 Message = x.Message,
-                Sound = x.Sound,
-                Vibrate = x.Vibrate
+                Sound = x.Sound
+                //Vibrate = x.Vibrate
             });
         }
 
@@ -47,8 +47,8 @@ namespace Plugin.Notifications.Data
             Id = notification.Id,
             Title = notification.Title,
             Message = notification.Message,
-            Sound = notification.Sound,
-            Vibrate = notification.Vibrate
+            Sound = notification.Sound
+            //Vibrate = notification.Vibrate
         });
 
 

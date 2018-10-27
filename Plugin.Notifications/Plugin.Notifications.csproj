@@ -48,6 +48,7 @@
     <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
         <Compile Include="Platforms\Apple\**\*.cs" />
         <Compile Include="Platforms\ios\**\*.cs" />
+        <Reference Include="OpenTK-1.0" />
     </ItemGroup>
 
     <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.Mac')) ">

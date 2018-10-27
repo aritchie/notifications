@@ -82,7 +82,7 @@ namespace Plugin.Notifications
         {
         }
 
-        
+
         public override int Badge { get; set; }
 
         public override Task<IEnumerable<Notification>> GetPendingNotifications()
@@ -99,9 +99,6 @@ namespace Plugin.Notifications
             });
             return tcs.Task;
         }
-
-
-        public override Task<bool> RequestPermission() => Task.FromResult(true);
 
 
         protected int ToNotificationId(string value)

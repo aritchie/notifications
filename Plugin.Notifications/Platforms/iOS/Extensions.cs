@@ -13,6 +13,7 @@ namespace Plugin.Notifications
             var parts = new DateParts();
             if (native.Date != null)
             {
+
             }
             return parts;
         }
@@ -39,10 +40,8 @@ namespace Plugin.Notifications
             Title = native.Content.Title,
             Message = native.Content.Body,
             Sound = native.Content.Sound?.ToString(),
-            Payload = "",
+            Payload = native.Content.UserInfo.ValueForKey(new NSString("Payload")).ToString(),
             Trigger = native.Trigger.FromNative()
-            //ScheduledDate = date,
-            //Metadata = native.Content.UserInfo.FromNsDictionary()
         };
 
         public static UNNotificationTrigger ToNative(this INotificationTrigger trigger)
@@ -105,7 +104,8 @@ namespace Plugin.Notifications
                     identifier
                 )
                 {
-                    NotifyOnEntry = true
+                    NotifyOnEntry = trigger.NotifyOnEntry,
+                    NotifyOnExit = trigger.NotifyOnExit
                 },
                 trigger.Repeats
             );

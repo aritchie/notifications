@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 using Windows.Foundation.Metadata;
 using Windows.System.Profile;
 using Windows.UI.Notifications;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Plugin.Geofencing;
+using Plugin.Jobs;
+using Plugin.Notifications.Data;
 
 
 namespace Plugin.Notifications
@@ -17,17 +18,20 @@ namespace Plugin.Notifications
         readonly ToastNotifier toastNotifier;
 
 
-        public NotificationManagerImpl() : base(null, null, null)
+        public NotificationManagerImpl(IGeofenceManager geofenceMgr = null,
+                                       IJobManager jobManager = null,
+                                       INotificationRepository repository = null) : base(geofenceMgr, jobManager, repository)
         {
             this.badgeUpdater = BadgeUpdateManager.CreateBadgeUpdaterForApplication();
             this.toastNotifier = ToastNotificationManager.CreateToastNotifier();
         }
-        
+
 
         protected override void NativeSend(Notification notification)
         {
             var toastContent = new ToastContent
             {
+                Duration = notification.Windows.UseLongDuration ? ToastDuration.Long : ToastDuration.Short,
                 //Launch = this.ToQueryString(notification.Metadata),
                 Visual = new ToastVisual
                 {
@@ -47,26 +51,38 @@ namespace Plugin.Notifications
                     }
                 }
             };
+
             if (!String.IsNullOrWhiteSpace(notification.Sound) && this.IsAudioSupported)
             {
-                if (!notification.Sound.StartsWith("ms-appx:"))
-                    notification.Sound = $"ms-appx:///Assets/Audio/{notification.Sound}.m4a";
-
+                var sound = this.BuildSoundPath(notification.Sound);
                 toastContent.Audio = new ToastAudio
                 {
-                    Src = new Uri(notification.Sound)
+                    Src = new Uri(sound)
                 };
             }
-
-            return Task.CompletedTask;            
+            //toastContent.Actions
+            //toastContent.AdditionalProperties.Ad
+            //toastContent.Launch = "";
+            var native = new ToastNotification(toastContent.GetXml());
+            this.toastNotifier.Show(native);
         }
 
-        
-        public override Task<bool> RequestPermission() => Task.FromResult(true);
 
-
-        public override void Vibrate(int ms)
+        string BuildSoundPath(string sound)
         {
+            var ext = Path.GetExtension(sound);
+            if (String.IsNullOrWhiteSpace(ext))
+                sound += ".mp4";
+
+            if (sound.StartsWith("ms-appx://"))
+                sound = "ms-appx://" + sound;
+
+            return sound;
+        }
+
+
+        //public override void Vibrate(int ms)
+        //{
             //if (!ApiInformation.IsTypePresent("Windows.Phone.Devices.Notification.VibrationDevice"))
             //    return;
 
@@ -77,7 +93,7 @@ namespace Plugin.Notifications
             //    .VibrationDevice
             //    .GetDefault()?
             //    .Vibrate(TimeSpan.FromMilliseconds(ms));
-        }
+        //}
 
 
         //const string BADGE_KEY = "acr.notifications.badge";

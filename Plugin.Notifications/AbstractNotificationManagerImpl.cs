@@ -15,9 +15,10 @@ namespace Plugin.Notifications
         public abstract Task Cancel(string notificationId);
         public abstract Task Send(Notification notification);
         public abstract Task<IEnumerable<Notification>> GetPendingNotifications();
-        public abstract Task<bool> RequestPermission();
-        public abstract void Vibrate(int ms);
-        public abstract int Badge { get; set; }
+
+        public virtual Task<bool> RequestPermission() => Task.FromResult(true);
+        public virtual void Vibrate(int ms) {}
+        public virtual int Badge { get; set; }
 
 
         public virtual async Task CancelAll()

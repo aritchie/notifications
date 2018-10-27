@@ -7,6 +7,9 @@ namespace Plugin.Notifications
 {
     public interface INotificationManager
     {
+        //IDictionary<string, string> CategoryActions { get; set; }
+
+
         // TODO: register actions
         // TODO: need activated with action
         /// <summary>
