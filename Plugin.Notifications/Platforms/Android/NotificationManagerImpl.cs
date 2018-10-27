@@ -55,7 +55,7 @@ namespace Plugin.Notifications
             var pendingIntent = TaskStackBuilder
                 .Create(Application.Context)
                 .AddNextIntent(launchIntent)
-                .GetPendingIntent(0, PendingIntentFlags.OneShot | PendingIntentFlags.CancelCurrent);// TODO
+                .GetPendingIntent(0, PendingIntentFlags.OneShot | PendingIntentFlags.CancelCurrent); // TODO
 
             var smallIconResourceId = notification.Android.SmallIconResourceName.IsEmpty()
                 ? Helpers.AppIconResourceId
@@ -67,6 +67,9 @@ namespace Plugin.Notifications
                 .SetContentText(notification.Message)
                 .SetSmallIcon(smallIconResourceId)
                 .SetContentIntent(pendingIntent);
+
+            if (notification.Android.Priority != null)
+                builder.SetPriority(notification.Android.Priority.Value);
 
             if (notification.Android.Vibrate)
                 builder.SetVibrate(new long[] { 500, 500 });
