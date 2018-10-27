@@ -28,6 +28,7 @@ _The ULTIMATE Cross Platform Notification Plugin for Xamarin & Windows_
     * [Geofence Location Based](geofencing.md)
 * [Badges](bonus.md)
 * [Vibrate Device (Android & iOS only)](bonus.md)
+* [Frequently Asked Questions (FAQ)](faq.md)
 
 Platform|Version
 --------|-------

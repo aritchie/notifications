@@ -10,7 +10,7 @@ Q. Will scheduled notifications continue to fire after device reboots
 
 Q. Do I need to request permissions for all platforms?
 
-> For geofencing triggers, yes.  For simple notifications, only on iOS.  However, the INotificationManager.RequestPermission will return true on the other environments
+> For geofencing triggers, yes.  For simple notifications, only on iOS, but the library will assert this before sending a notification the first time anyhow, so you don't need to do it yourself if you don't want to.  However, the INotificationManager.RequestPermission will return true on the other environments
 
 Q. Why are most methods async now?
 
