@@ -38,8 +38,11 @@ namespace Plugin.Notifications
         });
 
 
-        public override Task Send(Notification notification) => this.Invoke(() =>
+        public override Task Send(Notification notification) => this.Invoke(async () =>
         {
+            var permission = await this.RequestPermission();
+            if (!permission)
+                return;
             //if (notification.Id == null)
             //    notification.GeneratedNotificationId();
 
