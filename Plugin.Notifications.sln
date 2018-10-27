@@ -9,9 +9,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Droid", "Samples\Sa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{70BDA3FF-41F7-491C-A23D-2FD65CE1CDA0}"
 	ProjectSection(SolutionItems) = preProject
+		basics.md = basics.md
+		bonus.md = bonus.md
+		calendar.md = calendar.md
 		CHANGELOG.md = CHANGELOG.md
 		faq.md = faq.md
+		geofencing.md = geofencing.md
 		icon.png = icon.png
+		interval.md = interval.md
 		ISSUE_TEMPLATE = ISSUE_TEMPLATE
 		LICENSE.md = LICENSE.md
 		nuget.exe = nuget.exe
@@ -21,6 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		push.cmd = push.cmd
 		README.md = README.md
 		sounds.md = sounds.md
+		triggers.md = triggers.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Uwp", "Samples\Samples.Uwp\Samples.Uwp.csproj", "{D27B7763-76AE-459A-8BA9-4079E3773E59}"
