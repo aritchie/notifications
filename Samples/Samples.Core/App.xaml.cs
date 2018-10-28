@@ -38,7 +38,7 @@ namespace Samples
 	    protected override void RegisterTypes(IContainerRegistry containerRegistry)
 	    {
             containerRegistry.RegisterForNavigation<NavigationPage>();
-		    
+
 	        containerRegistry.RegisterForNavigation<CalendarTriggerPage>();
 		    containerRegistry.RegisterForNavigation<FunctionPage>();
 		    containerRegistry.RegisterForNavigation<LocationTriggerPage>();
@@ -50,8 +50,8 @@ namespace Samples
 	    protected override IContainerExtension CreateContainerExtension()
 	    {
 	        var builder = new ContainerBuilder();
-		    builder.Register(_ => UserDialogs.Instance).As<IUserDialogs>().SingleInstance();
-		    builder.RegisterType<GlobalExceptionHandler>().As<IStartable>().SingleInstance();
+	        builder.RegisterType<GlobalExceptionHandler>().As<IStartable>().SingleInstance();
+	        builder.Register(_ => UserDialogs.Instance).As<IUserDialogs>().SingleInstance();
 		    builder.Register(_ => CrossNotifications.Current).As<INotificationManager>().SingleInstance();
 	        return new AutofacContainerExtension(builder);
         }

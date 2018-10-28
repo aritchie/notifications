@@ -15,11 +15,14 @@ namespace Samples
             this.Date = DateTime.Now.Date;
             this.Time = DateTime.Now.AddMinutes(10).TimeOfDay;
 
-            this.Create = ReactiveCommand.CreateFromTask(async () =>
+            this.CreateSpecific = ReactiveCommand.CreateFromTask(async () =>
             {
+                var dt = this.Date.Date.Add(this.Time);
                 await notificationManager.Send(new Notification
                 {
-                    Title = "",
+                    Title = this.MessageTitle,
+                    Message = this.Message,
+                    Trigger = CalendarNotificationTrigger.CreateFromSpecificDateTime(dt),
                     Windows = new UwpOptions
                     {
                         UseLongDuration = true
@@ -52,8 +55,8 @@ namespace Samples
             this.Yearly = ReactiveCommand.CreateFromTask(() =>
                 notificationManager.Send(new Notification
                 {
-                    Title = "Happy Birthday",
-                    Message = "Ya you old now",
+                    Title = "Yearly",
+                    Message = "Happy Birthday - Ya you old now",
                     Trigger = new CalendarNotificationTrigger(new DateParts
                     {
                         Month = 1,
@@ -66,7 +69,7 @@ namespace Samples
             this.Monthly = ReactiveCommand.CreateFromTask(() =>
                 notificationManager.Send(new Notification
                 {
-                    Title = "1st of the Month",
+                    Title = "Monthly - 1st of Month",
                     Message = "Pinch & Punch - First of the Month",
                     Trigger = new CalendarNotificationTrigger(new DateParts
                     {
@@ -79,8 +82,8 @@ namespace Samples
             this.Weekly = ReactiveCommand.CreateFromTask(() =>
                 notificationManager.Send(new Notification
                 {
-                    Title = "WORK TIME",
-                    Message = "Yay",
+                    Title = "Daily",
+                    Message = "WORKTIME - Yay",
                     Trigger = new CalendarNotificationTrigger(new DateParts
                     {
                         DayOfWeek = DayOfWeek.Monday,
@@ -95,8 +98,8 @@ namespace Samples
         public ICommand Monthly { get; }
         public ICommand Weekly { get; }
 
-        public ICommand Create { get; }
-        [Reactive] public string Title { get; set; }
+        public ICommand CreateSpecific { get; }
+        [Reactive] public string MessageTitle { get; set; }
         [Reactive] public string Message { get; set; }
         [Reactive] public DateTime Date { get; set; }
         [Reactive] public TimeSpan Time { get; set; }

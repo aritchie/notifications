@@ -4,6 +4,9 @@
              x:Class="Samples.TimeIntervalTriggerPage"
              Title="Interval">
     <ContentPage.Content>
-        <Label Text="TODO: Time Interval" />
+        <StackLayout>
+            <Button Text="Every Minute" Command="{Binding EveryMinute}" />
+            <Button Text="Every Hour" Command="{Binding EveryHour}" />
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
