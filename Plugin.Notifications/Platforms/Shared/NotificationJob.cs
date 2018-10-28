@@ -2,22 +2,15 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Plugin.Jobs;
-using Plugin.Notifications.Data;
 
 
 namespace Plugin.Notifications
 {
     public class NotificationJob : IJob
     {
-        // TODO: need access to native send & repository
-        readonly INotificationRepository repository;
-        public NotificationJob(INotificationRepository repository)
-            => this.repository = repository;
-
-
         public async Task Run(JobInfo jobInfo, CancellationToken cancelToken)
         {
-            var pending = this.repository.GetPending();
+            var pending = Internals.Repository.GetPending();
 
             foreach (var notification in pending)
                 this.Process(notification);
@@ -26,8 +19,9 @@ namespace Plugin.Notifications
 
         void Process(Notification notification)
         {
-            var dateTime = DateTime.MinValue;
+            Internals.NativeSend.Invoke(notification);
 
+            var dateTime = DateTime.MinValue;
             if (notification.Trigger is TimeIntervalNotificationTrigger interval)
             {
                 dateTime = interval.CalculateNextTriggerDateFromNow();
@@ -37,6 +31,8 @@ namespace Plugin.Notifications
                 // what if this was a specific date, I don't want to resend
                 dateTime = calendar.CalculateNextTriggerDateFromNow();
             }
+
+            // TODO: update or delete if not further repeats
         }
     }
 }

@@ -22,6 +22,9 @@ namespace Plugin.Notifications
             this.geofenceMgr = geofenceMgr ?? CrossGeofences.Current;
             this.repository = repository ?? new SqliteNotificationRepository();
 
+            Internals.NativeSend = this.NativeSend;
+            Internals.Repository = this.repository;
+
             this.geofenceMgr.RegionStatusChanged += (sender, args) =>
             {
                 if (Int32.TryParse(args.Region.Identifier, out int id))
