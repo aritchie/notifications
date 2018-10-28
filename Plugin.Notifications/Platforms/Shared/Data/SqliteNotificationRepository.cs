@@ -10,7 +10,7 @@ namespace Plugin.Notifications.Data
         readonly PluginSqliteConnection conn = new PluginSqliteConnection();
 
 
-        public Notification GetById(string id)
+        public Notification GetById(int id)
         {
             var db = this.conn.Notifications.FirstOrDefault(x => x.Id == id);
             if (db == null)

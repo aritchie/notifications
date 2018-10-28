@@ -9,7 +9,9 @@ namespace Plugin.Notifications
         public static string DefaultTitle { get; set; }
         public static string DefaultSound { get; set; }
 
-        public string Id { get; set; }
+        public int Id { get; set; }
+        public DateTime? NextScheduledDate { get; set; }
+
         public string Title { get; set; } = DefaultTitle;
         public string Message { get; set; }
 

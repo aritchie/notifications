@@ -18,16 +18,23 @@ namespace Plugin.Notifications
         {
             var pending = this.repository.GetPending();
 
-            // TODO: calculate next notification date for each being sent
+            foreach (var notification in pending)
+                this.Process(notification);
+        }
 
-            //if (fired.Trigger is TimeIntervalNotificationTrigger interval)
-            //{
 
-            //}
-            //else if (fired.Trigger is CalendarNotificationTrigger calendar)
-            //{
-            //    // what if this was a specific date, I don't want to resend
-            //}
+        void Process(Notification notification)
+        {
+            var dateTime = DateTime.MinValue;
+            if (notification.Trigger is TimeIntervalNotificationTrigger interval)
+            {
+                dateTime = interval.CalculateNextTriggerDateFromNow();
+            }
+            else if (notification.Trigger is CalendarNotificationTrigger calendar)
+            {
+                // what if this was a specific date, I don't want to resend
+                dateTime = calendar.CalculateNextTriggerDateFromNow();
+            }
         }
     }
 }

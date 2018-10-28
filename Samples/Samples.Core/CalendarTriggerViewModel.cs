@@ -48,8 +48,52 @@ namespace Samples
                     return false;
                 }
             ));
+
+            this.Yearly = ReactiveCommand.CreateFromTask(() =>
+                notificationManager.Send(new Notification
+                {
+                    Title = "Happy Birthday",
+                    Message = "Ya you old now",
+                    Trigger = new CalendarNotificationTrigger(new DateParts
+                    {
+                        Month = 1,
+                        Day = 30,
+                        TimeOfDay = TimeSpan.FromHours(8)
+                    }, true)
+                })
+            );
+
+            this.Monthly = ReactiveCommand.CreateFromTask(() =>
+                notificationManager.Send(new Notification
+                {
+                    Title = "1st of the Month",
+                    Message = "Pinch & Punch - First of the Month",
+                    Trigger = new CalendarNotificationTrigger(new DateParts
+                    {
+                        DayOfWeek = DayOfWeek.Monday,
+                        TimeOfDay = TimeSpan.FromHours(7)
+                    }, true)
+                })
+            );
+
+            this.Weekly = ReactiveCommand.CreateFromTask(() =>
+                notificationManager.Send(new Notification
+                {
+                    Title = "WORK TIME",
+                    Message = "Yay",
+                    Trigger = new CalendarNotificationTrigger(new DateParts
+                    {
+                        DayOfWeek = DayOfWeek.Monday,
+                        TimeOfDay = TimeSpan.FromHours(7)
+                    }, true)
+                })
+            );
         }
 
+
+        public ICommand Yearly { get; }
+        public ICommand Monthly { get; }
+        public ICommand Weekly { get; }
 
         public ICommand Create { get; }
         [Reactive] public string Title { get; set; }

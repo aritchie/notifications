@@ -55,7 +55,8 @@ notificationManager.Notify(uniqueNumber, notificationBuilder.Build());
             var pendingIntent = TaskStackBuilder
                 .Create(Application.Context)
                 .AddNextIntent(launchIntent)
-                .GetPendingIntent(0, PendingIntentFlags.OneShot | PendingIntentFlags.CancelCurrent); // TODO
+                .GetPendingIntent(notification.Id, PendingIntentFlags.CancelCurrent);
+                //.GetPendingIntent(notification.Id, PendingIntentFlags.OneShot | PendingIntentFlags.CancelCurrent);
 
             var smallIconResourceId = notification.Android.SmallIconResourceName.IsEmpty()
                 ? Helpers.AppIconResourceId
@@ -105,13 +106,13 @@ notificationManager.Notify(uniqueNumber, notificationBuilder.Build());
                     manager.CreateNotificationChannel(channel);
                 }
                 builder.SetChannelId(channelId);
-                // TODO: id
-                manager.Notify(0, builder.Build());
+                manager.Notify(notification.Id, builder.Build());
             }
             else
             {
-                // TODO: id
-                NotificationManagerCompat.From(Application.Context).Notify(0, builder.Build());
+                NotificationManagerCompat
+                    .From(Application.Context)
+                    .Notify(notification.Id, builder.Build());
             }
         }
 

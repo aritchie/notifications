@@ -5,7 +5,9 @@ namespace Plugin.Notifications
 {
     public class DateParts
     {
-        public DateTime? Date { get; set; }
+        int? Year { get; set; }
+        int? Month { get; set; }
+        int? Day { get; set; }
 
         public int? WeekOfYear { get; set; }
         public DayOfWeek? DayOfWeek { get; set; }
