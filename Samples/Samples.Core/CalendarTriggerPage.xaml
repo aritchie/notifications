@@ -19,11 +19,13 @@
             <Entry Text="{Binding Message}" Placeholder="Message" />
             <DatePicker Date="{Binding Date}" />
             <TimePicker Time="{Binding Time}" />
-            <Button Text="CreateSpecific" Command="{Binding Create}" />
+            <Button Text="CreateSpecific" Command="{Binding CreateSpecific}" />
 
             <BoxView Style="{StaticResource Hr}" />
 
-            <Button Text="" Command="" />
+            <Button Text="Yearly" Command="{Binding Yearly}" />
+            <Button Text="Monthly" Command="{Binding Monthly}" />
+            <Button Text="Weekly" Command="{Binding Weekly}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

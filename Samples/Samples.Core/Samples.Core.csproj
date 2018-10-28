@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Plugin.Notifications\Plugin.Notifications.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="PendingListPage.xaml.cs">
       <DependentUpon>PendingListPage.xaml</DependentUpon>
     </Compile>
@@ -29,6 +25,10 @@
       <SubType>Designer</SubType>
       <Generator></Generator>
     </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Plugin.Notifications\Plugin.Notifications.csproj" />
   </ItemGroup>
 
 </Project>

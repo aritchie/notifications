@@ -93,7 +93,7 @@ namespace Samples
             );
         }
 
-
+        // TODO: days of week, weekdays,
         public ICommand Yearly { get; }
         public ICommand Monthly { get; }
         public ICommand Weekly { get; }

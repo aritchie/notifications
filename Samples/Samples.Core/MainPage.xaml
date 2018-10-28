@@ -2,7 +2,8 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:samples="clr-namespace:Samples;assembly=Samples.Core"
-            x:Class="Samples.MainPage">
+            x:Class="Samples.MainPage"
+            Title="Notifications">
     <TabbedPage.Children>
         <samples:PendingListPage />
         <samples:FunctionPage />

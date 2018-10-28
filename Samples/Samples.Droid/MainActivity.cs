@@ -3,6 +3,7 @@ using Acr.UserDialogs;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Plugin.Notifications;
 using Plugin.Permissions;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
@@ -22,6 +23,7 @@ namespace Samples.Droid
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+            CrossNotifications.Init(this, bundle);
             UserDialogs.Init(this);
             Forms.Init(this, bundle);
             this.LoadApplication(new App());

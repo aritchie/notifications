@@ -9,7 +9,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            
+
             <ListView Grid.Row="0">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -17,9 +17,9 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            
-            <Button Text="Cancel All" 
-                    Command="{Binding CancelAll}" 
+
+            <Button Text="Cancel All"
+                    Command="{Binding CancelAll}"
                     Grid.Row="1"/>
         </Grid>
     </ContentPage.Content>

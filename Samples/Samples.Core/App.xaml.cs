@@ -31,7 +31,9 @@ namespace Samples
 	            var viewModelType = Type.GetType(viewModelTypeName);
 	            return viewModelType;
 	        });
-            await this.NavigationService.NavigateAsync("NavigationPage/MainPage");
+            var result = await this.NavigationService.NavigateAsync("NavigationPage/MainPage");
+            if (!result.Success)
+                Console.WriteLine(result.Exception);
 	    }
 
 
@@ -39,6 +41,7 @@ namespace Samples
 	    {
             containerRegistry.RegisterForNavigation<NavigationPage>();
 
+            containerRegistry.RegisterForNavigation<MainPage>();
 	        containerRegistry.RegisterForNavigation<CalendarTriggerPage>();
 		    containerRegistry.RegisterForNavigation<FunctionPage>();
 		    containerRegistry.RegisterForNavigation<LocationTriggerPage>();
