@@ -6,10 +6,10 @@ namespace Plugin.Notifications.Data
 {
     public interface INotificationRepository
     {
-        Notification GetById(string id);
+        Notification GetById(int id);
         IEnumerable<Notification> GetPending();
         void Insert(Notification notification);
-        void Delete(string id);
+        void Delete(int id);
         void DeleteAll();
     }
 }

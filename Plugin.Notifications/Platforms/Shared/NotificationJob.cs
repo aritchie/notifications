@@ -9,6 +9,7 @@ namespace Plugin.Notifications
 {
     public class NotificationJob : IJob
     {
+        // TODO: need access to native send & repository
         readonly INotificationRepository repository;
         public NotificationJob(INotificationRepository repository)
             => this.repository = repository;
@@ -26,6 +27,7 @@ namespace Plugin.Notifications
         void Process(Notification notification)
         {
             var dateTime = DateTime.MinValue;
+
             if (notification.Trigger is TimeIntervalNotificationTrigger interval)
             {
                 dateTime = interval.CalculateNextTriggerDateFromNow();

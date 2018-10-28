@@ -36,7 +36,7 @@ namespace Plugin.Notifications
 
         public static Notification FromNative(this UNNotificationRequest native) => new Notification
         {
-            Id = native.Identifier,
+            Id = Int32.Parse(native.Identifier), // TODO: need to safely convert these
             Title = native.Content.Title,
             Message = native.Content.Body,
             Sound = native.Content.Sound?.ToString(),
@@ -62,14 +62,14 @@ namespace Plugin.Notifications
         public static NSDateComponents ToNative(this DateParts dateParts)
         {
             var native = new NSDateComponents();
-            if (dateParts.Date != null)
-            {
-                var dt = dateParts.Date.Value;
+            if (dateParts.Year != null)
+                native.Year = dateParts.Year.Value;
 
-                native.Year = dt.Year;
-                native.Month = dt.Month;
-                native.Day = dt.Day;
-            }
+            if (dateParts.Month != null)
+                native.Month = dateParts.Month.Value;
+
+            if (dateParts.Day != null)
+                native.Day = dateParts.Day.Value;
 
             if (dateParts.TimeOfDay != null)
             {

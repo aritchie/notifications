@@ -25,7 +25,7 @@ namespace Plugin.Notifications
         });
 
 
-        public override Task Cancel(string notificationId) => this.Invoke(() =>
+        public override Task Cancel(int notificationId) => this.Invoke(() =>
         {
             var dnc = NSUserNotificationCenter.DefaultUserNotificationCenter;
             var native = dnc.ScheduledNotifications.FirstOrDefault(x => x.Identifier == notificationId.ToString());

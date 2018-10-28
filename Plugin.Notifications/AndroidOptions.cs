@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 
 
 namespace Plugin.Notifications
@@ -11,14 +10,14 @@ namespace Plugin.Notifications
         public static string DefaultSmallIconResourceName { get; set; }
         public static string DefaultChannelDescription { get; set; }
         public static AndroidNotificationImportance DefaultNotificationImportance { get; set; } = AndroidNotificationImportance.Default;
-        public static Color? DefaultColor { get; set; }
+        //public static Color? DefaultColor { get; set; }
         public static bool DefaultVibrate { get; set; }
         public static AndroidActivityFlags DefaultLaunchActivityFlags { get; set; } = AndroidActivityFlags.NewTask | AndroidActivityFlags.ClearTask;
 
         public AndroidActivityFlags LaunchActivityFlags { get; set; } = DefaultLaunchActivityFlags;
         public bool Vibrate { get; set; } = DefaultVibrate;
         public int? Priority { get; set; }
-        public Color? Color { get; set; } = DefaultColor; // API 21+
+        //public Color? Color { get; set; } = DefaultColor; // API 21+
         public string ChannelId { get; set; } = DefaultChannelId;
         public string Channel { get; set; } = DefaultChannel;
         public string ChannelDescription { get; set; } = DefaultChannelDescription;

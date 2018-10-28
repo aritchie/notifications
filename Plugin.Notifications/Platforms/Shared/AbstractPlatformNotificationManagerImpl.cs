@@ -24,12 +24,15 @@ namespace Plugin.Notifications
 
             this.geofenceMgr.RegionStatusChanged += (sender, args) =>
             {
-                var notification = this.repository.GetById(args.Region.Identifier);
-                if (notification != null)
+                if (Int32.TryParse(args.Region.Identifier, out int id))
                 {
-                    this.NativeSend(notification);
-                    if (!notification.Trigger.Repeats)
-                        this.repository.Delete(notification.Id);
+                    var notification = this.repository.GetById(id);
+                    if (notification != null)
+                    {
+                        this.NativeSend(notification);
+                        if (!notification.Trigger.Repeats)
+                            this.repository.Delete(notification.Id);
+                    }
                 }
             };
             (jobManager ?? CrossJobs.Current).Schedule(new JobInfo
@@ -54,7 +57,7 @@ namespace Plugin.Notifications
         }
 
 
-        public override Task Cancel(string notificationId)
+        public override Task Cancel(int notificationId)
         {
             this.repository.Delete(notificationId);
             return Task.CompletedTask;
@@ -77,7 +80,7 @@ namespace Plugin.Notifications
                     throw new ArgumentException("Permission request failed - " + permission);
 
                 this.geofenceMgr.StartMonitoring(new GeofenceRegion(
-                    notification.Id,
+                    notification.Id.ToString(),
                     new Position(lt.GpsLatitude, lt.GpsLongitude),
                     Distance.FromMeters(lt.RadiusInMeters)
                 )
@@ -92,7 +95,5 @@ namespace Plugin.Notifications
                 // TODO: calculate next execution date
             }
         }
-
-
     }
 }

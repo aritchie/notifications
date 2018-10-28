@@ -12,7 +12,7 @@ namespace Plugin.Notifications
 
 
         public event EventHandler<Notification> Activated;
-        public abstract Task Cancel(string notificationId);
+        public abstract Task Cancel(int notificationId);
         public abstract Task Send(Notification notification);
         public abstract Task<IEnumerable<Notification>> GetPendingNotifications();
 

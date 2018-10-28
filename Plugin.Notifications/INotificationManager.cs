@@ -42,7 +42,7 @@ namespace Plugin.Notifications
         /// </summary>
         /// <param name="notificationId"></param>
         /// <returns>Returns true if message found and cancelled successfully</returns>
-        Task Cancel(string notificationId);
+        Task Cancel(int notificationId);
 
 
         /// <summary>
@@ -57,6 +57,8 @@ namespace Plugin.Notifications
         /// Get/Set the current badge count
         /// </summary>
         int Badge { get; set; }
+
+
         /// <summary>
         /// Vibrate the device
         /// </summary>

@@ -1,9 +1,10 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras/1.6.55">
 
     <PropertyGroup>
-        <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.0;MonoAndroid81;Xamarin.iOS10;Xamarin.Mac20;uap10.0.16299</TargetFrameworks>
-        <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard2.0;MonoAndroid81;Xamarin.iOS10;Xamarin.Mac20</TargetFrameworks>
+        <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.0;MonoAndroid81;Xamarin.iOS10;uap10.0</TargetFrameworks>
+        <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard2.0;MonoAndroid81;Xamarin.iOS10</TargetFrameworks>
         <Authors>aritchie</Authors>
+        <LangVersion>latest</LangVersion>
         <Company />
         <Description>Local Notifications, Scheduled Notifications, Badges, and Vibration for Xamarin and Windows</Description>
         <Product>ACR Notifications Plugin for Xamarin and Windows</Product>
@@ -48,7 +49,7 @@
     <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
         <Compile Include="Platforms\Apple\**\*.cs" />
         <Compile Include="Platforms\ios\**\*.cs" />
-        <Reference Include="OpenTK-1.0" />
+        <!--<Reference Include="OpenTK-1.0" />-->
     </ItemGroup>
 
     <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.Mac')) ">

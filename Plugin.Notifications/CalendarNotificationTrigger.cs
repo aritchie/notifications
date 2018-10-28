@@ -20,11 +20,9 @@ namespace Plugin.Notifications
         public static CalendarNotificationTrigger CreateFromSpecificDateTime(DateTime dateTime)
             => new CalendarNotificationTrigger(new DateParts
             {
-                Date = new DateTime(
-                    dateTime.Year,
-                    dateTime.Month,
-                    dateTime.Day
-                ),
+                Year = dateTime.Year,
+                Month = dateTime.Month,
+                Day = dateTime.Day,
                 TimeOfDay = dateTime.TimeOfDay
             }, false);
     }

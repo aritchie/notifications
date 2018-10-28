@@ -49,9 +49,9 @@ namespace Plugin.Notifications
         });
 
 
-        public override Task Cancel(string notificationId) => this.Invoke(() =>
+        public override Task Cancel(int notificationId) => this.Invoke(() =>
         {
-            var ids = new [] { notificationId };
+            var ids = new [] { notificationId.ToString() };
 
             UNUserNotificationCenter.Current.RemovePendingNotificationRequests(ids);
             UNUserNotificationCenter.Current.RemoveDeliveredNotifications(ids);
@@ -80,7 +80,7 @@ namespace Plugin.Notifications
                 content.Sound = UNNotificationSound.GetSound(notification.Sound);
 
             var request = UNNotificationRequest.FromIdentifier(
-                notification.Id ,
+                notification.Id.ToString(),
                 content,
                 notification.Trigger.ToNative()
             );

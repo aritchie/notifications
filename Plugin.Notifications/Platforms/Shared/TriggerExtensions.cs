@@ -7,10 +7,7 @@ namespace Plugin.Notifications
     {
         public static DateTime CalculateNextTriggerDateFromNow(this CalendarNotificationTrigger trigger)
         {
-            if (trigger.DateParts.Date != null)
-            {
 
-            }
             return DateTime.Now;
         }
 
