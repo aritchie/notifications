@@ -13,7 +13,13 @@
             <ListView Grid.Row="0">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell></ViewCell>
+                        <TextCell Text="{Binding Title}" Detail="{Binding Message}">
+                            <TextCell.ContextActions>
+                                <MenuItem Text="Remove"
+                                          Command="{Binding Cancel}"
+                                          IsDestructive="True" />
+                            </TextCell.ContextActions>
+                        </TextCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

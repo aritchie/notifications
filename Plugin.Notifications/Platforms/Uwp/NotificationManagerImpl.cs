@@ -27,11 +27,11 @@ namespace Plugin.Notifications
         }
 
 
-        protected override void NativeSend(Notification notification)
+        protected override void NativeSend(NotificationInfo notification)
         {
             var toastContent = new ToastContent
             {
-                Duration = notification.Windows.UseLongDuration ? ToastDuration.Long : ToastDuration.Short,
+                Duration = notification.Request.Windows.UseLongDuration ? ToastDuration.Long : ToastDuration.Short,
                 //Launch = this.ToQueryString(notification.Metadata),
                 Visual = new ToastVisual
                 {
@@ -41,20 +41,20 @@ namespace Plugin.Notifications
                         {
                             new AdaptiveText
                             {
-                                Text = notification.Title
+                                Text = notification.Request.Title
                             },
                             new AdaptiveText
                             {
-                                Text = notification.Message
+                                Text = notification.Request.Message
                             }
                         }
                     }
                 }
             };
 
-            if (!String.IsNullOrWhiteSpace(notification.Sound) && this.IsAudioSupported)
+            if (!String.IsNullOrWhiteSpace(notification.Request.Sound) && this.IsAudioSupported)
             {
-                var sound = this.BuildSoundPath(notification.Sound);
+                var sound = this.BuildSoundPath(notification.Request.Sound);
                 toastContent.Audio = new ToastAudio
                 {
                     Src = new Uri(sound)

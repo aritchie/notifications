@@ -127,7 +127,7 @@ namespace Samples
 
         async Task AddGeofence(string title, string message, double lat, double lng, double distance)
         {
-            await this.notificationManager.Send(new Notification()
+            await this.notificationManager.Send(new NotificationRequest
             {
                 Title = title,
                 Message = message,

@@ -11,10 +11,10 @@ namespace Plugin.Notifications
         ~AbstractNotificationManagerImpl() => this.Dispose(false);
 
 
-        public event EventHandler<Notification> Activated;
+        public event EventHandler<NotificationInfo> Activated;
         public abstract Task Cancel(int notificationId);
-        public abstract Task Send(Notification notification);
-        public abstract Task<IEnumerable<Notification>> GetPendingNotifications();
+        public abstract Task<NotificationInfo> Send(NotificationRequest request);
+        public abstract Task<IEnumerable<NotificationInfo>> GetPendingNotifications();
 
         public virtual Task<bool> RequestPermission() => Task.FromResult(true);
         public virtual void Vibrate(int ms) {}
@@ -29,7 +29,7 @@ namespace Plugin.Notifications
         }
 
 
-        protected virtual void OnActivated(Notification notification)
+        protected virtual void OnActivated(NotificationInfo notification)
             => this.Activated?.Invoke(this, notification);
 
 

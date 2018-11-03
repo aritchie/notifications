@@ -8,6 +8,7 @@ namespace Plugin.Notifications
     public interface INotificationManager
     {
         //IDictionary<string, string> CategoryActions { get; set; }
+        // TODO: cancel fired actions (on notification screen)
 
 
         // TODO: register actions
@@ -15,7 +16,7 @@ namespace Plugin.Notifications
         /// <summary>
         /// Fires when a notification activated
         /// </summary>
-        event EventHandler<Notification> Activated;
+        event EventHandler<NotificationInfo> Activated;
 
 
         /// <summary>
@@ -28,7 +29,7 @@ namespace Plugin.Notifications
         /// Get all pending notifications
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<Notification>> GetPendingNotifications();
+        Task<IEnumerable<NotificationInfo>> GetPendingNotifications();
 
 
         /// <summary>
@@ -50,7 +51,7 @@ namespace Plugin.Notifications
         /// </summary>
         /// <param name="notification"></param>
         /// <returns>The messageID that you can use to cancel with</returns>
-        Task Send(Notification notification);
+        Task<NotificationInfo> Send(NotificationRequest notification);
 
 
         /// <summary>

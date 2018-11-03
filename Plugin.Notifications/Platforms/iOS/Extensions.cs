@@ -34,15 +34,19 @@ namespace Plugin.Notifications
         }
 
 
-        public static Notification FromNative(this UNNotificationRequest native) => new Notification
-        {
-            Id = Int32.Parse(native.Identifier), // TODO: need to safely convert these
-            Title = native.Content.Title,
-            Message = native.Content.Body,
-            Sound = native.Content.Sound?.ToString(),
-            Payload = native.Content.UserInfo.ValueForKey(new NSString("Payload")).ToString(),
-            Trigger = native.Trigger.FromNative()
-        };
+        public static NotificationInfo FromNative(this UNNotificationRequest native) => new NotificationInfo(
+            Int32.Parse(native.Identifier),
+            null,
+            new NotificationRequest
+            {
+                Title = native.Content.Title,
+                Message = native.Content.Body,
+                Sound = native.Content.Sound?.ToString(),
+                Payload = native.Content.UserInfo.ValueForKey(new NSString("Payload")).ToString(),
+                Trigger = native.Trigger.FromNative()
+            }
+        );
+
 
         public static UNNotificationTrigger ToNative(this INotificationTrigger trigger)
         {

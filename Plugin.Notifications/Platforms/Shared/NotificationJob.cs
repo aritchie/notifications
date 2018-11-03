@@ -17,20 +17,20 @@ namespace Plugin.Notifications
         }
 
 
-        void Process(Notification notification)
+        void Process(NotificationInfo notification)
         {
-            Internals.NativeSend.Invoke(notification);
+            Internals.NativeSend.Invoke(notification.Request);
 
             var dateTime = DateTime.MinValue;
-            if (notification.Trigger is TimeIntervalNotificationTrigger interval)
-            {
-                dateTime = interval.CalculateNextTriggerDateFromNow();
-            }
-            else if (notification.Trigger is CalendarNotificationTrigger calendar)
-            {
-                // what if this was a specific date, I don't want to resend
-                dateTime = calendar.CalculateNextTriggerDateFromNow();
-            }
+            //if (notification.Trigger is TimeIntervalNotificationTrigger interval)
+            //{
+            //    dateTime = interval.CalculateNextTriggerDateFromNow();
+            //}
+            //else if (notification.Trigger is CalendarNotificationTrigger calendar)
+            //{
+            //    // what if this was a specific date, I don't want to resend
+            //    dateTime = calendar.CalculateNextTriggerDateFromNow();
+            //}
 
             // TODO: update or delete if not further repeats
         }

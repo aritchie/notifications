@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AudioToolbox;
+using CoreLocation;
 using Foundation;
 using UIKit;
 using UserNotifications;
@@ -58,11 +59,11 @@ namespace Plugin.Notifications
         });
 
 
-        public override Task Send(Notification notification) => this.Invoke(async () =>
+        public override async Task<NotificationInfo> Send(NotificationRequest notification)
         {
             var permission = await this.RequestPermission();
             if (!permission)
-                return;
+                return null;
 
             var content = new UNMutableNotificationContent
             {
@@ -88,12 +89,14 @@ namespace Plugin.Notifications
                 notification.Trigger.ToNative()
             );
             await UNUserNotificationCenter.Current.AddNotificationRequestAsync(request);
-        });
+
+            return null;
+        }
 
 
-        public override Task<IEnumerable<Notification>> GetPendingNotifications()
+        public override Task<IEnumerable<NotificationInfo>> GetPendingNotifications()
         {
-            var tcs = new TaskCompletionSource<IEnumerable<Notification>>();
+            var tcs = new TaskCompletionSource<IEnumerable<NotificationInfo>>();
             UIApplication.SharedApplication.BeginInvokeOnMainThread(async () =>
             {
                 try
@@ -102,8 +105,8 @@ namespace Plugin.Notifications
                         .Current
                         .GetPendingNotificationRequestsAsync();
 
-                    //var notifications = requests.Select(x => this.FromNative(x));
-                    // tcs.TrySetResult(notifications);
+                    //var notifications = requests.Select(this.FromNative);
+                    //tcs.TrySetResult(notifications);
                     tcs.TrySetResult(null);
                 }
                 catch (Exception ex)
@@ -169,5 +172,17 @@ namespace Plugin.Notifications
             });
             return tcs.Task;
         }
+
+
+        protected NotificationInfo FromNative(UNNotificationRequest native) => new NotificationInfo(
+            Int32.Parse(native.Identifier), // TODO: safe parse
+            null,
+            new NotificationRequest
+            {
+                Title = native.Content.Title,
+                Message = native.Content.Body
+                //Trigger = native.Trigger.ToNative()
+            }
+        );
     }
 }

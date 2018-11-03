@@ -21,7 +21,7 @@ namespace Plugin.Notifications
             : base(geofenceManager, jobManager, repository) {}
 
 
-        protected override void NativeSend(Notification notification)
+        protected override void NativeSend(NotificationRequest notification)
         {
 
 /*

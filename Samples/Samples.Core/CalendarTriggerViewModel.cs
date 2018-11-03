@@ -18,7 +18,7 @@ namespace Samples
             this.CreateSpecific = ReactiveCommand.CreateFromTask(async () =>
             {
                 var dt = this.Date.Date.Add(this.Time);
-                await notificationManager.Send(new Notification
+                await notificationManager.Send(new NotificationRequest
                 {
                     Title = this.MessageTitle,
                     Message = this.Message,
@@ -53,7 +53,7 @@ namespace Samples
             ));
 
             this.Yearly = ReactiveCommand.CreateFromTask(() =>
-                notificationManager.Send(new Notification
+                notificationManager.Send(new NotificationRequest
                 {
                     Title = "Yearly",
                     Message = "Happy Birthday - Ya you old now",
@@ -67,7 +67,7 @@ namespace Samples
             );
 
             this.Monthly = ReactiveCommand.CreateFromTask(() =>
-                notificationManager.Send(new Notification
+                notificationManager.Send(new NotificationRequest
                 {
                     Title = "Monthly - 1st of Month",
                     Message = "Pinch & Punch - First of the Month",
@@ -80,7 +80,7 @@ namespace Samples
             );
 
             this.Weekly = ReactiveCommand.CreateFromTask(() =>
-                notificationManager.Send(new Notification
+                notificationManager.Send(new NotificationRequest
                 {
                     Title = "Daily",
                     Message = "WORKTIME - Yay",

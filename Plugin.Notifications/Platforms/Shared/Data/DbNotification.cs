@@ -9,29 +9,14 @@ namespace Plugin.Notifications.Data
         [PrimaryKey]
         [AutoIncrement]
         public int Id { get; set; }
-
         public string Title { get; set; }
         public string Message { get; set; }
         public string Sound { get; set; }
-        public bool Vibrate { get; set; }
         public string Payload { get; set; }
 
-        public int TriggerType { get; set; }
-        public bool Repeats { get; set; }
-
-        public double? TimeIntervalMs { get; set; }
-
-        public bool NotifyOnEntry { get; set; }
-        public bool NotifyOnExit { get; set; }
-        public double? LocationCenterGpsLatitude { get; set; }
-        public double? LocationCenterGpsLongitude { get; set; }
-        public double? LocationRadiusInMeters { get; set; }
-
-        public DateTime? CalendarSpecificDate { get; set; }
-        public int? CalendarWeekOfYear { get; set; }
-        public int? CalendarDayOfWeek { get; set; }
-        public int? CalendarTimeOfDayMs { get; set; }
-
-        public DateTime? NextExecutionDate { get; set; }
+        public string TriggerType { get; set; }
+        public DateTime? NextScheduledDate { get; set; }
+        public string AndroidJson { get; set; }
+        public string RequestJson { get; set; }
     }
 }

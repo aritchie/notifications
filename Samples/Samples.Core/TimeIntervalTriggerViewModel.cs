@@ -27,7 +27,7 @@ namespace Samples
 
         ICommand Create(string title, string msg, TimeSpan ts) => ReactiveCommand.CreateFromTask(async () =>
         {
-            await this.notificationManager.Send(new Notification
+            await this.notificationManager.Send(new NotificationRequest
             {
                 Title = title,
                 Message = msg,

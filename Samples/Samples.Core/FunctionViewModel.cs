@@ -19,7 +19,7 @@ namespace Samples
                 .DisposeWith(this.DeactivateWith);
 
             this.Vibrate = ReactiveCommand.Create(() => notificationManager.Vibrate());
-            this.SendTest = ReactiveCommand.CreateFromTask(() => notificationManager.Send(new Notification
+            this.SendTest = ReactiveCommand.CreateFromTask(() => notificationManager.Send(new NotificationRequest
             {
                 Title = "Hello",
                 Message = "This is a test message"

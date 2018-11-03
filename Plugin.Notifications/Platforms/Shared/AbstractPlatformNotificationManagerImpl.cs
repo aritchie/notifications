@@ -32,8 +32,8 @@ namespace Plugin.Notifications
                     var notification = this.repository.GetById(id);
                     if (notification != null)
                     {
-                        this.NativeSend(notification);
-                        if (!notification.Trigger.Repeats)
+                        this.NativeSend(notification.Request);
+                        if (!notification.Request.Trigger.Repeats)
                             this.repository.Delete(notification.Id);
                     }
                 }
@@ -46,10 +46,10 @@ namespace Plugin.Notifications
         }
 
 
-        protected abstract void NativeSend(Notification notification);
+        protected abstract void NativeSend(NotificationRequest notification);
 
 
-        public override Task<IEnumerable<Notification>> GetPendingNotifications()
+        public override Task<IEnumerable<NotificationInfo>> GetPendingNotifications()
             => Task.FromResult(this.repository.GetPending());
 
 
@@ -67,15 +67,15 @@ namespace Plugin.Notifications
         }
 
 
-        public override async Task Send(Notification notification)
+        public override async Task<NotificationInfo> Send(NotificationRequest notification)
         {
             if (notification.Trigger == null)
             {
                 this.NativeSend(notification);
-                return; // if no trigger, ship it now
+                return null; // if no trigger, ship it now
             }
 
-            this.repository.Insert(notification);
+
             if (notification.Trigger is LocationNotificationTrigger lt)
             {
                 var permission = await this.geofenceMgr.RequestPermission().ConfigureAwait(false);
@@ -97,6 +97,9 @@ namespace Plugin.Notifications
             {
                 // TODO: calculate next execution date
             }
+            var id = this.repository.Insert(notification, null); // TODO: calc next send
+
+            return new NotificationInfo(id, null, notification);
         }
     }
 }
