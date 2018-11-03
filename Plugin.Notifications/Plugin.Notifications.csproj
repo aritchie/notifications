@@ -65,7 +65,7 @@
 
     <ItemGroup Condition=" $(TargetFramework.StartsWith('uap')) ">
         <Compile Include="Platforms\Uwp\**\*.cs" />
-        <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="4.0.0" />
+        <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="5.0.0" />
     </ItemGroup>
 
     <ItemGroup Condition=" $(TargetFramework.StartsWith('uap')) OR $(TargetFramework.StartsWith('MonoAndroid')) ">
