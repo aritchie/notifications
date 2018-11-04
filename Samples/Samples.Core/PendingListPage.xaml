@@ -10,7 +10,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <ListView Grid.Row="0">
+            <ListView ItemsSource="{Binding Pending}" Grid.Row="0">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextCell Text="{Binding Title}" Detail="{Binding Message}">

@@ -28,6 +28,14 @@ namespace Plugin.Notifications.Data
             .Select(this.ToInfo);
 
 
+        public IEnumerable<NotificationInfo> GetDueToBeTriggered() => this
+            .conn
+            .Notifications
+            .Where(x => x.NextTriggerDate != null && x.NextTriggerDate <= DateTime.Now)
+            .ToList()
+            .Select(this.ToInfo);
+
+
         public int Insert(NotificationRequest notification, DateTime? nextRun)
         {
             var db = new DbNotification
@@ -37,7 +45,7 @@ namespace Plugin.Notifications.Data
                 Payload = notification.Payload,
                 AndroidJson = JsonConvert.SerializeObject(notification.Android),
                 RequestJson = JsonConvert.SerializeObject(notification.Trigger),
-                NextScheduledDate = nextRun,
+                NextTriggerDate = nextRun,
                 TriggerType = notification.Trigger.GetType().AssemblyQualifiedName
             };
             this.conn.Insert(db);
@@ -50,7 +58,7 @@ namespace Plugin.Notifications.Data
             var db = this.conn.Get<DbNotification>(notificationId);
             if (db != null)
             {
-                db.NextScheduledDate = nextRun;
+                db.NextTriggerDate = nextRun;
                 this.conn.Update(db);
             }
         }
@@ -93,7 +101,7 @@ namespace Plugin.Notifications.Data
                 Android = droidOpts
             };
 
-            return new NotificationInfo(db.Id, db.NextScheduledDate, request);
+            return new NotificationInfo(db.Id, db.NextTriggerDate, request);
         }
     }
 }

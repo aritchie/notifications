@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Plugin.Geofencing;
 using Plugin.Jobs;
@@ -53,17 +54,19 @@ namespace Plugin.Notifications
             => Task.FromResult(this.repository.GetPending());
 
 
-        public override Task CancelAll()
+        public override async Task CancelAll()
         {
+            var nots = this.geofenceMgr.MonitoredRegions.Where(x => x.Identifier.StartsWith("notification"));
+            foreach (var not in nots)
+                await this.geofenceMgr.StopMonitoring(not);
             this.repository.DeleteAll();
-            return Task.CompletedTask;
         }
 
 
-        public override Task Cancel(int notificationId)
+        public override async Task Cancel(int notificationId)
         {
+            await this.geofenceMgr.StopMonitoring("notification-" + notificationId);
             this.repository.Delete(notificationId);
-            return Task.CompletedTask;
         }
 
 
@@ -75,14 +78,10 @@ namespace Plugin.Notifications
                 return null; // if no trigger, ship it now
             }
 
-
+            DateTime? nextTriggerDate = null;
             if (notification.Trigger is LocationNotificationTrigger lt)
             {
-                var permission = await this.geofenceMgr.RequestPermission().ConfigureAwait(false);
-                if (permission != PermissionStatus.Granted)
-                    throw new ArgumentException("Permission request failed - " + permission);
-
-                this.geofenceMgr.StartMonitoring(new GeofenceRegion(
+                await this.geofenceMgr.StartMonitoring(new GeofenceRegion(
                     notification.Id.ToString(),
                     new Position(lt.GpsLatitude, lt.GpsLongitude),
                     Distance.FromMeters(lt.RadiusInMeters)
@@ -95,11 +94,11 @@ namespace Plugin.Notifications
             }
             else
             {
+                nextTriggerDate = null;
                 // TODO: calculate next execution date
             }
-            var id = this.repository.Insert(notification, null); // TODO: calc next send
-
-            return new NotificationInfo(id, null, notification);
+            var id = this.repository.Insert(notification, nextTriggerDate);
+            return new NotificationInfo(id, nextTriggerDate, notification);
         }
     }
 }

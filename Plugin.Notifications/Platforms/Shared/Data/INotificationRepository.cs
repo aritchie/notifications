@@ -8,6 +8,7 @@ namespace Plugin.Notifications.Data
     {
         NotificationInfo GetById(int id);
         IEnumerable<NotificationInfo> GetPending();
+        IEnumerable<NotificationInfo> GetDueToBeTriggered();
         int Insert(NotificationRequest notification, DateTime? nextRun);
         void Update(int notificationId, DateTime nextRun);
         void Delete(int id);

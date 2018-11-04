@@ -15,7 +15,7 @@ namespace Plugin.Notifications.Data
         public string Payload { get; set; }
 
         public string TriggerType { get; set; }
-        public DateTime? NextScheduledDate { get; set; }
+        public DateTime? NextTriggerDate { get; set; }
         public string AndroidJson { get; set; }
         public string RequestJson { get; set; }
     }

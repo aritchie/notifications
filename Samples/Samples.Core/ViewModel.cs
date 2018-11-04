@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive.Disposables;
 using System.Threading.Tasks;
+using Prism.AppModel;
 using Prism.Navigation;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -9,6 +10,7 @@ using ReactiveUI.Fody.Helpers;
 namespace Samples
 {
     public abstract class ViewModel : ReactiveObject,
+                                      IPageLifecycleAware,
                                       INavigatingAware,
                                       INavigatedAware,
                                       IDestructible,
@@ -29,23 +31,17 @@ namespace Samples
         protected CompositeDisposable DestroyWith { get; } = new CompositeDisposable();
 
 
-        public virtual void OnNavigatingTo(INavigationParameters parameters)
-        {
-        }
-
-
-        public virtual void OnNavigatedFrom(INavigationParameters parameters)
+        public virtual void OnAppearing() {}
+        public virtual void OnDisappearing()
         {
             this.deactivateWith?.Dispose();
             this.deactivateWith = null;
         }
 
 
-        public virtual void OnNavigatedTo(INavigationParameters parameters)
-        {
-        }
-
-
+        public virtual void OnNavigatingTo(INavigationParameters parameters) {}
+        public virtual void OnNavigatedFrom(INavigationParameters parameters) {}
+        public virtual void OnNavigatedTo(INavigationParameters parameters) {}
         public virtual void Destroy()
         {
             this.DestroyWith?.Dispose();

@@ -19,6 +19,18 @@ namespace Plugin.Notifications
         }
 
 
+        public static DateTime? GetNextTriggerDate(this UNNotificationTrigger native)
+        {
+            if (native is UNCalendarNotificationTrigger cast1)
+                return (DateTime)cast1.NextTriggerDate;
+
+            if (native is UNTimeIntervalNotificationTrigger cast2)
+                return (DateTime) cast2.NextTriggerDate;
+
+            return null;
+        }
+
+
         public static INotificationTrigger FromNative(this UNNotificationTrigger native)
         {
             if (native is UNLocationNotificationTrigger cast1)

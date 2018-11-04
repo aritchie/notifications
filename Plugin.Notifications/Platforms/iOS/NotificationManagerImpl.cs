@@ -105,9 +105,8 @@ namespace Plugin.Notifications
                         .Current
                         .GetPendingNotificationRequestsAsync();
 
-                    //var notifications = requests.Select(this.FromNative);
-                    //tcs.TrySetResult(notifications);
-                    tcs.TrySetResult(null);
+                    var notifications = requests.Select(this.FromNative);
+                    tcs.TrySetResult(notifications);
                 }
                 catch (Exception ex)
                 {
@@ -176,7 +175,7 @@ namespace Plugin.Notifications
 
         protected NotificationInfo FromNative(UNNotificationRequest native) => new NotificationInfo(
             Int32.Parse(native.Identifier), // TODO: safe parse
-            null,
+            native.Trigger.GetNextTriggerDate(),
             new NotificationRequest
             {
                 Title = native.Content.Title,

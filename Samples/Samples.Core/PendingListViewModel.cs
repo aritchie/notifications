@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
+using DynamicData;
 using Plugin.Notifications;
 using Prism.Navigation;
 using ReactiveUI;
@@ -34,9 +35,15 @@ namespace Samples
         }
 
 
-        public ReactiveList<PendingItemViewModel> Pending { get; } = new ReactiveList<PendingItemViewModel>();
+        public SourceList<PendingItemViewModel> Pending { get; } = new SourceList<PendingItemViewModel>();
         public ICommand CancelAll { get; }
-        public override async void OnNavigatedTo(INavigationParameters parameters) => await this.Load();
+
+
+        public override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await this.Load();
+        }
 
 
         async Task Load()
