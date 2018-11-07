@@ -124,8 +124,14 @@ namespace Plugin.Notifications
                 UNAuthorizationOptions.Alert |
                 UNAuthorizationOptions.Badge |
                 UNAuthorizationOptions.Sound,
-                (approved, error) => tcs.TrySetResult(approved)
-            );
+                (approved, error) =>
+                {
+                    tcs.TrySetResult(approved);
+                    if (error is NSError)
+                    {
+                        tcs.SetException(new Exception(error.Description));
+                    }
+                });
             return tcs.Task;
         }
 
