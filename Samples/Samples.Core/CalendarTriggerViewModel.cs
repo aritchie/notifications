@@ -62,7 +62,8 @@ namespace Samples
                         Month = 1,
                         Day = 30,
                         TimeOfDay = TimeSpan.FromHours(8)
-                    }, true)
+                    },
+                    true)
                 })
             );
 
