@@ -80,13 +80,10 @@ namespace Plugin.Notifications
             if (!String.IsNullOrWhiteSpace(notification.Sound))
                 content.Sound = UNNotificationSound.GetSound(notification.Sound);
 
-            if (notification.Trigger == null)
-                notification.Trigger = CalendarNotificationTrigger.CreateFromSpecificDateTime(DateTime.Now);
-
             var request = UNNotificationRequest.FromIdentifier(
                 notification.Id.ToString(),
                 content,
-                notification.Trigger.ToNative()
+                notification.Trigger?.ToNative()
             );
             await UNUserNotificationCenter.Current.AddNotificationRequestAsync(request);
 
