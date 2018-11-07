@@ -80,13 +80,10 @@ namespace Plugin.Notifications
             if (!String.IsNullOrWhiteSpace(notification.Sound))
                 content.Sound = UNNotificationSound.GetSound(notification.Sound);
 
-            if (notification.Trigger == null)
-                notification.Trigger = CalendarNotificationTrigger.CreateFromSpecificDateTime(DateTime.Now);
-
             var request = UNNotificationRequest.FromIdentifier(
                 notification.Id.ToString(),
                 content,
-                notification.Trigger.ToNative()
+                notification.Trigger?.ToNative()
             );
             await UNUserNotificationCenter.Current.AddNotificationRequestAsync(request);
 
@@ -127,8 +124,14 @@ namespace Plugin.Notifications
                 UNAuthorizationOptions.Alert |
                 UNAuthorizationOptions.Badge |
                 UNAuthorizationOptions.Sound,
-                (approved, error) => tcs.TrySetResult(approved)
-            );
+                (approved, error) =>
+                {
+                    tcs.TrySetResult(approved);
+                    if (error is NSError)
+                    {
+                        tcs.SetException(new Exception(error.Description));
+                    }
+                });
             return tcs.Task;
         }
 
