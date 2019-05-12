@@ -1,4 +1,8 @@
-# ACR Notifications Plugin for Xamarin and Windows
+# UPDATE - This library has now moved to the Shiny Framework at https://github.com/shinyorg/shiny
+
+
+
+## ACR Notifications Plugin for Xamarin and Windows
 
 Plugin for Easy Cross Platform notifications
 
